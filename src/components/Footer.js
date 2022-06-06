@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="footer">
       <Link href="/imprint">Imprint</Link>
       <span>@2022</span>
-      <span>
+      <span className="footer__socials">
         <span className="footer__social-link">
           <Link href="#">
             <Image

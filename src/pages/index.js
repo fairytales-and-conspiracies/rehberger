@@ -35,7 +35,11 @@ export default function Home() {
                 over the span of my career. The result brings together the new
                 world of purely digital NFTs with the tangible, old world of
                 fine art prints to discuss questions related to authorship,
-                originality, ownership and what constitutes an artwork.”
+                originality, ownership and what constitutes an artwork. Each NFT
+                consists of a liquid poster, whose single elements are
+                solidified by selecting an individual artwork, which is then
+                also deliviered as a fine art digital print. I created the
+                motifs from the huge image archive of action press.”
               </p>
             </div>
           </div>

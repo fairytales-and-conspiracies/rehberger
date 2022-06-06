@@ -22,6 +22,7 @@
 
   @include e('website-title') {
     font-size: 25rem;
+    line-height: 0.8;
     margin: 0 auto;
     max-width: 120rem;
     position: relative;
@@ -60,7 +61,7 @@
     color: $color-text-dark;
     margin: {
       bottom: 0.5rem;
-      top: 1rem;
+      top: 2rem;
     }
     padding: 2rem;
     width: 100%;
@@ -81,28 +82,24 @@
   }
 
   @include e('artist-statement') {
-    font-size: 2.4rem;
+    font-size: 2.1rem;
   }
 
   @include max-screen-xl {
     @include e('website-title') {
-      font-size: 15rem;
+      font-size: 14rem;
     }
   }
 
   @include max-screen-lg {
     @include e('artist-statement') {
-      font-size: 2.2rem;
+      font-size: 2rem;
     }
   }
 
   @include max-screen-md {
-    @include e('website-title') {
-      font-size: 14rem;
-    }
-
     @include e('artist-statement') {
-      font-size: 1.9rem;
+      font-size: 1.7rem;
     }
   }
 

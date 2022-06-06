@@ -51,8 +51,8 @@ export default function Header() {
               )}`
             : '+ Connect wallet'}
         </button>
-        <Link href="/shopping-cart">
-          <a className="btn btn--primary btn--small" disabled={INTERIM}>
+        {INTERIM && (
+          <button className="btn btn--primary btn--small" disabled>
             <Image
               alt="Shopping cart"
               height="29"
@@ -63,8 +63,24 @@ export default function Header() {
               }
               width="29"
             />
-          </a>
-        </Link>
+          </button>
+        )}
+        {!INTERIM && (
+          <Link href="/shopping-cart">
+            <a className="btn btn--primary btn--small">
+              <Image
+                alt="Shopping cart"
+                height="29"
+                src={
+                  INTERIM
+                    ? '/img/icons/shopping-cart-disabled.svg'
+                    : '/img/icons/shopping-cart.svg'
+                }
+                width="29"
+              />
+            </a>
+          </Link>
+        )}
       </div>
       <button className="header__menu-button btn min-screen-sm-hidden">
         <Image alt="Menu" height="16" src="/img/icons/menu.svg" width="30" />
