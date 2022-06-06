@@ -1,0 +1,81 @@
+.frame-selection {
+  background: rgba($background-dark, 0.95);
+  bottom: 0;
+  left: 0;
+  overflow: {
+    x: hidden;
+    y: auto;
+  }
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  @include m('invisible') {
+    visibility: hidden;
+  }
+
+  @include e('encapsulator') {
+    justify-content: center;
+    min-height: 100vh;
+    padding: 10rem 0;
+    position: relative;
+
+    @include flex();
+  }
+
+  @include e('close') {
+    @extend %close;
+
+    left: 0;
+    top: 0;
+  }
+
+  @include e('container') {
+    justify-content: center;
+    position: relative;
+
+    @include align-items(center);
+    @include flex();
+  }
+
+  @include e('inner-container') {
+    gap: 7.5rem;
+
+    @include flex();
+  }
+
+  @include e('video') {
+    width: 30vw;
+  }
+
+  @include e('instructions-wrapper') {
+    justify-content: space-between;
+
+    @include flex();
+    @include flex-direction(column);
+  }
+
+  @include e('instructions-group') {
+    &:first-of-type {
+      text-align: left;
+    }
+
+    &:nth-of-type(2) {
+      text-align: center;
+    }
+
+    &:last-of-type {
+      text-align: right;
+    }
+  }
+
+  @include e('instructions-image') {
+    margin-bottom: 2rem;
+  }
+
+  @include e('instructions') {
+    color: $color-text-red;
+    font-size: 2rem;
+    width: 26rem;
+  }
+}

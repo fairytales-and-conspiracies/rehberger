@@ -1,0 +1,41 @@
+.btn {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 3.2rem;
+  font-weight: 400;
+
+  @include border-radius(1.5rem);
+
+  @include m('small') {
+    @include border-radius(1rem);
+  }
+
+  @include m('primary') {
+    background-color: $background-dark;
+    box-shadow: 0.2rem 0.3rem 0 0.6rem $background-red;
+    color: $color-text-light;
+
+    &[disabled] {
+      box-shadow: 0.2rem 0.3rem 0 0.6rem darken($background-red, 35%);
+    }
+  }
+
+  @include m('secondary') {
+    background-color: $background-red;
+    box-shadow: 0.2rem 0.3rem 0 0.6rem $background-dark;
+    color: $color-text-light;
+
+    &[disabled] {
+      box-shadow: 0.2rem 0.3rem 0 0.6rem darken($background-dark, 35%);
+    }
+  }
+
+  &[disabled] {
+    box-shadow: 0.2rem 0.3rem 0 0.6rem darken($background-red, 35%);
+    color: darken($color-text-light, 60%);
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,64 @@
+.shipping-form {
+  margin-top: 3rem;
+  width: 32rem;
+
+  .btn {
+    font-size: 3.2rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    width: 100%;
+  }
+
+  @include e('heading') {
+    color: $color-text-grey;
+    font-size: 3rem;
+    font-weight: 400;
+  }
+
+  @include e('text') {
+    font-family: Nunito;
+    font-size: 1.5rem;
+    margin-top: 1.2rem;
+  }
+
+  @include e('info-row') {
+    margin: 1.9rem 0;
+
+    &:first-of-type {
+      margin-top: 3.5rem;
+    }
+  }
+
+  @include e('info-label') {
+    display: inline-block;
+    font-family: 'Nunito';
+    font-size: 1.6rem;
+    width: 13rem;
+  }
+
+  @include e('info') {
+    display: inline-block;
+    font-size: 2.4rem;
+  }
+
+  @include e('success-message') {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+  }
+
+  @include e('error-message') {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+  }
+}
+
+.form-container {
+  margin: 2rem 0;
+
+  @include flex();
+  @include flex-direction(column);
+
+  .input {
+    margin: 1.2rem 0 0.4rem;
+  }
+}

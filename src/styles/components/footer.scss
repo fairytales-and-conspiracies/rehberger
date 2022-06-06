@@ -1,0 +1,17 @@
+.footer {
+  background-color: $background-dark;
+  color: $color-text-red;
+  height: $footer-height;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+
+  @include flex();
+
+  @include e('social-link') {
+    margin-left: 1rem;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+  }
+}

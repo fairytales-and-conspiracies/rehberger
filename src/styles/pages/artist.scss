@@ -1,0 +1,37 @@
+.bg-artist {
+  background: url('/img/artist-bg.jpeg') no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.artist {
+  justify-content: space-around;
+  min-height: calc(100vh - $header-height);
+
+  @include flex();
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 22rem;
+    font-weight: 400;
+    order: 1;
+    text-align: right;
+    text-transform: uppercase;
+    width: 66rem;
+  }
+
+  @include e('content') {
+    color: $color-text-dark;
+    font-family: Nunito;
+    width: 42rem;
+
+    @include align-items(flex-end);
+    @include flex();
+  }
+
+  @include e('paragraph') {
+    background: rgba($background-light, 0.6);
+    margin-bottom: 5rem;
+    padding: 2rem;
+  }
+}

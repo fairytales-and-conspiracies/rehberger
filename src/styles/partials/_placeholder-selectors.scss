@@ -1,0 +1,18 @@
+%close {
+  cursor: pointer;
+  display: inline-block;
+  margin: 2rem;
+  position: absolute;
+  z-index: 1;
+}
+
+%logo {
+  height: 100%;
+  margin-left: 3.5rem;
+  position: relative;
+  width: 17rem;
+
+  @include max-screen-xs {
+    width: 14rem;
+  }
+}

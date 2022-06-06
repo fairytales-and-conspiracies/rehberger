@@ -1,0 +1,9 @@
+.shopping-cart {
+  justify-content: space-around;
+
+  @include flex();
+}
+
+.cart-viewer {
+  flex-basis: 60%;
+}

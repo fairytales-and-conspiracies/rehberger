@@ -1,0 +1,28 @@
+.frame-image {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    .frame-image__remove-container {
+      bottom: 0;
+      transition: 0.3s ease-in;
+    }
+  }
+
+  @include e('remove-container') {
+    background-color: $background-red;
+    bottom: -$selection-preview-frame-remove-wrapper-height;
+    display: inline-block;
+    height: $selection-preview-frame-remove-wrapper-height;
+    padding: 0.8rem;
+    position: absolute;
+    text-align: right;
+    transition: 0.3s ease-out;
+    width: 100%;
+  }
+
+  @include e('remove-icon') {
+    cursor: pointer;
+  }
+}

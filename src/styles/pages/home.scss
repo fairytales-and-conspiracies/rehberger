@@ -1,0 +1,137 @@
+.bg-home {
+  background-image: url('/img/home-bg.jpeg');
+  background-size: cover;
+  min-height: 100vh;
+
+  @include e('overlay') {
+    background-color: rgba(29, 29, 29, 0.6);
+    justify-content: space-between;
+    min-height: 100vh;
+
+    @include flex();
+    @include flex-direction(column);
+  }
+}
+
+.home {
+  flex-grow: 1;
+  justify-content: space-evenly;
+
+  @include flex();
+  @include flex-direction(column);
+
+  @include e('website-title') {
+    font-size: 25rem;
+    margin: 0 auto;
+    max-width: 120rem;
+    position: relative;
+    text-align: center;
+  }
+
+  @include e('website-title-layer') {
+    &:not(:first-of-type) {
+      position: absolute;
+
+      @include user-select(none);
+    }
+
+    &:first-of-type {
+      position: relative;
+      z-index: 3;
+    }
+
+    &:nth-of-type(2) {
+      color: $color-text-blue;
+      left: 0.5rem;
+      top: 0.5rem;
+      z-index: 2;
+    }
+
+    &:last-of-type {
+      color: $color-text-purple;
+      left: 1rem;
+      top: 1rem;
+      z-index: 1;
+    }
+  }
+
+  @include e('red-strip') {
+    background: $background-red;
+    color: $color-text-dark;
+    margin: {
+      bottom: 0.5rem;
+      top: 1rem;
+    }
+    padding: 2rem;
+    width: 100%;
+  }
+
+  @include e('artist-info-wrapper') {
+    justify-content: space-evenly;
+    margin: 0 auto;
+    max-width: 120rem;
+
+    @include align-items(center);
+    @include flex();
+  }
+
+  @include e('by-artist-info') {
+    font-size: 4.4rem;
+    margin-right: 8rem;
+  }
+
+  @include e('artist-statement') {
+    font-size: 2.4rem;
+  }
+
+  @include max-screen-xl {
+    @include e('website-title') {
+      font-size: 15rem;
+    }
+  }
+
+  @include max-screen-lg {
+    @include e('artist-statement') {
+      font-size: 2.2rem;
+    }
+  }
+
+  @include max-screen-md {
+    @include e('website-title') {
+      font-size: 14rem;
+    }
+
+    @include e('artist-statement') {
+      font-size: 1.9rem;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('website-title') {
+      font-size: 10rem;
+    }
+
+    @include e('artist-info-wrapper') {
+      @include align-items(unset);
+      @include flex-direction(column);
+    }
+
+    @include e('by-artist-info') {
+      margin-bottom: 2rem;
+    }
+
+    @include e('artist-statement') {
+      font-size: 1.6rem;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('website-title') {
+      font-size: 19vw;
+    }
+
+    @include e('artist-statement') {
+      font-size: 1.4rem;
+    }
+  }
+}

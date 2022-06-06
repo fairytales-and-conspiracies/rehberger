@@ -1,0 +1,32 @@
+.cart-viewer {
+  margin-top: 3rem;
+
+  @include e('heading') {
+    color: $color-text-grey;
+    font-size: 5rem;
+    font-weight: 400;
+  }
+
+  @include e('selected') {
+    margin: 7.2rem 10rem;
+  }
+
+  @include e('selected-title') {
+    color: $color-text-red;
+    margin-bottom: 2.2rem;
+    font-size: 3.2rem;
+  }
+
+  @include e('image') {
+    margin-right: 2.7rem;
+  }
+
+  @include e('empty-cart') {
+    font-size: 3.5rem;
+  }
+
+  .frame-image {
+    margin: 1rem;
+    width: 10vw;
+  }
+}

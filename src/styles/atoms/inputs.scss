@@ -1,0 +1,30 @@
+.input {
+  background-color: $background-dark;
+  border: 0.2rem solid $color-grey;
+  color: $color-text-light;
+  height: 4rem;
+  padding: 1.1rem 1.6rem;
+
+  @include border-radius(1rem);
+
+  @include m('grey-text') {
+    color: rgba($color-text-light, 0.4);
+
+    &::after {
+      color: blue;
+    }
+  }
+
+  &[disabled] {
+    border: 0.2rem solid darken($color-grey, 50%);
+    cursor: not-allowed;
+
+    &::placeholder {
+      color: lighten($color-text-dark, 25%);
+    }
+  }
+}
+
+select.input {
+  padding: 0.9rem 1.2rem;
+}

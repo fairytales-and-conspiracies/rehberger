@@ -1,0 +1,39 @@
+.faq {
+  margin: 0 auto;
+  max-width: 120rem;
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 20rem;
+    font-weight: 400;
+  }
+
+  @include e('content') {
+    color: $color-text-dark;
+    padding: 1.5rem 3rem;
+  }
+
+  @include e('question') {
+    cursor: pointer;
+    font-size: 4rem;
+    margin-top: 2rem;
+  }
+
+  @include e('answer') {
+    border-bottom: 0.5rem solid $color-red;
+    font-family: Nunito;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 1.5rem auto;
+    max-height: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+    transition: 0.3s ease-out;
+
+    @include m('visible') {
+      max-height: 15rem;
+      padding-bottom: 1.5rem;
+      transition: 0.3s ease-in;
+    }
+  }
+}

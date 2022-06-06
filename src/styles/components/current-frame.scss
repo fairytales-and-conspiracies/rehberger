@@ -1,0 +1,65 @@
+.selected-frame {
+  @include e('wrapper') {
+    justify-content: space-between;
+
+    @include flex();
+    @include flex-direction(column);
+  }
+
+  @include e('image-with-timeframe-container') {
+    width: 20vw;
+
+    @include flex();
+    @include flex-direction(column);
+  }
+
+  @include e('image-frame') {
+    position: relative;
+  }
+
+  @include e('image') {
+    margin: 2rem 3rem;
+
+    @include m('invisible') {
+      visibility: hidden;
+    }
+  }
+
+  @include e('time') {
+    color: $color-text-grey;
+    font-size: 3rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  @include e('timeframe-title') {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+  }
+
+  @include e('timeframe-digit') {
+    border: 0.2rem solid $color-grey;
+    margin: 0.3rem;
+    padding: 0.4rem;
+
+    @include border-radius(0.7rem);
+  }
+
+  @include e('title') {
+    color: $color-text-red;
+    font-size: 5.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  @include e('subtitle') {
+    color: $color-text-red;
+    font-size: 3.2rem;
+    font-weight: 400;
+  }
+
+  @include e('description') {
+    font-family: Nunito;
+    margin-top: 1rem;
+  }
+}

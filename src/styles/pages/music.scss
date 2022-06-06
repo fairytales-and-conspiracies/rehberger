@@ -1,0 +1,43 @@
+$heading-margin-top: 2rem;
+
+.bg-music {
+  background: url('/img/music-bg.jpeg') no-repeat fixed 0 -90rem;
+  background-size: cover;
+  min-height: 100vh;
+
+  @include max-screen-xl() {
+    background-position: 0 -50rem;
+  }
+}
+
+.music {
+  margin: 0 auto;
+  max-width: 120rem;
+  min-height: calc(100vh - $header-height - $heading-margin-top);
+
+  @include e('heading') {
+    color: $color-text-blue;
+    font-size: 16rem;
+    font-weight: 400;
+    margin-top: $heading-margin-top;
+    text-transform: uppercase;
+    width: 97rem;
+  }
+
+  @include e('content') {
+    background: rgba($background-dark, 0.5);
+    color: $color-text-light;
+    font-family: Nunito;
+    padding: 2.5rem;
+
+    @include align-items(flex-end);
+  }
+
+  @include e('paragraph') {
+    margin-bottom: 2rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

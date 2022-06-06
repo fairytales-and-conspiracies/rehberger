@@ -1,0 +1,54 @@
+.countdown-timer {
+  color: $color-text-light;
+  margin: 1rem auto 0;
+  text-align: center;
+  width: 51rem;
+
+  @include e('heading') {
+    font-family: Nunito;
+    font-size: 2.4rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  @include e('time') {
+    background-color: $background-purple;
+    font-size: 6.8rem;
+    height: 9rem;
+
+    @include border-radius(3rem);
+  }
+
+  @include e('time-part') {
+    position: relative;
+  }
+
+  @include e('time-part-label') {
+    bottom: -1.5rem;
+    font-size: 2.2rem;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  @include max-screen-sm {
+    width: 40rem;
+
+    @include e('time') {
+      font-size: 5rem;
+      padding-top: 0.9rem;
+    }
+
+    @include e('time-part-label') {
+      font-size: 1.8rem;
+    }
+  }
+
+  @include max-screen-xs {
+    width: 28rem;
+
+    @include e('heading') {
+      font-size: 2rem;
+    }
+  }
+}

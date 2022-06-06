@@ -1,0 +1,32 @@
+.work {
+  justify-content: space-evenly;
+  margin: 0 auto;
+  max-width: 120rem;
+  min-height: calc(100vh - $header-height);
+
+  @include align-items(center);
+  @include flex();
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 22rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    width: 55rem;
+  }
+
+  @include e('content') {
+    color: $color-text-dark;
+    font-family: Nunito;
+    font-size: 1.4rem;
+    width: 53rem;
+  }
+
+  @include e('paragraph') {
+    margin-bottom: 2rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
