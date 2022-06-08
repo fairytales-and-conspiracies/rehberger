@@ -83,11 +83,12 @@
 
   @include e('artist-statement') {
     font-size: 2.1rem;
+    line-height: 0.9;
   }
 
   @include max-screen-xl {
     @include e('website-title') {
-      font-size: 14rem;
+      font-size: 15rem;
     }
   }
 
