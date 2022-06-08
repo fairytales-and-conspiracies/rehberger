@@ -38,8 +38,8 @@ export default function Home() {
                 originality, ownership and what constitutes an artwork. Each NFT
                 consists of a liquid poster, whose single elements are
                 solidified by selecting an individual artwork, which is then
-                also deliviered as a fine art digital print. I created the
-                motifs from the huge image archive of action press.”
+                also delivered as a fine art digital print. I created the motifs
+                from the huge image archive of action press.”
               </p>
             </div>
           </div>

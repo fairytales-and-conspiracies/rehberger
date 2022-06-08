@@ -1,9 +1,10 @@
 .footer {
   background-color: $background-dark;
   color: $color-text-red;
+  font-size: 1.8rem;
   height: $footer-height;
   justify-content: space-between;
-  padding: 1.5rem 3rem;
+  padding: 1.2rem 3rem;
 
   @include flex();
 

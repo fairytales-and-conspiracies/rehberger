@@ -55,13 +55,9 @@ export default function Header() {
           <button className="btn btn--primary btn--small" disabled>
             <Image
               alt="Shopping cart"
-              height="29"
-              src={
-                INTERIM
-                  ? '/img/icons/shopping-cart-disabled.svg'
-                  : '/img/icons/shopping-cart.svg'
-              }
-              width="29"
+              height="20"
+              src="/img/icons/shopping-cart-disabled.svg"
+              width="20"
             />
           </button>
         )}
@@ -70,13 +66,9 @@ export default function Header() {
             <a className="btn btn--primary btn--small">
               <Image
                 alt="Shopping cart"
-                height="29"
-                src={
-                  INTERIM
-                    ? '/img/icons/shopping-cart-disabled.svg'
-                    : '/img/icons/shopping-cart.svg'
-                }
-                width="29"
+                height="20"
+                src="/img/icons/shopping-cart.svg"
+                width="20"
               />
             </a>
           </Link>
