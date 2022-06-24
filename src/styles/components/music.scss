@@ -1,7 +1,5 @@
-$heading-margin-top: 2rem;
-
 .bg-music {
-  background: url('/img/music-bg.jpeg') no-repeat fixed 0 -90rem;
+  background: url('/img/music-bg.jpeg') no-repeat 0 -90rem;
   background-size: cover;
   min-height: 100vh;
 
@@ -13,13 +11,12 @@ $heading-margin-top: 2rem;
 .music {
   margin: 0 auto;
   max-width: 120rem;
-  min-height: calc(100vh - $header-height - $heading-margin-top);
+  min-height: calc(100vh - $header-height);
 
   @include e('heading') {
     color: $color-text-blue;
     font-size: 16rem;
     font-weight: 400;
-    margin-top: $heading-margin-top;
     text-transform: uppercase;
     width: 97rem;
   }

@@ -21,17 +21,29 @@
   }
 
   @include e('content') {
-    color: $color-text-dark;
-    font-family: Nunito;
+    margin-top: 5.5rem;
     width: 42rem;
 
     @include align-items(flex-end);
     @include flex();
+    @include flex-direction(column);
+  }
+
+  @include e('button-link') {
+    margin-bottom: 3.5rem;
+    padding: 1rem;
+    text-align: center;
+    width: 25rem;
   }
 
   @include e('paragraph') {
     background: rgba($background-light, 0.6);
-    margin-bottom: 5rem;
+    color: $color-text-dark;
+    font-family: Nunito;
+    margin: {
+      bottom: 4rem;
+      top: 10rem;
+    }
     padding: 2rem;
   }
 }

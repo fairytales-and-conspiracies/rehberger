@@ -6,9 +6,13 @@
 
   @include e('heading') {
     font-family: Nunito;
-    font-size: 2.4rem;
+    font-size: 2rem;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
+
+    @include m('small') {
+      font-size: 1.9rem;
+    }
   }
 
   @include e('time') {
@@ -17,6 +21,11 @@
     height: 9rem;
 
     @include border-radius(3rem);
+
+    @include m('small') {
+      font-size: 5rem;
+      height: 7rem;
+    }
   }
 
   @include e('time-part') {
@@ -29,10 +38,22 @@
     left: 0;
     position: absolute;
     right: 0;
+
+    @include m('small') {
+      font-size: 1.8rem;
+    }
+  }
+
+  @include m('small') {
+    width: 36rem;
   }
 
   @include max-screen-sm {
     width: 40rem;
+
+    @include e('heading') {
+      font-size: 1.6rem;
+    }
 
     @include e('time') {
       font-size: 5rem;
@@ -48,7 +69,20 @@
     width: 28rem;
 
     @include e('heading') {
-      font-size: 2rem;
+      font-size: 1.2rem;
+    }
+
+    @include e('time') {
+      font-size: 4rem;
+      height: 6rem;
+      margin: 0 auto;
+      padding-top: 0.4rem;
+      width: 90%;
+    }
+
+    @include e('time-part-label') {
+      bottom: -1rem;
+      font-size: 1.4rem;
     }
   }
 }

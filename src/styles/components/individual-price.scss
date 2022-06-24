@@ -1,0 +1,63 @@
+$individual-price-stepping-text-length: 16;
+$individual-price-stepping-price-text-length: 4;
+
+.individual-price {
+  color: $color-text-purple;
+  margin: 8.5rem auto;
+  font-size: 2.4rem;
+  padding: 1rem;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+
+  &:last-of-type {
+    top: 10rem;
+  }
+
+  &::before,
+  &::after {
+    background-size: cover;
+    content: '';
+    height: 5rem;
+    position: absolute;
+    width: 17rem;
+  }
+
+  &::before {
+    background: url('/img/individual-price-top.svg') no-repeat;
+    left: -1.5rem;
+    top: -3rem;
+  }
+
+  &::after {
+    background: url('/img/individual-price-bottom.svg') no-repeat;
+    bottom: 0;
+    right: -1.5rem;
+  }
+
+  @include e('price') {
+    font-size: 8rem;
+    margin-top: -1.5rem;
+  }
+
+  @for $counter from 1 to $individual-price-stepping-text-length {
+    @include e('step-' + $counter) {
+      display: inline-block;
+      min-width: 0.8rem;
+      position: relative;
+      top: calc(-0.17rem * $counter);
+    }
+  }
+
+  @for $counter from 1 to $individual-price-stepping-price-text-length {
+    @include e('price-step-' + $counter) {
+      display: inline-block;
+      position: relative;
+      top: calc(-0.55rem * $counter);
+    }
+  }
+}
+
+@function calculate-margin-top-from-step($step) {
+  @return -0.3rem * $step;
+}

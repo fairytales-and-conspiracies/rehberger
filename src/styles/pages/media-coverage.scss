@@ -1,0 +1,71 @@
+.media-coverage {
+  @include e('main') {
+    margin: 0 6.5rem;
+    padding-bottom: 6rem;
+  }
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 8rem;
+    margin: {
+      bottom: 2rem;
+      top: 1rem;
+    }
+    text-transform: uppercase;
+  }
+
+  @include e('content-group') {
+    font-family: $font-secondary;
+    justify-content: space-between;
+    margin: 0 auto;
+    position: relative;
+    width: 102.4rem;
+
+    @include flex;
+
+    &:first-of-type {
+      margin-bottom: 15rem;
+    }
+
+    &:last-of-type {
+      margin-top: 7rem;
+    }
+  }
+
+  @include e('image') {
+    position: relative;
+    width: 60rem;
+
+    &:nth-of-type(2) {
+      width: 55rem;
+    }
+  }
+
+  @include e('text') {
+    width: 33rem;
+    margin-left: 10rem;
+
+    &:nth-of-type(2) {
+      margin-left: unset;
+    }
+  }
+
+  @include e('text-date') {
+    font-weight: bold;
+  }
+
+  @include e('text-heading') {
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  @include e('text-paragraph') {
+    margin-bottom: 2rem;
+
+    @include m('with-separator') {
+      padding-bottom: 2rem;
+      border-bottom: 0.1rem solid $color-text-light;
+    }
+  }
+}

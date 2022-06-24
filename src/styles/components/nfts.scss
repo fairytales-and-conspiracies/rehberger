@@ -1,0 +1,209 @@
+$nfts-nft-thumbnail-width: 30rem;
+
+.nfts {
+  padding-top: 8rem;
+
+  @include e('upper-half') {
+    @include flex;
+  }
+
+  @include e('upper-half-nfts') {
+    flex-grow: 1;
+  }
+
+  @include e('lower-half') {
+    bottom: 42rem;
+    margin: 0 auto;
+    max-width: 120rem;
+    position: relative;
+  }
+
+  @include e('nft') {
+    justify-content: center;
+    position: relative;
+
+    @include align-items(center);
+    @include flex;
+  }
+
+  @include e('nft-1') {
+    z-index: 1;
+  }
+
+  @include e('nft-2') {
+    bottom: 14rem;
+  }
+
+  @include e('nft-3') {
+    justify-content: flex-start;
+    top: 12rem;
+  }
+
+  @include e('nft-4') {
+    margin-left: 2rem;
+  }
+
+  @include e('nft-thumbnail') {
+    height: 40rem;
+    position: relative;
+    width: $nfts-nft-thumbnail-width;
+  }
+
+  @include e('nft-2-thumbnail') {
+    order: 1;
+  }
+
+  @include e('nft-number') {
+    left: $nfts-nft-thumbnail-width;
+    height: 30rem;
+    position: absolute;
+    width: 18rem;
+  }
+
+  @include e('nft-1-number') {
+    left: calc($nfts-nft-thumbnail-width - 2rem);
+    top: -5rem;
+  }
+
+  @include e('nft-2-number') {
+    bottom: 0;
+    left: unset;
+    right: $nfts-nft-thumbnail-width;
+  }
+
+  @include e('nft-3-number') {
+    top: -3rem;
+  }
+
+  @include e('nft-4-number') {
+    margin-top: -14rem;
+  }
+
+  @include e('nft-5-number') {
+    margin-top: -5rem;
+  }
+
+  @include e('nft-text') {
+    margin-left: 3rem;
+    z-index: 1;
+  }
+
+  @include e('nft-1-text') {
+    margin-bottom: 17rem;
+    margin-right: 11rem;
+  }
+
+  @include e('nft-2-text') {
+    margin-left: 14rem;
+    margin-top: 14rem;
+    width: 18rem;
+  }
+
+  @include e('nft-4-text') {
+    margin-top: -25rem;
+  }
+
+  @include e('nft-5-text') {
+    margin-top: -18rem;
+  }
+
+  @include e('nft-title') {
+    font-size: 2rem;
+  }
+
+  @include e('nft-description') {
+    font-family: Nunito;
+    line-height: 2;
+  }
+
+  @include e('nft-description-question') {
+    display: inline-block;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  @include e('upper-half-right-section') {
+    margin-right: 7rem;
+
+    @include align-items(flex-end);
+    @include flex;
+    @include flex-direction(column);
+  }
+
+  @include e('btn') {
+    margin-bottom: 4rem;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    width: 22rem;
+  }
+
+  @include e('how-it-works-and-nft-5-wrapper') {
+    justify-content: space-between;
+    margin-right: 6rem;
+    margin-top: -23rem;
+
+    @include flex;
+  }
+
+  @include e('how-it-works') {
+    box-shadow: 0.4rem 0.4rem 0 1rem #f00;
+    height: 35rem;
+    width: 27rem;
+
+    @include border-radius(2rem);
+  }
+
+  @include e('how-it-works-title') {
+    font-size: 4rem;
+    margin: 2.5rem;
+  }
+
+  @include e('how-it-works-step') {
+    margin: 1.5rem;
+    margin-left: 2rem;
+    padding-left: 3.5rem;
+    position: relative;
+
+    @include align-items(center);
+    @include flex;
+
+    &::before {
+      background: no-repeat center;
+      content: '';
+      height: 2.5rem;
+      left: 0;
+      position: absolute;
+      width: 2.5rem;
+    }
+
+    &:nth-of-type(1) {
+      &::before {
+        background-image: url('/img/icons/cursor.svg');
+      }
+    }
+
+    &:nth-of-type(2) {
+      &::before {
+        background-image: url('/img/icons/pause.svg');
+      }
+    }
+
+    &:nth-of-type(3) {
+      &::before {
+        background-image: url('/img/icons/cog.svg');
+      }
+    }
+
+    &:nth-of-type(4) {
+      &::before {
+        background-image: url('/img/icons/opensea.svg');
+      }
+    }
+
+    &:nth-of-type(5) {
+      &::before {
+        background-image: url('/img/icons/checkmark.svg');
+      }
+    }
+  }
+}

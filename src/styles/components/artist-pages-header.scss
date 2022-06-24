@@ -1,0 +1,19 @@
+.artist-header {
+  font-size: 2.8rem;
+  justify-content: space-around;
+  padding: 2rem 0;
+
+  @include align-items(center);
+  @include flex;
+
+  @include e('link') {
+    @include m('active') {
+      color: $color-text-red;
+      pointer-events: none;
+    }
+
+    &:hover {
+      color: $color-text-red;
+    }
+  }
+}

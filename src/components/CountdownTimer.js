@@ -7,7 +7,9 @@ const MILLISECONDS_IN_HOUR = 3600000;
 const MILLISECONDS_IN_MINUTE = 60000;
 const MILLISECONDS_IN_SECOND = 1000;
 
-export default function CountdownTimer() {
+export default function CountdownTimer(props) {
+  const { small } = props;
+
   const [countdownTimeInMilliseconds, setCountdownTimeInMilliseconds] =
     useState(null);
   const [isCountdownVisible, setIsCountdownVisible] = useState(true);
@@ -57,27 +59,61 @@ export default function CountdownTimer() {
     getFormattedTimeDifferenceFromMilliseconds(countdownTimeInMilliseconds);
 
   return isCountdownVisible ? (
-    <div className="countdown-timer">
-      <h3 className="countdown-timer__heading">NFT sale starting in</h3>
-      <div className="countdown-timer__time">
+    <div className={`countdown-timer ${small ? 'countdown-timer--small' : ''}`}>
+      <h3
+        className={`countdown-timer__heading ${
+          small ? 'countdown-timer__heading--small' : ''
+        }`}
+      >
+        NFT sale starting 28. Sep 2022, 18:00 CET
+      </h3>
+      <div
+        className={`countdown-timer__time ${
+          small ? 'countdown-timer__time--small' : ''
+        }`}
+      >
         <span className="countdown-timer__time-part">
           {days}
-          <span className="countdown-timer__time-part-label">days</span>
+          <span
+            className={`countdown-timer__time-part-label ${
+              small ? 'countdown-timer__time-part-label--small' : ''
+            }`}
+          >
+            days
+          </span>
         </span>
         :
         <span className="countdown-timer__time-part">
           {hours}
-          <span className="countdown-timer__time-part-label">hours</span>
+          <span
+            className={`countdown-timer__time-part-label ${
+              small ? 'countdown-timer__time-part-label--small' : ''
+            }`}
+          >
+            hours
+          </span>
         </span>
         :
         <span className="countdown-timer__time-part">
           {minutes}
-          <span className="countdown-timer__time-part-label">minutes</span>
+          <span
+            className={`countdown-timer__time-part-label ${
+              small ? 'countdown-timer__time-part-label--small' : ''
+            }`}
+          >
+            minutes
+          </span>
         </span>
         :
         <span className="countdown-timer__time-part">
           {seconds}
-          <span className="countdown-timer__time-part-label">seconds</span>
+          <span
+            className={`countdown-timer__time-part-label ${
+              small ? 'countdown-timer__time-part-label--small' : ''
+            }`}
+          >
+            seconds
+          </span>
         </span>
       </div>
     </div>

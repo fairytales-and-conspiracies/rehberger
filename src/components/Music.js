@@ -1,10 +1,7 @@
-import Header from '@components/Header';
-
 export default function Music() {
   return (
     <div className="bg-music">
-      <Header />
-      <main className="music">
+      <section id="music" className="music">
         <h1 className="music__heading">About the music</h1>
         <div className="music__content">
           <p className="music__paragraph">
@@ -63,7 +60,7 @@ export default function Music() {
             Vries.
           </p>
         </div>
-      </main>
+      </section>
     </div>
   );
 }

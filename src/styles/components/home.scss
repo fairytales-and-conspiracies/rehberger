@@ -1,15 +1,23 @@
 .bg-home {
   background-image: url('/img/home-bg.jpeg');
   background-size: cover;
-  min-height: 100vh;
+  min-height: calc(100vh - $header-height);
+
+  @include m('interim') {
+    min-height: calc(100vh - $header-height - $footer-height);
+  }
 
   @include e('overlay') {
     background-color: rgba(29, 29, 29, 0.6);
     justify-content: space-between;
-    min-height: 100vh;
+    min-height: calc(100vh - $header-height);
 
     @include flex();
     @include flex-direction(column);
+
+    @include m('interim') {
+      min-height: calc(100vh - $header-height - $footer-height);
+    }
   }
 }
 

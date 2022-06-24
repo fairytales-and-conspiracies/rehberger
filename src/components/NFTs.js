@@ -6,7 +6,6 @@ import CountdownTimer from '@components/CountdownTimer';
 import FrameSelection from '@components/FrameSelection';
 import IndividualPrice from '@components/IndividualPrice';
 import NFTFactsheet from '@components/NFTFactsheet';
-import Header from '@components/Header';
 
 export default function Home() {
   const [isFrameSelectionActive, setIsFrameSelectionActive] = useState(false);
@@ -18,18 +17,7 @@ export default function Home() {
   return (
     <>
       <div className="bg-primary">
-        <Header />
-        {/* <div className="under-construction">
-          <span>Under construction...</span>
-          <button
-            onClick={() => {
-              setIsFrameSelectionActive(true);
-            }}
-          >
-            Click me
-          </button>
-        </div> */}
-        <section className="nfts">
+        <section id="nfts" className="nfts">
           <div className="nfts__upper-half">
             <div className="nfts__upper-half-nfts">
               <div className="nfts__nft nfts__nft-1">
@@ -83,7 +71,6 @@ export default function Home() {
                 <a className="nfts__btn btn btn--primary">View on IPFS</a>
               </Link>
               <IndividualPrice />
-              <CountdownTimer small={true} />
               <IndividualPrice />
             </div>
           </div>

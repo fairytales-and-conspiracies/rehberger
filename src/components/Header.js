@@ -19,22 +19,22 @@ export default function Header() {
       <nav className={`header__nav ${INTERIM ? 'header__nav--hidden' : ''}`}>
         <ul>
           <li>
-            <Link href="/">Home</Link>
+            <Link href="#home">Home</Link>
           </li>
           <li>
-            <Link href="#">NFTs</Link>
+            <Link href="#nfts">NFTs</Link>
           </li>
           <li>
-            <Link href="/work">Work</Link>
+            <Link href="#work">Work</Link>
           </li>
           <li>
-            <Link href="/artist">Artist</Link>
+            <Link href="#artist">Artist</Link>
           </li>
           <li>
-            <Link href="/music">Music</Link>
+            <Link href="#music">Music</Link>
           </li>
           <li>
-            <Link href="/faq">FAQ</Link>
+            <Link href="#faq">FAQ</Link>
           </li>
         </ul>
       </nav>

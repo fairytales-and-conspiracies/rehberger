@@ -1,12 +1,9 @@
 import Link from 'next/link';
 
-import Header from '@components/Header';
-
 export default function Artist() {
   return (
     <div className="bg-artist">
-      <Header />
-      <main className="artist">
+      <section id="artist" className="artist">
         <h1 className="artist__heading">About the artist</h1>
         <div className="artist__content">
           <div className="artist__button-links">
@@ -35,7 +32,7 @@ export default function Artist() {
             whirlpool of shapes and colours.
           </p>
         </div>
-      </main>
+      </section>
     </div>
   );
 }

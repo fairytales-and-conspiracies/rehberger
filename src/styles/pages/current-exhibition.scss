@@ -1,0 +1,37 @@
+.current-exhibition {
+  @include e('main') {
+    margin: 0 6.5rem;
+    padding-bottom: 6rem;
+  }
+
+  @include e('cover') {
+    height: 75vh;
+    position: relative;
+    width: 100%;
+  }
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 8rem;
+    margin: {
+      bottom: 2rem;
+      top: 1rem;
+    }
+    text-transform: uppercase;
+  }
+
+  @include e('content') {
+    margin: 3.5rem auto 0;
+    width: 102.4rem;
+  }
+
+  @include e('text') {
+    font-family: $font-secondary;
+    line-height: 1;
+  }
+
+  @include e('image') {
+    margin-top: 6rem;
+    position: relative;
+  }
+}

@@ -2,9 +2,7 @@
 @import 'partials/mixins';
 @import 'partials/placeholder-selectors';
 
-@import 'atoms/buttons';
-@import 'atoms/inputs';
-@import 'atoms/links';
+@import 'atoms';
 
 *,
 *::before,
@@ -58,6 +56,14 @@ a {
   font-family: Nunito;
   font-size: 1.3rem;
   padding-left: 2rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.no-margin {
+  margin: unset !important;
 }
 
 .flex {

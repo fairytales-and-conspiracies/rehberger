@@ -1,0 +1,41 @@
+.factsheet {
+  margin-top: -40rem;
+  padding: 0 5rem 2rem;
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 16rem;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  @include e('content') {
+    font-family: Nunito;
+  }
+
+  @include e('content-group') {
+    margin-bottom: 2rem;
+  }
+
+  @include e('content-heading-with-bottom-margin') {
+    display: inline-block;
+    margin-bottom: 0.8rem;
+  }
+
+  @include e('title-for-size') {
+    display: inline-block;
+    width: 33rem;
+
+    &:nth-last-of-type(2) {
+      margin-top: 0.8rem;
+    }
+  }
+
+  @include e('nft-includes-list') {
+    margin-left: 2rem;
+  }
+
+  @include e('nft-includes-list-item') {
+    margin-bottom: 0.8rem;
+  }
+}
