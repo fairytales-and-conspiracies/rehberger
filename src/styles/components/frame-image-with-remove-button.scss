@@ -20,9 +20,42 @@
     text-align: right;
     transition: 0.3s ease-out;
     width: 100%;
+
+    @include m('smaller-devices') {
+      background-color: $background-red;
+      bottom: 0;
+      display: none;
+      height: 4rem;
+      padding: 0.5rem 0.4rem;
+      position: absolute;
+      right: 0;
+      width: 3rem;
+    }
   }
 
   @include e('remove-icon') {
     cursor: pointer;
+  }
+
+  @include max-screen-lg {
+    @include e('remove-container') {
+      display: none;
+
+      @include m('smaller-devices') {
+        display: inline-block;
+      }
+    }
+  }
+
+  @include max-screen-sm {
+    margin: 1rem;
+    width: 28vw;
+  }
+
+  @include max-screen-xs {
+    margin: 0.5rem;
+    max-width: 14rem;
+    min-width: 11rem;
+    width: 27vw;
   }
 }

@@ -1,9 +1,13 @@
 .shopping-cart {
-  justify-content: space-around;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 165rem;
 
-  @include flex();
-}
+  @include flex;
 
-.cart-viewer {
-  flex-basis: 60%;
+  @include max-screen-xl {
+    justify-content: space-around;
+    margin: unset;
+    max-width: unset;
+  }
 }

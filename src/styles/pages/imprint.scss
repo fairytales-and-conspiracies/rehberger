@@ -3,7 +3,7 @@
     height: $header-height;
     justify-content: space-between;
 
-    @include flex();
+    @include flex;
   }
 
   @include e('logo') {

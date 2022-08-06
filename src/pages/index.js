@@ -17,6 +17,7 @@ export default function Home() {
         <Intro />
         {!INTERIM && (
           <>
+            <NFTs />
             <Work />
             <Artist />
             <Music />

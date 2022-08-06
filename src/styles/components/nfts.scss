@@ -4,6 +4,10 @@ $nfts-nft-thumbnail-width: 30rem;
   padding-top: 8rem;
 
   @include e('upper-half') {
+    margin: 0 auto;
+    margin-bottom: 3rem;
+    max-width: 115rem;
+
     @include flex;
   }
 
@@ -12,9 +16,9 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('lower-half') {
-    bottom: 42rem;
+    bottom: 20rem;
     margin: 0 auto;
-    max-width: 120rem;
+    max-width: 115rem;
     position: relative;
   }
 
@@ -40,7 +44,7 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-4') {
-    margin-left: 2rem;
+    margin-left: 5rem;
   }
 
   @include e('nft-thumbnail') {
@@ -66,7 +70,7 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-2-number') {
-    bottom: 0;
+    bottom: -2rem;
     left: unset;
     right: $nfts-nft-thumbnail-width;
   }
@@ -103,6 +107,11 @@ $nfts-nft-thumbnail-width: 30rem;
     margin-top: -25rem;
   }
 
+  @include e('nft-5') {
+    order: 1;
+    left: 3rem;
+  }
+
   @include e('nft-5-text') {
     margin-top: -18rem;
   }
@@ -112,7 +121,7 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-description') {
-    font-family: Nunito;
+    font-family: $font-secondary;
     line-height: 2;
   }
 
@@ -123,8 +132,6 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('upper-half-right-section') {
-    margin-right: 7rem;
-
     @include align-items(flex-end);
     @include flex;
     @include flex-direction(column);
@@ -204,6 +211,233 @@ $nfts-nft-thumbnail-width: 30rem;
       &::before {
         background-image: url('/img/icons/checkmark.svg');
       }
+    }
+  }
+
+  @include max-screen-lg {
+    @include e('upper-half') {
+      margin-bottom: unset;
+      max-width: 95rem;
+    }
+
+    @include e('lower-half') {
+      max-width: 95rem;
+    }
+
+    @include e('how-it-works-and-nft-5-wrapper') {
+      margin-right: unset;
+      margin-top: -15rem;
+
+      @include align-items(flex-start);
+    }
+
+    @include e('nft-thumbnail') {
+      height: 33rem;
+      width: 25rem;
+    }
+
+    @include e('nft-number') {
+      height: 20rem;
+      width: 10rem;
+    }
+
+    @include e('nft-2') {
+      bottom: 10rem;
+    }
+
+    @include e('nft-3') {
+      top: 8rem;
+    }
+
+    @include e('nft-3-text') {
+      margin-top: -20rem;
+    }
+
+    @include e('nft-4') {
+      margin-left: 10rem;
+      margin-top: -5rem;
+    }
+
+    @include e('nft-5') {
+      left: 2rem;
+    }
+
+    @include e('how-it-works') {
+      height: 36rem;
+      width: 24rem;
+    }
+
+    @include e('how-it-works-title') {
+      font-size: 3.5rem;
+      margin: 1rem 2.5rem 0;
+    }
+  }
+
+  @include max-screen-md {
+    @include e('upper-half-right-section') {
+      display: none;
+    }
+
+    @include e('nft') {
+      margin: 0 auto;
+      margin-top: 5rem;
+      max-width: 65rem;
+
+      @include flex-direction(column);
+
+      &:nth-of-type(2n - 1) {
+        @include align-items(flex-start);
+      }
+
+      &:nth-of-type(2n) {
+        @include align-items(flex-end);
+      }
+
+      &.nfts__nft-5 {
+        @include align-items(flex-start);
+      }
+    }
+
+    @include e('nft-thumbnail') {
+      height: 53rem;
+      width: 40rem;
+    }
+
+    @include e('nft-number') {
+      height: 30rem;
+      left: 40rem;
+      width: 20rem;
+    }
+
+    @include e('nft-text') {
+      margin-left: 0;
+      margin-top: 2rem;
+    }
+
+    @include e('nft-1') {
+      margin-top: unset;
+    }
+
+    @include e('nft-1-text') {
+      margin-bottom: unset;
+    }
+
+    @include e('nft-2') {
+      bottom: unset;
+    }
+
+    @include e('nft-2-thumbnail') {
+      order: unset;
+    }
+
+    @include e('nft-2-number') {
+      bottom: unset;
+      left: unset;
+      right: 40rem;
+      top: -2rem;
+    }
+
+    @include e('nft-2-text') {
+      text-align: right;
+    }
+
+    @include e('lower-half') {
+      bottom: unset;
+    }
+
+    @include e('nft-3') {
+      top: unset;
+    }
+
+    @include e('nft-4') {
+      margin-top: 4rem;
+    }
+
+    @include e('nft-4-number') {
+      left: unset;
+      margin-top: -3rem;
+      right: 40rem;
+    }
+
+    @include e('nft-4-text') {
+      text-align: right;
+    }
+
+    @include e('how-it-works-and-nft-5-wrapper') {
+      display: unset;
+      margin-right: unset;
+      margin-top: unset;
+    }
+
+    @include e('how-it-works') {
+      height: unset;
+      margin: 5rem auto;
+      max-width: 45rem;
+      order: 1;
+      padding: 0.1rem 0;
+      width: 90%;
+    }
+
+    @include e('nft-5') {
+      left: unset;
+
+      @include align-items(flex-start);
+    }
+
+    @include e('nft-5-number') {
+      margin-top: -3rem;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('nft') {
+      max-width: 45rem;
+    }
+
+    @include e('nft-thumbnail') {
+      height: 40rem;
+      width: 30rem;
+    }
+
+    @include e('nft-number') {
+      left: 30rem;
+    }
+
+    @include e('nft-2-number') {
+      left: unset;
+      right: 30rem;
+    }
+
+    @include e('nft-4-number') {
+      left: unset;
+      right: 30rem;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('nft') {
+      padding: 0 2rem;
+    }
+
+    @include e('nft-thumbnail') {
+      height: 27rem;
+      width: 20rem;
+    }
+
+    @include e('nft-number') {
+      left: 21rem;
+      top: -8rem;
+      width: 20vw;
+    }
+
+    @include e('nft-2-number') {
+      left: unset;
+      right: 21rem;
+    }
+
+    @include e('nft-4-number') {
+      left: unset;
+      right: 21rem;
     }
   }
 }

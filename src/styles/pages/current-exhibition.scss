@@ -5,9 +5,12 @@
   }
 
   @include e('cover') {
-    height: 75vh;
     position: relative;
     width: 100%;
+
+    @include m('vertical') {
+      display: none;
+    }
   }
 
   @include e('heading') {
@@ -33,5 +36,31 @@
   @include e('image') {
     margin-top: 6rem;
     position: relative;
+  }
+
+  @include max-screen-lg {
+    @include e('content') {
+      width: unset;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('main') {
+      margin: 0 2rem;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('heading') {
+      font-size: 6rem;
+    }
+
+    @include e('cover') {
+      display: none;
+
+      @include m('vertical') {
+        display: block;
+      }
+    }
   }
 }

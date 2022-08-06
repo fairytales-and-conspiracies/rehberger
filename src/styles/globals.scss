@@ -41,6 +41,7 @@ a {
   }
 }
 
+/* COMMON CLASSES */
 .bg-primary {
   background-color: $background-dark;
   min-height: 100vh;
@@ -48,12 +49,11 @@ a {
 
 .bg-light {
   background-color: $background-light;
-  min-height: 100vh;
 }
 
 .error {
   color: $color-text-red;
-  font-family: Nunito;
+  font-family: $font-secondary;
   font-size: 1.3rem;
   padding-left: 2rem;
 }
@@ -62,13 +62,22 @@ a {
   font-weight: bold;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .no-margin {
   margin: unset !important;
 }
 
-.flex {
-  @include flex();
+.euro-price {
+  color: $color-text-purple;
 }
+
+.hidden {
+  display: none;
+}
+/* END COMMON CLASSES */
 
 @import 'components';
 @import 'pages';

@@ -69,7 +69,7 @@ export default function MediaCoverage(props) {
           <div className="media-coverage__image">
             <Image
               alt="Media image"
-              height="640"
+              height="680"
               layout="responsive"
               src="/img/media-2.png"
               width="680"

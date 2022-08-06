@@ -23,8 +23,10 @@ export default function ArtistPagesHeader(props) {
           Media coverage
         </a>
       </Link>
-      <Link href="/artist">
-        <a className="artist-header__link">← Back</a>
+      <Link href="/#artist">
+        <a className="artist-header__link">
+          <span className="artist-header__back-arrow">←</span> Back
+        </a>
       </Link>
     </header>
   );

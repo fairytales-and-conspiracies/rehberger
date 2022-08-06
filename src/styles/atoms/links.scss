@@ -1,5 +1,6 @@
 .link {
   color: $color-text-red;
+  cursor: pointer;
 
   &:hover {
     color: lighten($color-text-red, 15%);

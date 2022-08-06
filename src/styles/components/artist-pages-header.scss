@@ -16,4 +16,21 @@
       color: $color-text-red;
     }
   }
+
+  @include max-screen-sm {
+    font-size: 2.4rem;
+  }
+
+  @include max-screen-xs {
+    font-size: 1.8rem;
+
+    @include e('link') {
+      display: inline-block;
+      padding: 0 1rem;
+    }
+
+    @include e('back-arrow') {
+      display: none;
+    }
+  }
 }

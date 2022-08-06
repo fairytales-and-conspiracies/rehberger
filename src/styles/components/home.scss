@@ -12,7 +12,7 @@
     justify-content: space-between;
     min-height: calc(100vh - $header-height);
 
-    @include flex();
+    @include flex;
     @include flex-direction(column);
 
     @include m('interim') {
@@ -25,7 +25,7 @@
   flex-grow: 1;
   justify-content: space-evenly;
 
-  @include flex();
+  @include flex;
   @include flex-direction(column);
 
   @include e('website-title') {
@@ -81,7 +81,7 @@
     max-width: 120rem;
 
     @include align-items(center);
-    @include flex();
+    @include flex;
   }
 
   @include e('by-artist-info') {

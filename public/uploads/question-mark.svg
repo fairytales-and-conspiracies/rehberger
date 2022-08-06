@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 132" width="75" height="132">
+	<title>Screenshot 2022-03-13 at 19</title>
+	<defs>
+		<image  width="65" height="120" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEEAAAB4AgMAAADQ7HezAAAAAXNSR0IB2cksfwAAAAlQTFRF////////////jkrl/gAAAAN0Uk5TAP8QdOUpyAAAAThJREFUeJzNlMttAzEMRMkAPKQAlbB9qAQdRMNHl+Im3G9iaamlOFrkgwSwTosHcjj82ET9SaXpvevzOcAN6OUgj060GBC1F0NGEKuGoM2R3IgDPc0naZ0rmVCaSA4yqrcg06QDqSZcTK6avyN2L1WO7hxJRob53emdhnkxi4PwvxH6MSmepDXJvpb09gbZP8iTZ/p1Jtu+bT58PIq7In+OtpRIbo4kNWczcaA3cQHiS/FJKS+8gXCKMgQyDDLyhzJTUykmESQx1G4yV5DxSf3ePSAwzFBbQEZAJsUWGqlfkN4D50Cmaqek/Iq4AfXz8paQyBlx7TMQguqLJRMM8dNAphd/KVreYlu0Phe8zEmpXWb7F/IykxDDVJEIbPl0gy9MvtPpG8wHJ7aYs4RSqx98W8adQpCFfAA1myH35DZCUwAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="4" y="6"/>
+</svg>

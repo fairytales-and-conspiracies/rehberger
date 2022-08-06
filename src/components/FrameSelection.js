@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import CurrentFrame from '@components/CurrentFrame';
 import SelectionPreview from '@components/SelectionPreview';
 import ShoppingCartContext from '@context/ShoppingCartContext';
+import VideoData from '@static-data/videos';
 
 const VIDEO = 'brick-and-mortar';
 
@@ -140,6 +141,21 @@ export default function FrameSelection({ onClose }) {
           <div className="frame-selection__inner-container">
             <CurrentFrame selectedFrame={currentSelectedFrame} video={VIDEO} />
 
+            {VIDEO && (
+              <div className="frame-selection__frame-info">
+                <h2 className="selected-frame__title">
+                  {VideoData[VIDEO].title}
+                </h2>
+                <h3 className="selected-frame__subtitle">
+                  {VideoData[VIDEO].subtitle}
+                </h3>
+                <p className="selected-frame__description">
+                  {VideoData[VIDEO].description}
+                </p>
+                <div className="selected-frame__price euro-price">€666</div>
+              </div>
+            )}
+
             <video
               autoPlay
               className="frame-selection__video"
@@ -158,6 +174,14 @@ export default function FrameSelection({ onClose }) {
                     height="60"
                     src="/img/chevrons-ul-to-lr.svg"
                     width="57"
+                  />
+                </div>
+                <div className="frame-selection__instructions-image-small-devices">
+                  <Image
+                    alt="Read the text below"
+                    height="20"
+                    src="/img/double-chevron-down.svg"
+                    width="19"
                   />
                 </div>
                 <p className="frame-selection__instructions">
@@ -186,6 +210,14 @@ export default function FrameSelection({ onClose }) {
                   After completing selections, use the section on the right to
                   edit your selections and complete ordering your NFT.
                 </p>
+                <div className="frame-selection__instructions-image-small-devices">
+                  <Image
+                    alt="Select frame below"
+                    height="20"
+                    src="/img/double-chevron-down.svg"
+                    width="19"
+                  />
+                </div>
               </div>
             </div>
           </div>

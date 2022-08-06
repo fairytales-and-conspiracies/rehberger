@@ -32,7 +32,7 @@ export function ShoppingCartProvider({ children }) {
     const newSelectedFrames = selectedFrames.filter(
       (frameInCart) => frameInCart.frame !== frame.frame
     );
-    setSelectedFrames[newSelectedFrames];
+    setSelectedFrames(newSelectedFrames);
     storeInSessionStorage(newSelectedFrames);
   };
 

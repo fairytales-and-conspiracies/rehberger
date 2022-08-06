@@ -1,14 +1,12 @@
 .frame-selection {
+  @extend %fixed-fullscreen;
+
   background: rgba($background-dark, 0.95);
-  bottom: 0;
-  left: 0;
   overflow: {
     x: hidden;
     y: auto;
   }
-  position: fixed;
-  right: 0;
-  top: 0;
+  z-index: 100;
 
   @include m('invisible') {
     visibility: hidden;
@@ -17,10 +15,9 @@
   @include e('encapsulator') {
     justify-content: center;
     min-height: 100vh;
-    padding: 10rem 0;
     position: relative;
 
-    @include flex();
+    @include flex;
   }
 
   @include e('close') {
@@ -35,23 +32,26 @@
     position: relative;
 
     @include align-items(center);
-    @include flex();
+    @include flex;
   }
 
   @include e('inner-container') {
-    gap: 7.5rem;
+    @include flex;
+  }
 
-    @include flex();
+  @include e('frame-info') {
+    display: none;
   }
 
   @include e('video') {
+    margin: 0 7.5rem;
     width: 30vw;
   }
 
   @include e('instructions-wrapper') {
     justify-content: space-between;
 
-    @include flex();
+    @include flex;
     @include flex-direction(column);
   }
 
@@ -73,9 +73,106 @@
     margin-bottom: 2rem;
   }
 
+  @include e('instructions-image-small-devices') {
+    display: none;
+  }
+
   @include e('instructions') {
     color: $color-text-red;
     font-size: 2rem;
     width: 26rem;
+  }
+
+  @include max-screen-lg {
+    @include e('video') {
+      margin: 0 4.5rem;
+    }
+
+    @include e('instructions') {
+      font-size: 1.8rem;
+    }
+  }
+
+  @include max-screen-md {
+    @include e('video') {
+      margin: 0 1.5rem;
+    }
+
+    @include e('instructions-wrapper') {
+      padding-right: 1.5rem;
+    }
+
+    @include e('instructions-group') {
+      &:last-of-type {
+        align-items: flex-end;
+
+        @include flex;
+        @include flex-direction(column);
+      }
+    }
+
+    @include e('instructions-image') {
+      margin-bottom: 0.2rem;
+      width: 4rem;
+    }
+
+    @include e('instructions') {
+      font-size: 1.6rem;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('encapsulator') {
+      padding-bottom: 0;
+
+      @include flex-direction(column);
+    }
+
+    @include e('inner-container') {
+      @include align-items(center);
+      @include flex-direction(column);
+    }
+
+    @include e('instructions-wrapper') {
+      order: -1;
+      padding-right: 0;
+    }
+
+    @include e('instructions-group') {
+      margin-bottom: 1.5rem;
+
+      &:nth-of-type(n) {
+        text-align: center;
+      }
+
+      &:last-of-type {
+        @include align-items(unset);
+      }
+    }
+
+    @include e('instructions-image') {
+      display: none;
+    }
+
+    @include e('instructions-image-small-devices') {
+      display: block;
+    }
+
+    @include e('instructions') {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @include e('frame-info') {
+      display: block;
+      margin-top: 2rem;
+      width: 80%;
+    }
+
+    @include e('video') {
+      margin: 3rem 0;
+      max-width: 40rem;
+      width: 80%;
+    }
   }
 }

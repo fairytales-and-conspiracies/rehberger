@@ -5,7 +5,8 @@
   height: $header-height;
   position: relative;
 
-  @include flex();
+  @include align-items(center);
+  @include flex;
 
   @include e('logo') {
     @extend %logo;
@@ -29,7 +30,7 @@
 
   @include e('shop') {
     @include align-items(center);
-    @include flex();
+    @include flex;
 
     .btn {
       box-shadow: 0.2rem 0.2rem 0 0.4rem $background-red;
@@ -45,13 +46,14 @@
 
       &:last-child {
         margin-right: 3.5rem;
-        padding: 0.5rem 0.7rem 0.3rem;
+        padding: 0.7rem 0.7rem 0.3rem;
       }
     }
   }
 
   @include e('menu-button') {
     cursor: not-allowed;
+    height: 3rem;
     margin-right: 3rem;
   }
 

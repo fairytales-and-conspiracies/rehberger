@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 140" width="30" height="58">
+	<title>Screenshot 2022-03-12 at 18</title>
+	<defs>
+		<image  width="29" height="104" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAABoBAMAAAD/UuZOAAAAAXNSR0IB2cksfwAAABhQTFRF////////////////////////////////KSvAyAAAAAh0Uk5TAP+w4KBQQPB73EaXAAAAtUlEQVR4nM3UTQ4CIQwF4IcJrmni7PUGHkVv4NzAuf/GTMaO7SMMQjTK7oNC+GkB5hZE5Ii1ydKI2hFWJz+8BATj5Idn76zFh+dObvo/+kTm/W/7XDl/u9HiQ/4+HzfnQ4s5n3ocyZyvDeZ87zPXT7+5Ht8z13PRqWBd8Fb4LzC5cA0AbMeAH7botzP6/er57k8X75Pfd9C17QSbjxdU/8ev+0qu1V9WD5ML38gvvdDoh4H9iw/hmErlg0/qywAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="18" y="14"/>
+</svg>

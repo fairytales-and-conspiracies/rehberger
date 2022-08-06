@@ -1,4 +1,4 @@
-.shipping-form {
+.payment-form {
   margin-top: 3rem;
   width: 32rem;
 
@@ -16,7 +16,7 @@
   }
 
   @include e('text') {
-    font-family: Nunito;
+    font-family: $font-secondary;
     font-size: 1.5rem;
     margin-top: 1.2rem;
   }
@@ -31,7 +31,7 @@
 
   @include e('info-label') {
     display: inline-block;
-    font-family: 'Nunito';
+    font-family: $font-secondary;
     font-size: 1.6rem;
     width: 13rem;
   }
@@ -50,12 +50,31 @@
     font-size: 1.6rem;
     margin-top: 2rem;
   }
+
+  @include max-screen-md {
+    margin: {
+      left: 2rem;
+      right: 2rem;
+    }
+  }
+
+  @include max-screen-sm {
+    margin-bottom: 2rem;
+
+    @include m('hidden-small-devices') {
+      display: none;
+    }
+  }
+
+  @include max-screen-xs {
+    width: 26rem;
+  }
 }
 
 .form-container {
   margin: 2rem 0;
 
-  @include flex();
+  @include flex;
   @include flex-direction(column);
 
   .input {

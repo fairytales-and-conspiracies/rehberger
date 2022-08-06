@@ -1,11 +1,7 @@
 .bg-music {
-  background: url('/img/music-bg.jpeg') no-repeat 0 -90rem;
+  background: url('/img/music-bg.jpeg') no-repeat top center;
   background-size: cover;
   min-height: 100vh;
-
-  @include max-screen-xl() {
-    background-position: 0 -50rem;
-  }
 }
 
 .music {
@@ -24,7 +20,7 @@
   @include e('content') {
     background: rgba($background-dark, 0.5);
     color: $color-text-light;
-    font-family: Nunito;
+    font-family: $font-secondary;
     padding: 2.5rem;
 
     @include align-items(flex-end);
@@ -35,6 +31,27 @@
 
     &:last-of-type {
       margin-bottom: 0;
+    }
+  }
+
+  @include max-screen-md {
+    @include e('heading') {
+      padding-left: 2rem;
+      padding-top: 3rem;
+      width: unset;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('heading') {
+      font-size: 12rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('heading') {
+      font-size: 7rem;
     }
   }
 }

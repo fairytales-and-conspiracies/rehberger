@@ -76,7 +76,7 @@ export default function FAQ() {
 
   return (
     <div className="bg-light">
-      <section id="faq" className="faq">
+      <section className="faq" id="faq">
         <h1 className="faq__heading">FAQ</h1>
         <div className="faq__content">
           {FAQ_CONTENT.map((questionAndAnswer, index) => (

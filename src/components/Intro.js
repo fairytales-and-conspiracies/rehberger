@@ -10,7 +10,7 @@ export default function Home() {
           INTERIM ? ' bg-home__overlay--interim' : ''
         }`}
       >
-        <section id="home" className="home">
+        <section className="home" id="home">
           <CountdownTimer />
           <div className="home__website-title">
             <span className="home__website-title-layer">

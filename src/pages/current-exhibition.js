@@ -17,6 +17,15 @@ export default function CurrentExhibition() {
             height="600"
           />
         </div>
+        <div className="current-exhibition__cover--vertical">
+          <Image
+            alt={`Tobias Rehberger current exhibition - "I do if I don't"`}
+            layout="responsive"
+            width="364"
+            src="/img/current-exhibition-cover-vertical.png"
+            height="676"
+          />
+        </div>
         <div className="current-exhibition__content">
           <p className="current-exhibition__text">
             <span>

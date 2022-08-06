@@ -88,9 +88,9 @@ export default function SelectionPreview({
           <a className="selection-preview__shopping-cart btn btn--primary btn--small">
             <Image
               alt="Shopping cart"
-              height="29"
+              height="20"
               src="/img/icons/shopping-cart.svg"
-              width="29"
+              width="20"
             />
           </a>
         </Link>

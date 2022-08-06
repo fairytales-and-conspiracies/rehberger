@@ -1,4 +1,3 @@
-'use strict';
 const nodemailer = require('nodemailer');
 
 // async..await is not allowed in global scope, must use a wrapper
@@ -20,25 +19,57 @@ async function main(success, data) {
 
   // send mail with defined transport object
   let info;
+  const {
+    _id: { id },
+    customer,
+  } = data;
   if (success) {
-    info = await transporter.sendMail({
-      from: 'bulatovic_nikola@yahoo.com', // sender address
-      to: 'bulatovicnikola1990@gmail.com', // list of receivers
-      subject: 'NFT purchased!', // Subject line
-      text: `
-        Here are the details of the purchase:
+    if (!data.claimed) {
+      info = await transporter.sendMail({
+        from: 'bulatovic_nikola@yahoo.com', // sender address
+        to: customer.email, // list of receivers
+        subject: 'NFT purchased!', // Subject line
+        html: `
+          <p>Here are the details of the purchase:</p>
+    
+          <ul>
+            <li>First name: ${customer.firstName}</li>
+            <li>Last name: ${customer.lastName}</li>
+            <li>Email: ${customer.email}</li>
+            <li>Address line 1: ${customer.addressLine1}</li>
+            <li>Address line 2: ${customer.addressLine2}</li>
+            <li>Country: ${customer.country}</li>
+            <li>Region: ${customer.region}</li>
+            <li>City: ${customer.city}</li>
+            <li>Postal code: ${customer.postalCode}</li>
+          </ul>
   
-        First name: ${data.firstName}
-        Last name: ${data.lastName}
-        Address line 1: ${data.addressLine1}
-        Address line 2: ${data.addressLine2}
-        Country: ${data.country}
-        Region: ${data.region}
-        City: ${data.city}
-        Postal code: ${data.postalCode}
-      `, // plain text body
-      // html: '<b>Hello world?</b>', // html body
-    });
+          <p><a href="http://localhost:3000/claim-nfts?order-number=${id}" target="_blank">Click here to claim your NFTs</a></p>
+        `, // plain text body
+        // html: '<b>Hello world?</b>', // html body
+      });
+    } else {
+      info = await transporter.sendMail({
+        from: 'bulatovic_nikola@yahoo.com', // sender address
+        to: customer.email, // list of receivers
+        subject: 'NFT claimed!', // Subject line
+        html: `
+          <p>NFT has been claimed:</p>
+    
+          <ul>
+            <li>First name: ${customer.firstName}</li>
+            <li>Last name: ${customer.lastName}</li>
+            <li>Email: ${customer.email}</li>
+            <li>Address line 1: ${customer.addressLine1}</li>
+            <li>Address line 2: ${customer.addressLine2}</li>
+            <li>Country: ${customer.country}</li>
+            <li>Region: ${customer.region}</li>
+            <li>City: ${customer.city}</li>
+            <li>Postal code: ${customer.postalCode}</li>
+          </ul>
+        `,
+      });
+    }
   } else {
     info = await transporter.sendMail({
       from: 'Rehberger app', // sender address

@@ -1,0 +1,25 @@
+.thank-you {
+  margin-top: 7rem;
+
+  @include e('heading') {
+    color: $color-text-purple;
+    font-size: 5rem;
+    text-align: center;
+  }
+
+  @include e('payment-successful-info') {
+    font-family: $font-secondary;
+    font-size: 2rem;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  @include e('additional-info') {
+    font-family: $font-secondary;
+    margin: {
+      bottom: 5rem;
+      top: 3rem;
+    }
+    text-align: center;
+  }
+}

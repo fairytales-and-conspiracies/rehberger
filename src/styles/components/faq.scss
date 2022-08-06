@@ -21,7 +21,7 @@
 
   @include e('answer') {
     border-bottom: 0.5rem solid $color-red;
-    font-family: Nunito;
+    font-family: $font-secondary;
     font-size: 1.6rem;
     font-weight: 600;
     margin: 1.5rem auto;
@@ -34,6 +34,41 @@
       max-height: 15rem;
       padding-bottom: 1.5rem;
       transition: 0.3s ease-in;
+    }
+  }
+
+  @include max-screen-md {
+    @include e('heading') {
+      padding-left: 2rem;
+      width: unset;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('heading') {
+      font-size: 10rem;
+    }
+
+    @include e('question') {
+      font-size: 3rem;
+    }
+
+    @include e('answer') {
+      @include m('visible') {
+        max-height: 30rem;
+      }
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('heading') {
+      font-size: 10rem;
+    }
+
+    @include e('answer') {
+      @include m('visible') {
+        max-height: 70rem;
+      }
     }
   }
 }

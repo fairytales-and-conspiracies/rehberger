@@ -1,0 +1,45 @@
+%submit-error {
+  color: $color-text-red;
+  font-family: $font-secondary;
+  height: 2rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.claim-nfts {
+  margin: 7rem auto 0;
+  text-align: center;
+  width: 67rem;
+
+  @include e('heading') {
+    font-size: 5rem;
+  }
+
+  @include e('thank-you') {
+    font-family: $font-secondary;
+    margin-top: 10rem;
+  }
+
+  @include e('additional-info') {
+    font-family: $font-secondary;
+    margin-top: 3rem;
+  }
+
+  @include e('link') {
+    display: inline-block;
+    font-family: $font-secondary;
+    margin-top: 10rem;
+  }
+
+  @include max-screen-sm {
+    width: 40rem;
+  }
+
+  @include max-screen-xs {
+    width: 25rem;
+
+    @include e('heading') {
+      font-size: 3.6rem;
+    }
+  }
+}

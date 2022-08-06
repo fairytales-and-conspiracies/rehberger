@@ -1,0 +1,37 @@
+.individual-price-purple {
+  margin-top: 15rem;
+  position: relative;
+  top: 24rem;
+
+  @include e('main') {
+    background: url('/img/purple-cut-out-rectangle.png') no-repeat;
+    background-size: cover;
+    padding: 1rem 1.4rem;
+    text-align: center;
+  }
+
+  @include e('heading') {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+  }
+
+  @include e('price') {
+    font-size: 7rem;
+    justify-content: space-evenly;
+    line-height: 0.7;
+    margin-top: 0.3rem;
+
+    @include flex;
+  }
+
+  @include e('euro-price') {
+    color: $color-text-purple;
+    font-size: 4rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  @include max-screen-lg {
+    top: 8rem;
+  }
+}

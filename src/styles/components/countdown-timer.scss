@@ -5,7 +5,7 @@
   width: 51rem;
 
   @include e('heading') {
-    font-family: Nunito;
+    font-family: $font-secondary;
     font-size: 2rem;
     margin-bottom: 0.5rem;
     text-transform: uppercase;

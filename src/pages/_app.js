@@ -1,13 +1,11 @@
-import { ThirdwebWeb3Provider } from '@3rdweb/hooks';
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
 import Head from 'next/head';
 
 import { ShoppingCartProvider } from '@context/ShoppingCartContext';
 import '@styles/globals.scss';
 
-const supportedChainIds = [1, 4];
-const connectors = {
-  injected: {},
-};
+const desiredChainId = ChainId.Rinkeby;
+const supportedChainIds = [ChainId.Mainnet, ChainId.Rinkeby];
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -15,14 +13,14 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Fairytales & Conspiracies</title>
       </Head>
-      <ThirdwebWeb3Provider
+      <ThirdwebProvider
+        desiredChainId={desiredChainId}
         supportedChainIds={supportedChainIds}
-        connectors={connectors}
       >
         <ShoppingCartProvider>
           <Component {...pageProps} />
         </ShoppingCartProvider>
-      </ThirdwebWeb3Provider>
+      </ThirdwebProvider>
     </>
   );
 }

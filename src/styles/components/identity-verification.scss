@@ -1,0 +1,124 @@
+$identity-verification-modal-height: 60.8rem;
+$identity-verification-modal-width: 68rem;
+
+.identity-verification {
+  @extend %fixed-fullscreen;
+
+  display: none;
+
+  @include m('visible') {
+    display: block;
+  }
+
+  @include e('backdrop') {
+    @extend %fixed-fullscreen;
+
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: -1;
+  }
+
+  @include e('main') {
+    background-color: $background-dark;
+    height: 60.8rem;
+    left: 50%;
+    margin-left: $identity-verification-modal-width * -1 / 2;
+    margin-top: $identity-verification-modal-height * -1 / 2;
+    padding: 4rem 7rem;
+    position: fixed;
+    text-align: left;
+    top: 50%;
+    width: 68rem;
+    z-index: 99;
+
+    @include border-radius(3rem);
+  }
+
+  @include e('close') {
+    @extend %close;
+
+    right: 0;
+    top: 0;
+  }
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 3.2rem;
+    margin-bottom: 2rem;
+
+    @include m('thank-you') {
+      margin: 12rem auto 4rem;
+      max-width: 40rem;
+      text-align: center;
+    }
+  }
+
+  @include e('info') {
+    font-family: $font-secondary;
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+  }
+
+  @include e('form') {
+    @include flex;
+    @include flex-direction(column);
+  }
+
+  @include e('file-input-overlay') {
+    box-sizing: content-box;
+    cursor: unset;
+    margin: 0 auto 1rem;
+    padding: 0.5rem;
+    width: 43rem;
+  }
+
+  @include e('file-input') {
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  @include e('chosen-file') {
+    color: $color-text-purple;
+    font-family: $font-secondary;
+    margin: 0 auto;
+
+    @include flex;
+  }
+
+  @include e('chosen-file-name') {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 35rem;
+  }
+
+  @include e('chosen-file-cancel') {
+    cursor: pointer;
+    margin-left: 0.9rem;
+    padding-top: 0.2rem;
+  }
+
+  @include e('input') {
+    margin: 1rem auto 0.5rem;
+    width: 45rem;
+  }
+
+  @include e('error') {
+    width: 45rem;
+    margin: 0 auto;
+  }
+
+  @include e('submit-btn') {
+    margin: 3rem auto 0;
+    padding: 1rem;
+    width: 30rem;
+  }
+
+  @include e('submit-error') {
+    @extend %submit-error;
+  }
+}

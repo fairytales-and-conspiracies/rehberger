@@ -63,24 +63,9 @@ export default function CurrentFrame({ selectedFrame, video }) {
           <p className="selected-frame__description">
             {VideoData[video].description}
           </p>
+          <div className="selected-frame__price euro-price">€666</div>
         </div>
       )}
     </div>
   );
 }
-
-// selectedFrame.time
-//               .toString()
-//               .split('')
-//               .map((digitOrDecimalPoint, index) => (
-//                 <span
-//                   className={`${
-//                     digitOrDecimalPoint !== '.'
-//                       ? 'selected-frame__timeframe-digit'
-//                       : ''
-//                   }`}
-//                   key={index}
-//                 >
-//                   {digitOrDecimalPoint}
-//                 </span>
-//               ))}

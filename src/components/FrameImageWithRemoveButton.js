@@ -22,6 +22,16 @@ export default function FrameImageWithRemoveButton({ frame, onRemoveClick }) {
           width="14px"
         />
       </span>
+      <span className="frame-image__remove-container--smaller-devices">
+        <Image
+          alt={`Remove frame ${frame.frame}`}
+          className="frame-image__remove-icon"
+          height="30px"
+          onClick={() => onRemoveClick(frame)}
+          src="/img/icons/trash.svg"
+          width="24px"
+        />
+      </span>
     </span>
   );
 }

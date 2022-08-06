@@ -1,3 +1,12 @@
+$btn-border-primary: 0.3rem $background-red solid;
+$btn-border-primary-disabled: 0.3rem darken($background-red, 35%) solid;
+$btn-border-secondary: 0.3rem $background-dark solid;
+$btn-border-secondary-disabled: 0.3rem darken($background-dark, 35%) solid;
+$btn-border-tertiary: 0.3rem $background-grey solid;
+$btn-border-tertiary-disabled: 0.3rem darken($background-grey, 35%) solid;
+$btn-border-quarternary: 0.3rem $background-purple solid;
+$btn-border-quarternary-disabled: 0.3rem darken($background-purple, 35%) solid;
+
 .btn {
   background-color: inherit;
   border: none;
@@ -6,35 +15,162 @@
   font-family: inherit;
   font-size: 2.4rem;
   font-weight: 400;
+  position: relative;
+  text-align: center;
 
   @include border-radius(1.5rem);
 
+  &::before {
+    box-sizing: content-box;
+    content: '';
+    display: inline-block;
+    height: 100%;
+    left: -0.3rem;
+    position: absolute;
+    top: -0.2rem;
+    width: 100%;
+    z-index: -1;
+
+    @include border-radius(1.5rem);
+  }
+
+  &::after {
+    box-sizing: content-box;
+    content: '';
+    display: inline-block;
+    height: 100%;
+    left: 0.1rem;
+    position: absolute;
+    top: 0.1rem;
+    width: 100%;
+    z-index: -2;
+
+    @include border-radius(1.5rem);
+  }
+
   @include m('small') {
     @include border-radius(1rem);
+
+    &::before {
+      @include border-radius(1rem);
+    }
+
+    &::after {
+      @include border-radius(1rem);
+    }
   }
 
   @include m('primary') {
     background-color: $background-dark;
-    box-shadow: 0.2rem 0.3rem 0 0.6rem $background-red;
     color: $color-text-light;
+    z-index: 0;
+
+    &::before {
+      background-color: $background-dark;
+      border: $btn-border-primary;
+    }
+
+    &::after {
+      background-color: $background-red;
+      border: $btn-border-primary;
+    }
 
     &[disabled] {
-      box-shadow: 0.2rem 0.3rem 0 0.6rem darken($background-red, 35%);
+      &::before {
+        border: $btn-border-primary-disabled;
+      }
+
+      &::after {
+        background-color: darken($background-red, 35%);
+        border: $btn-border-primary-disabled;
+      }
     }
   }
 
   @include m('secondary') {
     background-color: $background-red;
-    box-shadow: 0.2rem 0.3rem 0 0.6rem $background-dark;
     color: $color-text-light;
+    z-index: 0;
+
+    &::before {
+      background-color: $background-red;
+      border: $btn-border-secondary;
+    }
+
+    &::after {
+      background-color: $background-dark;
+      border: $btn-border-secondary;
+    }
 
     &[disabled] {
-      box-shadow: 0.2rem 0.3rem 0 0.6rem darken($background-dark, 35%);
+      &::before {
+        background-color: darken($background-red, 35%);
+        border: $btn-border-secondary-disabled;
+      }
+
+      &::after {
+        background-color: darken($background-dark, 35%);
+        border: $btn-border-secondary-disabled;
+      }
+    }
+  }
+
+  @include m('tertiary') {
+    background-color: $background-red;
+    color: $color-text-light;
+    z-index: 0;
+
+    &::before {
+      background-color: $background-red;
+      border: $btn-border-tertiary;
+    }
+
+    &::after {
+      background-color: $background-grey;
+      border: $btn-border-tertiary;
+    }
+
+    &[disabled] {
+      &::before {
+        background-color: darken($background-red, 35%);
+        border: $btn-border-tertiary-disabled;
+      }
+
+      &::after {
+        background-color: darken($background-grey, 35%);
+        border: $btn-border-tertiary-disabled;
+      }
+    }
+  }
+
+  @include m('quarternary') {
+    background-color: $background-dark;
+    color: $color-text-light;
+    z-index: 0;
+
+    &::before {
+      background-color: $background-dark;
+      border: $btn-border-quarternary;
+    }
+
+    &::after {
+      background-color: $background-purple;
+      border: $btn-border-quarternary;
+    }
+
+    &[disabled] {
+      &::before {
+        border: $btn-border-quarternary-disabled;
+      }
+
+      &::after {
+        background-color: darken($background-purple, 35%);
+        border: $btn-border-quarternary-disabled;
+      }
     }
   }
 
   &[disabled] {
-    box-shadow: 0.2rem 0.3rem 0 0.6rem darken($background-red, 35%);
     color: darken($color-text-light, 60%);
     cursor: not-allowed;
   }

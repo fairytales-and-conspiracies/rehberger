@@ -1,0 +1,48 @@
+.security-verification {
+  @include e('info') {
+    font-family: $font-secondary;
+    margin-top: 3rem;
+  }
+
+  @include e('form') {
+    margin: 3rem auto 0;
+    text-align: left;
+    width: 30rem;
+
+    @include flex;
+    @include flex-direction(column);
+  }
+
+  @include e('input') {
+    margin: {
+      bottom: 0.5rem;
+      top: 1rem;
+    }
+  }
+
+  @include e('btn') {
+    margin-top: 5rem;
+    padding: 1rem 0;
+  }
+
+  @include e('submit-error') {
+    @extend %submit-error;
+  }
+
+  @include e('cannot-remember') {
+    font-family: $font-secondary;
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  @include max-screen-xs {
+    @include e('form') {
+      width: 25rem;
+    }
+
+    @include e('cannot-remember') {
+      margin: 3rem auto 0;
+      width: 18rem;
+    }
+  }
+}

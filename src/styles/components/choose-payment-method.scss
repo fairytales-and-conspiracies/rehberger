@@ -1,0 +1,8 @@
+.choose-payment-method {
+  margin-top: 5rem;
+
+  @include e('paragraph') {
+    font-family: $font-secondary;
+    margin: 2rem 0;
+  }
+}

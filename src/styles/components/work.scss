@@ -5,7 +5,7 @@
   min-height: calc(100vh - $header-height);
 
   @include align-items(center);
-  @include flex();
+  @include flex;
 
   @include e('heading') {
     color: $color-text-red;
@@ -17,7 +17,7 @@
 
   @include e('content') {
     color: $color-text-dark;
-    font-family: Nunito;
+    font-family: $font-secondary;
     font-size: 1.4rem;
     width: 53rem;
   }
@@ -27,6 +27,34 @@
 
     &:last-of-type {
       margin-bottom: 0;
+    }
+  }
+
+  @include max-screen-md {
+    min-height: unset;
+    padding: 3rem 2rem;
+  }
+
+  @include max-screen-sm {
+    @include align-items(flex-start);
+    @include flex-direction(column);
+
+    @include e('heading') {
+      font-size: 12rem;
+      margin-bottom: 2rem;
+      padding-left: 2rem;
+      width: unset;
+    }
+
+    @include e('content') {
+      padding: 0 2rem;
+      width: unset;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('heading') {
+      font-size: 7rem;
     }
   }
 }

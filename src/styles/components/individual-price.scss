@@ -1,43 +1,61 @@
 $individual-price-stepping-text-length: 16;
-$individual-price-stepping-price-text-length: 4;
+$individual-price-stepping-price-text-length: 5;
+$individual-price-stepping-euro-price-text-length: 12;
 
 .individual-price {
-  color: $color-text-purple;
-  margin: 8.5rem auto;
-  font-size: 2.4rem;
-  padding: 1rem;
-  position: relative;
-  text-align: center;
-  text-transform: uppercase;
+  @include e('main') {
+    color: $color-text-purple;
+    margin: 8.5rem auto;
+    font-size: 2.4rem;
+    padding: 1rem;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
 
-  &:last-of-type {
-    top: 10rem;
-  }
+    &:last-of-type {
+      top: 10rem;
+    }
 
-  &::before,
-  &::after {
-    background-size: cover;
-    content: '';
-    height: 5rem;
-    position: absolute;
-    width: 17rem;
-  }
+    &::before,
+    &::after {
+      background-size: cover;
+      content: '';
+      height: 5rem;
+      position: absolute;
+      width: 20rem;
+    }
 
-  &::before {
-    background: url('/img/individual-price-top.svg') no-repeat;
-    left: -1.5rem;
-    top: -3rem;
-  }
+    &::before {
+      background: url('/img/individual-price-top.svg') no-repeat;
+      left: 0;
+      top: -3rem;
+    }
 
-  &::after {
-    background: url('/img/individual-price-bottom.svg') no-repeat;
-    bottom: 0;
-    right: -1.5rem;
+    &::after {
+      background: url('/img/individual-price-bottom.svg') no-repeat;
+      bottom: 0;
+      right: -3rem;
+    }
   }
 
   @include e('price') {
-    font-size: 8rem;
-    margin-top: -1.5rem;
+    font-size: 7rem;
+    margin-top: -1rem;
+  }
+
+  @include e('currency-eth') {
+    font-size: 1.5rem;
+    position: relative;
+    top: 0.5rem;
+  }
+
+  @include e('euro-price') {
+    color: $color-text-purple;
+    font-size: 3.6rem;
+    margin-left: 1rem;
+    position: relative;
+    text-align: center;
+    top: 1.5rem;
   }
 
   @for $counter from 1 to $individual-price-stepping-text-length {
@@ -49,11 +67,20 @@ $individual-price-stepping-price-text-length: 4;
     }
   }
 
-  @for $counter from 1 to $individual-price-stepping-price-text-length {
+  @for $counter from 0 to $individual-price-stepping-price-text-length {
     @include e('price-step-' + $counter) {
       display: inline-block;
       position: relative;
-      top: calc(-0.55rem * $counter);
+      top: calc(-0.5rem * ($counter + 1));
+    }
+  }
+
+  @for $counter from 1 to $individual-price-stepping-euro-price-text-length {
+    @include e('euro-price-step-' + $counter) {
+      display: inline-block;
+      min-width: 0.6rem;
+      position: relative;
+      top: calc(-0.25rem * $counter);
     }
   }
 }

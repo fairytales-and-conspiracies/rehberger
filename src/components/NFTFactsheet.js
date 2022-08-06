@@ -30,34 +30,34 @@ export default function NFTFactsheet() {
           <span className="factsheet__title-for-size">
             Liquid poster No.1 - “Brick & Mortar”:
           </span>{' '}
-          <span className="bold">1080</span>
+          <span className="factsheet__number-of-frames bold">1080</span>
           <br />
           <span className="factsheet__title-for-size">
             Liquid poster No.2 - “Chicken & Egg”:
           </span>{' '}
-          <span className="bold">720</span>
+          <span className="factsheet__number-of-frames bold">720</span>
           <br />
           <span className="factsheet__title-for-size">
             Liquid poster No.3 - “Bait & Switch”:
           </span>{' '}
-          <span className="bold">510</span>
+          <span className="factsheet__number-of-frames bold">510</span>
           <br />
           <span className="factsheet__title-for-size">
             Liquid poster No.4 - “Smoke & Mirrors”:
           </span>{' '}
-          <span className="bold">720</span>
+          <span className="factsheet__number-of-frames bold">720</span>
           <br />
           <span className="factsheet__title-for-size">
             Liquid poster No.5 - “Lost & Found”:
           </span>{' '}
-          <span className="bold">720</span>
+          <span className="factsheet__number-of-frames bold">720</span>
           <br />
           <span className="factsheet__title-for-size">
             Total edition size “Fairytales & Conspiracies”:
           </span>{' '}
-          <span className="bold">3.750</span>
+          <span className="factsheet__number-of-frames bold">3.750</span>
         </p>
-        <p className="factsheet__content-group">
+        <div className="factsheet__content-group">
           <span className="factsheet__content-heading-with-bottom-margin bold">
             Each NFT includes:
           </span>{' '}
@@ -86,7 +86,7 @@ export default function NFTFactsheet() {
               posted above)
             </li>
           </ul>
-        </p>
+        </div>
         <p className="factsheet__content-group">
           Sales Starting Date: DD.MM.2022, 08:00 a.m. CET
         </p>

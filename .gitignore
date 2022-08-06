@@ -25,6 +25,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# media
+/public/img/frames
+/public/vid
+
 # local env files
 .env*.local
 

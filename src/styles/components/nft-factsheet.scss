@@ -1,6 +1,7 @@
 .factsheet {
-  margin-top: -40rem;
-  padding: 0 5rem 2rem;
+  margin: -20rem auto 0;
+  max-width: 140rem;
+  padding: 0 10rem 2rem 1rem;
 
   @include e('heading') {
     color: $color-text-red;
@@ -10,7 +11,7 @@
   }
 
   @include e('content') {
-    font-family: Nunito;
+    font-family: $font-secondary;
   }
 
   @include e('content-group') {
@@ -37,5 +38,41 @@
 
   @include e('nft-includes-list-item') {
     margin-bottom: 0.8rem;
+  }
+
+  @include max-screen-lg {
+    margin-top: -15rem;
+  }
+
+  @include max-screen-md {
+    margin-top: unset;
+  }
+
+  @include max-screen-sm {
+    padding: 0 2rem 2rem;
+
+    @include e('heading') {
+      font-size: 10rem;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('heading') {
+      font-size: 7rem;
+    }
+
+    @include e('title-for-size') {
+      display: block;
+      width: unset;
+    }
+
+    @include e('number-of-frames') {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
   }
 }

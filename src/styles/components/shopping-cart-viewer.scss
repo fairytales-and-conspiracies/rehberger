@@ -1,5 +1,13 @@
 .cart-viewer {
+  flex-basis: 60%;
   margin-top: 3rem;
+
+  @include e('top-section') {
+    justify-content: space-between;
+
+    @include align-items(baseline);
+    @include flex;
+  }
 
   @include e('heading') {
     color: $color-text-grey;
@@ -7,13 +15,56 @@
     font-weight: 400;
   }
 
+  @include e('total-and-proceed-wrapper') {
+    justify-content: space-between;
+
+    @include align-items(baseline);
+    @include flex;
+  }
+
+  @include e('total') {
+    color: $color-text-red;
+    font-size: 4rem;
+  }
+
+  @include e('proceed-small-devices') {
+    display: none;
+    padding: 0.5rem 1rem;
+  }
+
   @include e('selected') {
-    margin: 7.2rem 10rem;
+    margin: 5.2rem 8rem;
   }
 
   @include e('selected-title') {
     color: $color-text-red;
     margin-bottom: 2.2rem;
+    font-size: 3.2rem;
+  }
+
+  @include e('selected-title-uppercase') {
+    text-transform: uppercase;
+  }
+
+  @include e('selected-subtitle') {
+    display: inline-block;
+  }
+
+  @include e('frame-image-container') {
+    @include align-items(center);
+    @include flex;
+  }
+
+  @include e('frame-image-title') {
+    font-size: 2.4rem;
+    line-height: 1.6;
+  }
+
+  @include e('frame-image-timeframe') {
+    display: inline-block;
+  }
+
+  @include e('frame-image-price') {
     font-size: 3.2rem;
   }
 
@@ -27,6 +78,75 @@
 
   .frame-image {
     margin: 1rem;
-    width: 10vw;
+    width: 18rem;
+  }
+
+  @include max-screen-lg {
+    @include e('selected') {
+      margin: 4.5rem 5rem;
+    }
+  }
+
+  @include max-screen-md {
+    margin-left: 2rem;
+
+    @include e('heading') {
+      font-size: 4rem;
+    }
+
+    @include e('total') {
+      font-size: 3.2rem;
+    }
+
+    @include e('selected') {
+      margin: 3rem 2rem;
+    }
+
+    .frame-image {
+      width: 20rem;
+    }
+  }
+
+  @include max-screen-sm {
+    flex-basis: unset;
+    margin-left: unset;
+    padding: 0 2rem;
+
+    @include m('hidden-small-devices') {
+      display: none;
+    }
+
+    @include e('top-section') {
+      @include flex-direction(column);
+    }
+
+    @include e('total-and-proceed-wrapper') {
+      margin-top: 1.5rem;
+      width: 100%;
+    }
+
+    @include e('total') {
+      font-size: 2.8rem;
+    }
+
+    @include e('proceed-small-devices') {
+      display: block;
+    }
+
+    @include e('selected') {
+      margin: 2rem 0;
+    }
+
+    @include e('selected-title') {
+      font-size: 2.4rem;
+    }
+
+    @include e('empty-cart') {
+      font-size: 2.4rem;
+    }
+
+    .frame-image {
+      width: 28vw;
+    }
   }
 }

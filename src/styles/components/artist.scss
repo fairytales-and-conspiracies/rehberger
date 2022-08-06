@@ -2,13 +2,18 @@
   background: url('/img/artist-bg.jpeg') no-repeat;
   background-size: cover;
   min-height: 100vh;
+
+  @include max-screen-md {
+    background-position: top center;
+    min-height: unset;
+  }
 }
 
 .artist {
   justify-content: space-around;
   min-height: calc(100vh - $header-height);
 
-  @include flex();
+  @include flex;
 
   @include e('heading') {
     color: $color-text-red;
@@ -25,7 +30,7 @@
     width: 42rem;
 
     @include align-items(flex-end);
-    @include flex();
+    @include flex;
     @include flex-direction(column);
   }
 
@@ -39,11 +44,56 @@
   @include e('paragraph') {
     background: rgba($background-light, 0.6);
     color: $color-text-dark;
-    font-family: Nunito;
+    font-family: $font-secondary;
     margin: {
       bottom: 4rem;
       top: 10rem;
     }
     padding: 2rem;
+  }
+
+  @include max-screen-md {
+    min-height: unset;
+
+    @include align-items(center);
+
+    @include e('content') {
+      margin-left: 2rem;
+    }
+  }
+
+  @include max-screen-sm {
+    @include flex-direction(column);
+
+    @include e('heading') {
+      font-size: 12rem;
+      order: unset;
+      padding-left: 2rem;
+      padding-top: 3rem;
+      text-align: left;
+      width: unset;
+    }
+
+    @include e('content') {
+      margin: 15rem auto 0;
+    }
+
+    @include e('button-links') {
+      text-align: center;
+    }
+
+    @include e('paragraph') {
+      margin-top: 1rem;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('heading') {
+      font-size: 7rem;
+    }
+
+    @include e('content') {
+      width: unset;
+    }
   }
 }

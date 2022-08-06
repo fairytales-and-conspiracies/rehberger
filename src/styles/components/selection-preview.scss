@@ -10,7 +10,7 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
   right: 0;
   width: $selection-preview-width;
 
-  @include flex();
+  @include flex;
 
   @include m('hidden') {
     transform: translateX(
@@ -28,7 +28,7 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
     left: 0;
 
     @include align-items(flex-end);
-    @include flex();
+    @include flex;
     @include flex-direction(column);
   }
 
@@ -49,7 +49,7 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
 
     @include align-items(center);
     @include border-radius(1rem 0 0 1rem);
-    @include flex();
+    @include flex;
 
     @include m('visible') {
       transition: 0.7s cubic-bezier(0.42, 0, 1, 1);
@@ -69,17 +69,27 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
   @include e('container') {
     background: $background-grey;
     flex-grow: 1;
+    position: relative;
   }
 
   @include e('close') {
     @extend %close;
   }
 
+  @include e('shopping-cart') {
+    box-shadow: 0.2rem 0.2rem 0 0.4rem $color-red;
+    height: 3.6rem;
+    padding: 0.6rem 0.7rem 0.3rem;
+    position: absolute;
+    right: 2rem;
+    top: 1.5rem;
+  }
+
   @include e('main') {
     height: 100%;
     padding: 6.5rem 7rem 2.5rem 4.5rem;
 
-    @include flex();
+    @include flex;
     @include flex-direction(column);
 
     .btn {
@@ -144,5 +154,61 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
 
   @include e('single-frame-remove-icon') {
     cursor: pointer;
+  }
+
+  @include max-screen-sm {
+    position: static;
+    transition: unset;
+    width: unset;
+
+    @include m('hidden') {
+      transform: unset;
+    }
+
+    @include e('expander-wrapper') {
+      display: none;
+    }
+
+    @include e('close') {
+      margin-left: 1.5rem;
+    }
+
+    @include e('main') {
+      padding: 5.5rem 2rem 1.5rem;
+
+      .btn {
+        margin: 1rem auto;
+        width: 25rem;
+      }
+    }
+
+    @include e('title') {
+      font-size: 3.5rem;
+    }
+
+    @include e('selected-frames') {
+      display: unset;
+      margin: 2rem -1rem;
+
+      @include m('no-frames') {
+        font-size: 2.8rem;
+        margin: 2rem 0;
+      }
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('title') {
+      font-size: 3rem;
+    }
+
+    @include e('selected-frames') {
+      margin: 2rem -0.5rem;
+
+      @include m('no-frames') {
+        font-size: 2.5rem;
+        margin: 2rem 0;
+      }
+    }
   }
 }
