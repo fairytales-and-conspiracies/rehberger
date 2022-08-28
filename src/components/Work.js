@@ -16,7 +16,7 @@ export default function Work() {
             While collages traditionally are based on found imagery print media,
             Rehberger created these collages digitally, using the image stock of
             one of the biggest image archives in the world: venture partner
-            Action Press International.
+            action press international.
           </p>
 
           <p className="work__paragraph">
@@ -40,9 +40,10 @@ export default function Work() {
             questions it by handing over the final decision about the artistic
             composition to the buyer, letting them decide which configuration of
             the collaged elements should be their “original Rehberger”. Owning
-            the “liquid poster” as an NFT including a digital image of the frame
-            as well as optionally a poster with an original signature touches on
-            the tension of the definition of an authentic and original artwork.
+            such a solidified “liquid poster” as an NFT - including a digital
+            image of the frame as well as a paper-printed poster with autograph
+            signature - touches on the question of what is an authentic and
+            original artwork.
           </p>
 
           <p className="work__paragraph">

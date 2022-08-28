@@ -121,4 +121,82 @@ $identity-verification-modal-width: 68rem;
   @include e('submit-error') {
     @extend %submit-error;
   }
+
+  @include e('cancel') {
+    color: $color-text-red;
+    display: none;
+    font-family: $font-secondary;
+    font-size: 1.8rem;
+  }
+
+  @include max-screen-sm {
+    background-color: $background-dark;
+    position: absolute;
+    top: $header-height;
+
+    @include e('backdrop') {
+      background-color: unset;
+      position: unset;
+      z-index: unset;
+    }
+
+    @include e('main') {
+      height: unset;
+      left: unset;
+      margin: {
+        left: unset;
+        top: unset;
+      }
+      padding: 4rem 4rem 1rem;
+      position: unset;
+      top: unset;
+      width: unset;
+
+      @include border-radius(0);
+    }
+
+    @include e('close') {
+      display: none;
+    }
+
+    @include e('heading') {
+      font-size: 2.8rem;
+    }
+
+    @include e('form') {
+    }
+
+    @include e('error') {
+      margin: unset;
+      width: 25rem;
+    }
+
+    @include e('cancel') {
+      display: inline-block;
+      margin: 0 auto;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('main') {
+      padding: {
+        left: 2rem;
+        right: 2rem;
+      }
+    }
+
+    @include e('file-input-overlay') {
+      width: 95%;
+    }
+
+    @include e('input') {
+      width: 100%;
+    }
+
+    @include e('submit-btn') {
+      margin: unset;
+      margin-top: 2rem;
+      width: 99%;
+    }
+  }
 }

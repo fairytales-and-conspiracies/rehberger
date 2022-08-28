@@ -1,4 +1,3 @@
-import { useWeb3 } from '@3rdweb/hooks';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -12,37 +11,35 @@ import PaymentFormInputs from '@components/PaymentFormInputs';
 import SecurityQuestion from '@components/SecurityQuestion';
 import ThankYou from '@components/ThankYou';
 import ShoppingCartContext from '@context/ShoppingCartContext';
-import { address as contractAddress, abi } from '@contract/exampleContract';
+import Web3Context from '@context/Web3Context';
 import CountriesWithProvinces from '@static-data/countries-with-provinces';
-import { web3Metamask } from '@utils/web3';
 
-export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
-  const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
-
+export default function PaymentFormWrapper({ isCheckout }) {
   const router = useRouter();
   const { query } = router;
 
-  const { address } = useWeb3();
+  const { removeAllFromCart, selectedFrames } = useContext(ShoppingCartContext);
+  const { address, sendTransaction } = useContext(Web3Context);
 
-  const { selectedFrames } = useContext(ShoppingCartContext);
-
-  const [web3, setWeb3] = useState(null);
-  const [contract, setContract] = useState(null);
   const [shippingInfoFormSubmitted, setShippingInfoFormSubmitted] =
-    useState(false);
-  const [choosePaymentMethod, setChoosePaymentMethod] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('');
+    useState(true);
+  const [choosePaymentMethod, setChoosePaymentMethod] = useState(true);
+  const [paymentMethod, setPaymentMethod] = useState('WALLET');
   const [confirmPaymentMethod, setConfirmPaymentMethod] = useState(false);
   const [transactionPassed, setTransactionPassed] = useState(false);
 
   useEffect(() => {
     const orderNumber = query['order-number'];
-    const paymentMethodValue = !!orderNumber ? 'CARD' : '';
+    const paymentMethodValue = orderNumber ? 'CARD' : '';
+
+    if (orderNumber) {
+      removeAllFromCart();
+    }
 
     setPaymentMethod(paymentMethodValue);
     setTransactionPassed(!!orderNumber);
 
-    if (!!orderNumber) {
+    if (orderNumber) {
       axios
         .post('/api/orders', {
           _id: orderNumber,
@@ -51,16 +48,6 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
         .then(console.log);
     }
   }, [query]);
-
-  useEffect(() => {
-    if (!!address) {
-      const web3 = web3Metamask();
-      setWeb3(web3);
-
-      const contract = new web3.eth.Contract(abi, contractAddress);
-      setContract(contract);
-    }
-  }, [address]);
 
   const shippingInfoFormik = useFormik({
     initialValues: {
@@ -132,59 +119,43 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
     }),
     onSubmit: (values) => {
       console.log('Submit: ', values);
+      // eslint-disable-next-line no-use-before-define
       onPayWithStripeClick();
     },
   });
 
   const createOrder = () => {
-    const values = Object.assign(
-      {
-        frames: selectedFrames,
-        paymentMethod,
-        transactionStatus: 'PENDING',
-      },
-      {
-        customer: { ...shippingInfoFormik.values },
-      },
-      securityQuestionFormik.values
-    );
-    return values;
+    const order = {
+      customer: { ...shippingInfoFormik.values },
+      frames: selectedFrames,
+      paymentMethod,
+      transactionStatus: 'PENDING',
+      ...securityQuestionFormik.values,
+    };
+
+    if (paymentMethod === 'CARD') {
+      Object.assign(
+        order,
+        { ...securityQuestionFormik.values },
+        { claimed: false }
+      );
+    } else {
+      order.claimed = true;
+    }
+
+    return order;
   };
 
   const payWithWallet = async () => {
-    const values = shippingInfoFormik.values;
-    values.paymentMethod = 'WALLET';
+    // const order = createOrder();
+    const tx = await sendTransaction(selectedFrames);
 
-    try {
-      let tokenIds = selectedFrames.map((frame) => frame.frame);
-      // TODO: Remove this next line which is only for testing purposes
-      tokenIds = [77, 333];
-      const amounts = Array(tokenIds.length).fill(1);
-
-      const tx = await contract.methods
-        .buyNFTs(ADDRESS_FROM, address, tokenIds, amounts, '0x00')
-        .send({
-          from: address,
-          value: web3.utils.toWei(
-            (tokenIds.length * 0.001).toString(),
-            'ether'
-          ),
-        });
-
-      console.log('Transaction: ', tx);
-
-      const postToApi = await axios.post('/api/customers', values);
-
-      console.log('API Post: ', postToApi);
-
+    if (tx) {
+      // removeAllFromCart();
       setTransactionPassed(true);
-    } catch (err) {
-      console.log('Error: ', err);
-
-      const postToApi = await axios.post('/api/customers', values);
-
-      console.log('API Post: ', postToApi);
-
+    } else {
+      // const postToApi = await axios.post('/api/customers', order);
+      // console.log('API Post: ', postToApi);
       setTransactionPassed(false);
     }
   };
@@ -194,13 +165,15 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
 
     try {
       const {
-        data: { data: order },
+        data: {
+          data: { _id: id },
+        },
       } = await axios.post('/api/orders', values);
       const checkoutCall = await axios.post('/api/checkout', {
         items: selectedFrames,
-        orderNumber: order['_id'],
+        orderNumber: id,
       });
-      const url = checkoutCall.data.url;
+      const { url } = checkoutCall.data;
       window.location = url;
     } catch (err) {
       console.error('Error: ', err);
@@ -210,7 +183,7 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
   const goBack = () => {
     if (confirmPaymentMethod) {
       setConfirmPaymentMethod(false);
-    } else if (!!paymentMethod) {
+    } else if (paymentMethod) {
       setPaymentMethod('');
     } else if (choosePaymentMethod) {
       setChoosePaymentMethod(false);
@@ -251,7 +224,7 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
           {paymentMethod === 'CARD' && confirmPaymentMethod && (
             <SecurityQuestion formik={securityQuestionFormik} />
           )}
-          <button className="btn btn--tertiary" onClick={goBack}>
+          <button className="btn btn--tertiary" onClick={goBack} type="button">
             Back
           </button>
         </>

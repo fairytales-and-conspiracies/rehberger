@@ -128,10 +128,18 @@ export default function SelectionPreview({
                 />
               ))}
           </div>
-          <button className="btn btn--primary" onClick={onAddToCartClick}>
+          <button
+            className="btn btn--primary"
+            onClick={onAddToCartClick}
+            type="button"
+          >
             Add to cart
           </button>
-          <button className="btn btn--secondary" onClick={removeAllFrames}>
+          <button
+            className="btn btn--secondary"
+            onClick={removeAllFrames}
+            type="button"
+          >
             Clear all
           </button>
         </div>

@@ -1,12 +1,10 @@
-import { useWeb3 } from '@3rdweb/hooks';
+import ConnectWalletButton from '@components/ConnectWalletButton';
 
 export default function ConfirmPaymentMethod({
   paymentMethod,
   payWithWallet,
   setConfirmPaymentMethod,
 }) {
-  const { address, connectWallet } = useWeb3();
-
   return (
     <>
       <h2 className="payment-form__heading">Confirm payment method</h2>
@@ -23,13 +21,7 @@ export default function ConfirmPaymentMethod({
             WalletConnect by clicking “Connect wallet” button bellow or in the
             top right corner of the page and simply follow the instructions.
           </div>
-          <button
-            className="confirm-payment-method__confirm-btn btn btn--primary"
-            {...(!address && { onClick: () => connectWallet('injected') })}
-            {...(!!address && { onClick: () => payWithWallet() })}
-          >
-            {!!address ? 'Pay' : '+ Connect wallet'}
-          </button>
+          <ConnectWalletButton isPayButton payWithWallet={payWithWallet} />
         </div>
       )}
       {paymentMethod === 'CARD' && (
@@ -63,6 +55,7 @@ export default function ConfirmPaymentMethod({
           <button
             className="confirm-payment-method__confirm-btn--smaller-font btn btn--primary"
             onClick={() => setConfirmPaymentMethod(true)}
+            type="button"
           >
             Yes, I want to pay with card
           </button>

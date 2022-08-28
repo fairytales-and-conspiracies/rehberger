@@ -45,8 +45,7 @@ async function main(success, data) {
           </ul>
   
           <p><a href="http://localhost:3000/claim-nfts?order-number=${id}" target="_blank">Click here to claim your NFTs</a></p>
-        `, // plain text body
-        // html: '<b>Hello world?</b>', // html body
+        `,
       });
     } else {
       info = await transporter.sendMail({
@@ -79,8 +78,7 @@ async function main(success, data) {
         For some reason, there was an error with the purchase:
 
         ${data}
-      `, // plain text body
-      // html: '<b>Hello world?</b>', // html body
+      `,
     });
   }
 

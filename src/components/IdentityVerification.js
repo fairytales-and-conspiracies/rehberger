@@ -99,7 +99,10 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
               >
                 {(!formik.values.files ||
                   formik.values.files.length < REQUIRED_NUMBER_OF_FILES) && (
-                  <button className="identity-verification__file-input-overlay btn btn--quarternary btn--small">
+                  <button
+                    className="identity-verification__file-input-overlay btn btn--quarternary btn--small"
+                    type="button"
+                  >
                     Add attachment
                     <input
                       className="identity-verification__file-input"
@@ -187,6 +190,13 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
                 <p className="identity-verification__submit-error">
                   {submissionError}
                 </p>
+                <button
+                  className="identity-verification__cancel btn btn--link"
+                  onClick={() => setIsVisible(false)}
+                  type="button"
+                >
+                  Cancel
+                </button>
               </form>
             </>
           )}

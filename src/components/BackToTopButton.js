@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function BackToTopButton() {
   return (
-    <button className="back-to-top">
+    <button className="back-to-top" type="button">
       <Link href="">
         <a className="back-to-top__link">
           <Image

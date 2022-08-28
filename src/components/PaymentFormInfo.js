@@ -1,20 +1,8 @@
-import { useWeb3 } from '@3rdweb/hooks';
-
 export default function SubmittedFormInfo({
   setChoosePaymentMethod,
   transactionPassed,
   values,
 }) {
-  const { address, connectWallet } = useWeb3();
-
-  // const onConfirmClick = () => {
-  //   if (!!address) {
-  //     confirm(values);
-  //   } else {
-  //     connectWallet('injected');
-  //   }
-  // };
-
   return (
     <>
       <h2 className="payment-form__heading">Confirmation</h2>
@@ -63,14 +51,12 @@ export default function SubmittedFormInfo({
       <button
         className="btn btn--primary"
         onClick={() => setChoosePaymentMethod(true)}
+        type="button"
       >
         Choose payment method
       </button>
       {transactionPassed && (
-        <div
-          className="payment-form__success-message"
-          onClick={onPayWithStripeClick}
-        >
+        <div className="payment-form__success-message">
           You purchased your NFTs!
         </div>
       )}

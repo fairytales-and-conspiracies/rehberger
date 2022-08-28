@@ -14,11 +14,11 @@ export default function ShoppingCart() {
         <ShoppingCartViewer
           isCheckout={isCheckout}
           setIsCheckout={setIsCheckout}
-        ></ShoppingCartViewer>
+        />
         <PaymentFormWrapper
           isCheckout={isCheckout}
           setIsCheckout={setIsCheckout}
-        ></PaymentFormWrapper>
+        />
       </main>
     </div>
   );

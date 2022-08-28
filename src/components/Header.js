@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import ConnectWalletButton from '@components/ConnectWalletButton';
 
-const INTERIM = process.env.NEXT_PUBLIC_INTERIM == 'true';
+const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
 export default function Header({ logoOnly }) {
   return (
@@ -12,7 +12,7 @@ export default function Header({ logoOnly }) {
         <Image
           alt="Fairytales and conspiracies"
           layout="fill"
-          src={'/img/fairytales-conspiracies.svg'}
+          src="/img/fairytales-conspiracies.svg"
         />
       </div>
       <nav
@@ -46,7 +46,11 @@ export default function Header({ logoOnly }) {
           <div className="header__shop max-screen-sm-hidden">
             <ConnectWalletButton />
             {INTERIM && (
-              <button className="btn btn--primary btn--small" disabled>
+              <button
+                className="btn btn--primary btn--small"
+                disabled
+                type="button"
+              >
                 <Image
                   alt="Shopping cart"
                   height="20"
@@ -68,7 +72,10 @@ export default function Header({ logoOnly }) {
               </Link>
             )}
           </div>
-          <button className="header__menu-button btn min-screen-sm-hidden">
+          <button
+            className="header__menu-button btn min-screen-sm-hidden"
+            type="button"
+          >
             <Image
               alt="Menu"
               height="16"

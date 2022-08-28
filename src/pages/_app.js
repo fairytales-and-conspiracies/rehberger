@@ -2,6 +2,7 @@ import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
 import Head from 'next/head';
 
 import { ShoppingCartProvider } from '@context/ShoppingCartContext';
+import { Web3Provider } from '@context/Web3Context';
 import '@styles/globals.scss';
 
 const desiredChainId = ChainId.Rinkeby;
@@ -17,9 +18,11 @@ function MyApp({ Component, pageProps }) {
         desiredChainId={desiredChainId}
         supportedChainIds={supportedChainIds}
       >
-        <ShoppingCartProvider>
-          <Component {...pageProps} />
-        </ShoppingCartProvider>
+        <Web3Provider>
+          <ShoppingCartProvider>
+            <Component {...pageProps} />
+          </ShoppingCartProvider>
+        </Web3Provider>
       </ThirdwebProvider>
     </>
   );

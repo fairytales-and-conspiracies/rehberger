@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 
 import dbConnect from '@lib/dbConnect';
+import sendError from '@lib/errorHandling';
 import sendMail from '@lib/sendMail';
 import Frame from '@models/Frame';
 import Order from '@models/Order';
-import ErrorTypes from '@static-data/errors';
+import { ErrorTypes } from '@static-data/errors';
 
 const updateOrderForClaimedNFTs = async (orderNumber) => {
   const order = await Order.findByIdAndUpdate(
@@ -57,24 +58,12 @@ export default async function handler(req, res) {
 
             // If order does not exist
             if (!!err.name && err.name === 'CastError') {
-              res.status(400).json({
-                success: false,
-                error: {
-                  type: ErrorTypes.NO_ORDER_FOUND,
-                  message: 'Incorrect order number.',
-                },
-              });
+              sendError(res, ErrorTypes.NO_ORDER_FOUND);
             }
 
             // If there is another unexpected error
             else {
-              res.status(400).json({
-                success: false,
-                error: {
-                  type: ErrorTypes.GENERIC_ERROR,
-                  message: 'There has been an error.',
-                },
-              });
+              sendError(res, ErrorTypes.GENERIC_ERROR);
             }
             return;
           }
@@ -85,39 +74,31 @@ export default async function handler(req, res) {
               order = await updateOrderForClaimedNFTs(orderNumber);
               sendMail(true, order).catch(console.error);
             } else {
-              res.status(400).json({
-                success: false,
-                error: {
-                  type: ErrorTypes.INCORRECT_SECURITY_QUESTION_ANSWER,
-                  message: 'Incorrect answer. Please try a different one.',
-                },
-              });
+              sendError(res, ErrorTypes.INCORRECT_SECURITY_QUESTION_ANSWER);
               return;
             }
           }
 
           // After submitting the order verificatio form,
           // before submitting the security question and answer form
-          else {
-            if (order.noSecurityQuestion) {
-              order = await updateOrderForClaimedNFTs(orderNumber);
-              sendMail(true, order).catch(console.error);
-            }
+          else if (order.noSecurityQuestion) {
+            order = await updateOrderForClaimedNFTs(orderNumber);
+            sendMail(true, order).catch(console.error);
+          }
 
-            // In case there is a security question, do not send the whole
-            // order, since the question and ansewr can potentially be seen
-            // on the frontend
-            else {
-              const { noSecurityQuestion, question } = order;
-              res.status(201).json({
-                success: true,
-                data: {
-                  noSecurityQuestion,
-                  question,
-                },
-              });
-              return;
-            }
+          // In case there is a security question, do not send the whole
+          // order, since the question and ansewr can potentially be seen
+          // on the frontend
+          else {
+            const { noSecurityQuestion, question: orderQuestion } = order;
+            res.status(201).json({
+              success: true,
+              data: {
+                noSecurityQuestion,
+                question: orderQuestion,
+              },
+            });
+            return;
           }
         }
 

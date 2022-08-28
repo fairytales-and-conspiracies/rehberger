@@ -53,18 +53,18 @@ export default function SecurityQuestion({ formik }) {
             <p className="error">{formik.errors.answer}</p>
           ) : null}
           <div className="security-question__input">
-            <input
-              id="noSecurityQuestion"
-              name="noSecurityQuestion"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="checkbox"
-              value={formik.values.noSecurityQuestion}
-            />
             <label
               className="security-question__label"
               htmlFor="noSecurityQuestion"
             >
+              <input
+                id="noSecurityQuestion"
+                name="noSecurityQuestion"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="checkbox"
+                value={formik.values.noSecurityQuestion}
+              />
               I don't want a security question
             </label>
           </div>

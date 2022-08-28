@@ -1,51 +1,36 @@
-import {
-  useAddress,
-  useDisconnect,
-  useMetamask,
-  useWalletConnect,
-  useCoinbaseWallet,
-} from '@thirdweb-dev/react';
+import { useContext } from 'react';
 
-const METAMASK = 1;
-const WALLETCONNECT = 2;
-const COINBASE = 3;
+import Web3Context from '@context/Web3Context';
+import wallets from '@static-data/wallets';
 
-export default function ConnectWalletButton() {
-  const address = useAddress();
+const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
-  const connectWithCoinbase = useCoinbaseWallet();
-  const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = useWalletConnect();
-
-  const connectWallet = (type) => {
-    switch (type) {
-      case METAMASK:
-      default:
-        connectWithMetamask();
-        break;
-
-      case WALLETCONNECT:
-        connectWithWalletConnect();
-        break;
-
-      case COINBASE:
-        connectWithCoinbase();
-        break;
-    }
-  };
+export default function ConnectWalletButton({ isPayButton, payWithWallet }) {
+  const { address, connectWallet, disconnectWallet } = useContext(Web3Context);
 
   return (
     <button
       className="btn btn--primary"
       disabled={INTERIM}
-      {...(!address && { onClick: () => connectWallet('injected') })}
+      type="button"
+      onClick={() => {
+        if (!address) {
+          connectWallet(wallets.METAMASK);
+        } else if (isPayButton) {
+          payWithWallet();
+        } else {
+          disconnectWallet();
+        }
+      }}
     >
-      {!!address
-        ? `${address.slice(0, 5)}...${address.slice(
-            address.length - 5,
-            address.length - 1
-          )}`
-        : '+ Connect wallet'}
+      {address &&
+        (isPayButton
+          ? 'Pay'
+          : `${address.slice(0, 5)}...${address.slice(
+              address.length - 5,
+              address.length - 1
+            )}`)}
+      {!address && '+ Connect wallet'}
     </button>
   );
 }

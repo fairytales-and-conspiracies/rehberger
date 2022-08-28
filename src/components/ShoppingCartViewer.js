@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { useContext } from 'react';
 
+import FrameImageWithRemoveButton from '@components/FrameImageWithRemoveButton';
 import ShoppingCartContext from '@context/ShoppingCartContext';
 import VideoData from '@static-data/videos';
-import FrameImageWithRemoveButton from './FrameImageWithRemoveButton';
 
 export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
   const { removeFromCart, selectedFrames } = useContext(ShoppingCartContext);
@@ -39,6 +39,7 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
           <button
             className="cart-viewer__proceed-small-devices btn btn--primary"
             onClick={() => setIsCheckout(true)}
+            type="button"
           >
             Proceed to checkout
           </button>
@@ -46,8 +47,8 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
       </div>
       <div className="cart-viewer__selected">
         {!!videos.length &&
-          videos.map((video, index) => (
-            <div className="cart-viewer__frames-for-video" key={index}>
+          videos.map((video) => (
+            <div className="cart-viewer__frames-for-video" key={video}>
               <div className="cart-viewer__selected-title">
                 <span className="cart-viewer__selected-title-uppercase">
                   {VideoData[video].title}
@@ -84,7 +85,7 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
         {!videos.length && (
           <div className="cart-viewer__empty-cart">
             Shopping cart is empty. Go to the{' '}
-            <Link href={'/#nfts'}>
+            <Link href="/#nfts">
               <a className="link">NFT page</a>
             </Link>
             , choose a liquid poster, select your frames and then come back!

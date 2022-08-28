@@ -6,30 +6,32 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
     'airbnb',
     'plugin:prettier/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:jsx-ally/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:@next/next/recommended',
+    // 'next',
+    // 'next/core-web-vitals',
   ],
-  parser: 'eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 'latest',
+    ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', 'prettier', 'import', 'jsx-ally'],
+  plugins: ['react', 'prettier', 'import', 'jsx-a11y'],
   rules: {
     'prettier/prettier': 'error',
-    'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': 'off',
+    'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
     'import/extensions': 'off',
     'import/no-unresolved': 'error',
     'import/order': [
-      'error',
+      'off',
       {
         groups: [
           'builtin',
@@ -45,11 +47,19 @@ module.exports = {
           },
         ],
         pathGroupsExcludedImportTypes: ['react'],
-        'newlines-between': 'never',
+        'newlines-between': 'always',
         alphabetize: {
           order: 'asc',
           caseInsensitive: true,
         },
+      },
+    ],
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['hrefLeft', 'hrefRight'],
+        aspects: ['invalidHref', 'preferButton'],
       },
     ],
   },
@@ -57,6 +67,5 @@ module.exports = {
     react: {
       version: 'detect',
     },
-    'import/resolver': 'webpack',
   },
 };

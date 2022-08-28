@@ -36,9 +36,14 @@ export function ShoppingCartProvider({ children }) {
     storeInSessionStorage(newSelectedFrames);
   };
 
+  const removeAllFromCart = () => {
+    setSelectedFrames([]);
+    storeInSessionStorage([]);
+  };
+
   return (
     <ShoppingCartContext.Provider
-      value={{ addToCart, removeFromCart, selectedFrames }}
+      value={{ addToCart, removeAllFromCart, removeFromCart, selectedFrames }}
     >
       {children}
     </ShoppingCartContext.Provider>

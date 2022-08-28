@@ -19,6 +19,7 @@ export default function ChoosePaymentMethod({ setPaymentMethod }) {
           onClick={() => {
             setPaymentMethod('WALLET');
           }}
+          type="button"
         >
           Pay with wallet
         </button>
@@ -27,6 +28,7 @@ export default function ChoosePaymentMethod({ setPaymentMethod }) {
           onClick={() => {
             setPaymentMethod('CARD');
           }}
+          type="button"
         >
           Pay with card
         </button>

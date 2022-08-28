@@ -17,7 +17,7 @@ export default async function handler(req, res) {
           cancel_url: `${serverUrl}/cancel`,
           line_items: items.map((item) => ({
             price_data: {
-              currency: currency,
+              currency,
               product_data: {
                 name: `${item.time}`,
               },
