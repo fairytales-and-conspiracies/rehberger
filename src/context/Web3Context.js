@@ -16,12 +16,6 @@ const Web3Context = createContext();
 const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
 
 let walletConnectProvider;
-const setProvider = () => {
-  walletConnectProvider = new WalletConnectProvider({
-    infuraId: '81dd09aa70844f89bdb5cf263e13b916',
-  });
-};
-setProvider();
 
 export function Web3Provider({ children }) {
   const [address, setAddress] = useState(null);
@@ -31,30 +25,60 @@ export function Web3Provider({ children }) {
 
   const thirdWebAddress = useAddress();
 
-  // If we have a WalletConnect account connected, set it
-  // as the address only if it is already not set
-  if (
-    walletConnectProvider.accounts &&
-    walletConnectProvider.accounts[0] &&
-    address !== walletConnectProvider.accounts[0]
-  ) {
-    setAddress(walletConnectProvider.accounts[0]);
-  }
-  walletConnectProvider.on('accountsChanged', (accounts) => {
-    if (address !== accounts[0]) {
-      setAddress(accounts[0]);
+  // # WalletConnect part
+  const walletConnectProviderCallback = () => {
+    walletConnectProvider.on('accountsChanged', (accounts) => {
+      if (address !== accounts[0]) {
+        setAddress(accounts[0]);
+      }
+    });
+
+    walletConnectProvider.on('disconnect', () => {
+      setAddress(null);
+    });
+  };
+
+  const setWalletConnectProvider = () => {
+    walletConnectProvider = new WalletConnectProvider({
+      infuraId: '81dd09aa70844f89bdb5cf263e13b916',
+    });
+    walletConnectProviderCallback();
+  };
+
+  const removeWalletConnectProvider = () => {
+    localStorage.removeItem('walletconnect');
+    walletConnectProvider = null;
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('walletconnect')) {
+      setWalletConnectProvider();
     }
-  });
+  }, []);
+
+  const connectWithWalletConnect = async () => {
+    try {
+      if (!walletConnectProvider) {
+        setWalletConnectProvider();
+        if (walletConnectProvider.wc.session.connected) {
+          await walletConnectProvider.wc.killSession();
+        }
+      }
+      await walletConnectProvider.enable();
+    } catch (err) {
+      if (walletConnectProvider) {
+        removeWalletConnectProvider();
+      }
+    }
+  };
+
+  const disconnectWalletConnect = () => {
+    removeWalletConnectProvider();
+  };
+  // # End WalletConnect part
 
   const connectWithCoinbase = useCoinbaseWallet();
   const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = async () => {
-    try {
-      await walletConnectProvider.enable();
-    } catch (err) {
-      setProvider();
-    }
-  };
 
   const disconnectThirdWeb = useDisconnect();
 
@@ -108,15 +132,11 @@ export function Web3Provider({ children }) {
     }
   };
 
-  walletConnectProvider.on('disconnect', () => {
-    setAddress(null);
-  });
-
   const disconnectWallet = async () => {
     if (thirdWebAddress) {
       disconnectThirdWeb();
     } else {
-      await walletConnectProvider.wc.killSession();
+      disconnectWalletConnect();
     }
 
     connectWallet(null);
