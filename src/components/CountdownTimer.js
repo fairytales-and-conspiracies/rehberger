@@ -36,7 +36,7 @@ export default function CountdownTimer(props) {
       // Clearing interval when component unmounts
       return () => clearInterval(timer);
     }
-  }, [isCountdownVisible]);
+  });
 
   const getFormattedTimeDifferenceFromMilliseconds = (milliseconds) => {
     const days = Math.floor(milliseconds / MILLISECONDS_IN_DAY).toString();
