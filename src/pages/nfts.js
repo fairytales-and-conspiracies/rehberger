@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -83,7 +84,7 @@ export default function Home() {
                 <a className="nfts__btn btn btn--primary">View on IPFS</a>
               </Link>
               <IndividualPrice />
-              <CountdownTimer small={true} />
+              <CountdownTimer small />
               <IndividualPrice />
             </div>
           </div>

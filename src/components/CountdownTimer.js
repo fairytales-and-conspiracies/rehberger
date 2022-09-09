@@ -22,6 +22,7 @@ export default function CountdownTimer(props) {
     }
   }, []);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (isCountdownVisible) {
       const timer = setInterval(() => {
@@ -35,22 +36,22 @@ export default function CountdownTimer(props) {
       // Clearing interval when component unmounts
       return () => clearInterval(timer);
     }
-  });
+  }, [isCountdownVisible]);
 
   const getFormattedTimeDifferenceFromMilliseconds = (milliseconds) => {
     const days = Math.floor(milliseconds / MILLISECONDS_IN_DAY).toString();
     let remainder = milliseconds % MILLISECONDS_IN_DAY;
 
     let hours = Math.floor(remainder / MILLISECONDS_IN_HOUR);
-    hours = hours < 10 ? '0' + hours : hours.toString();
+    hours = hours < 10 ? `0${hours}` : hours.toString();
     remainder %= MILLISECONDS_IN_HOUR;
 
     let minutes = Math.floor(remainder / MILLISECONDS_IN_MINUTE);
-    minutes = minutes < 10 ? '0' + minutes : minutes.toString();
+    minutes = minutes < 10 ? `0${minutes}` : minutes.toString();
     remainder %= MILLISECONDS_IN_MINUTE;
 
     let seconds = Math.floor(remainder / MILLISECONDS_IN_SECOND);
-    seconds = seconds < 10 ? '0' + seconds : seconds.toString();
+    seconds = seconds < 10 ? `0${seconds}` : seconds.toString();
 
     return { days, hours, minutes, seconds };
   };

@@ -9,7 +9,7 @@ export default function Imprint() {
           <Image
             alt="Fairytales and conspiracies"
             layout="fill"
-            src={'/img/fairytales-conspiracies.svg'}
+            src="/img/fairytales-conspiracies.svg"
           />
         </div>
         <div className="imprint__back-link-container">

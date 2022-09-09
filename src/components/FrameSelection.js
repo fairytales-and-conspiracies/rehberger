@@ -21,18 +21,21 @@ export default function FrameSelection({ onClose }) {
     axios
       .get(`/api/frames?video=${VIDEO}`)
       .then((response) => {
-        const frames = response.data.data.map((frame) => {
+        const responseFrames = response.data.data.map((frame) => {
           // When checking for the closest available frame, we also want
           // to check whether the frame is already in the shopping cart,
           // and if so exclude it as well from the available frames
           const frameInCart = (selectedFramesInShoppingCart || []).find(
-            (frameInCart) => frameInCart.frame === frame.frame
+            (selectedFrameInCart) => selectedFrameInCart.frame === frame.frame
           );
 
-          return Object.assign({}, frame, { isInShoppingCart: !!frameInCart });
+          return {
+            ...frame,
+            isInShoppingCart: !!frameInCart,
+          };
         });
 
-        setFrames(frames);
+        setFrames(responseFrames);
       })
       .then(() => setLoading(false));
   }, []);
@@ -48,9 +51,9 @@ export default function FrameSelection({ onClose }) {
 
     let closestAvailableFrame = null;
 
-    let frameNumber = Math.round(approxFrameNumber),
-      reachedOneBound = false,
-      step = closerToUpper ? -1 : 1;
+    let frameNumber = Math.round(approxFrameNumber);
+    let reachedOneBound = false;
+    let step = closerToUpper ? -1 : 1;
 
     while (!closestAvailableFrame) {
       if (frameNumber < firstFrame) {
@@ -92,8 +95,8 @@ export default function FrameSelection({ onClose }) {
   const onVideoClick = (event) => {
     console.log('Time: ', event.target.currentTime);
 
-    const currentTime = event.target.currentTime;
-    let closestAvailableFrame = findClosestAvailableFrame(currentTime);
+    const { currentTime } = event.target;
+    const closestAvailableFrame = findClosestAvailableFrame(currentTime);
 
     if (!closestAvailableFrame) {
       // TODO: what to do when there are no more available frames

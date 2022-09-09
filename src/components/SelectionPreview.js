@@ -4,7 +4,6 @@ import { useContext, useState } from 'react';
 
 import FrameImageWithRemoveButton from '@components/FrameImageWithRemoveButton';
 import ShoppingCartContext from '@context/ShoppingCartContext';
-import VideoData from '@static-data/videos';
 
 export default function SelectionPreview({
   removeAllFrames,
@@ -54,7 +53,7 @@ export default function SelectionPreview({
       }
     >
       <div className="selection-preview__expander-wrapper">
-        <div className="selection-preview__expander-wrapper-border"></div>
+        <div className="selection-preview__expander-wrapper-border" />
         <span
           className={
             'selection-preview__expander' +
@@ -72,7 +71,7 @@ export default function SelectionPreview({
             width="15"
           />
         </span>
-        <div className="selection-preview__expander-wrapper-border"></div>
+        <div className="selection-preview__expander-wrapper-border" />
       </div>
       <div className="selection-preview__container">
         <span className="selection-preview__close">
@@ -137,7 +136,7 @@ export default function SelectionPreview({
           </button>
           <button
             className="btn btn--secondary"
-            onClick={removeAllFrames}
+            onClick={onClearAllClick}
             type="button"
           >
             Clear all
