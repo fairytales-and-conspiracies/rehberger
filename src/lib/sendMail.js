@@ -1,6 +1,51 @@
 const nodemailer = require('nodemailer');
 
-// async..await is not allowed in global scope, must use a wrapper
+const createMailBody = (data) => {
+  const { claimed, customer, paymentMethod } = data;
+  const isWalletPayment = paymentMethod === 'WALLET';
+  const key = isWalletPayment ? data.transactionHash : data.confirmationKey;
+  return `
+    <p>${
+      !claimed
+        ? 'Here are the details of the purchase:'
+        : 'Your NFT has been claimed:'
+    }</p>
+
+    <ul>
+      <li>First name: ${customer.firstName}</li>
+      <li>Last name: ${customer.lastName}</li>
+      <li>Email: ${customer.email}</li>
+      <li>Address line 1: ${customer.addressLine1}</li>
+      <li>Address line 2: ${customer.addressLine2}</li>
+      <li>Country: ${customer.country}</li>
+      <li>Region: ${customer.region}</li>
+      <li>City: ${customer.city}</li>
+      <li>Postal code: ${customer.postalCode}</li>
+    </ul>
+
+    ${
+      !claimed
+        ? `<p>${
+            isWalletPayment
+              ? `<a href="https://rinkeby.etherscan.io/tx/${key}" target="_blank">Take a look at your transaction.</a>`
+              : `<a href="http://localhost:3000/claim-nfts?confirmation-key=${key}" target="_blank">Click here to claim your NFTs</a>`
+          }</p>`
+        : ''
+    }
+  `;
+};
+
+const createMailObject = (data, subject) => {
+  const { customer } = data;
+
+  return {
+    from: 'bulatovic_nikola@yahoo.com', // sender address
+    to: customer.email, // list of receivers
+    subject, // Subject line
+    html: createMailBody(data),
+  };
+};
+
 async function main(success, data) {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
@@ -17,63 +62,16 @@ async function main(success, data) {
     },
   });
 
-  // send mail with defined transport object
   let info;
-  const {
-    _id: { id },
-    customer,
-  } = data;
   if (success) {
-    if (!data.claimed) {
-      info = await transporter.sendMail({
-        from: 'bulatovic_nikola@yahoo.com', // sender address
-        to: customer.email, // list of receivers
-        subject: 'NFT purchased!', // Subject line
-        html: `
-          <p>Here are the details of the purchase:</p>
-    
-          <ul>
-            <li>First name: ${customer.firstName}</li>
-            <li>Last name: ${customer.lastName}</li>
-            <li>Email: ${customer.email}</li>
-            <li>Address line 1: ${customer.addressLine1}</li>
-            <li>Address line 2: ${customer.addressLine2}</li>
-            <li>Country: ${customer.country}</li>
-            <li>Region: ${customer.region}</li>
-            <li>City: ${customer.city}</li>
-            <li>Postal code: ${customer.postalCode}</li>
-          </ul>
-  
-          <p><a href="http://localhost:3000/claim-nfts?order-number=${id}" target="_blank">Click here to claim your NFTs</a></p>
-        `,
-      });
-    } else {
-      info = await transporter.sendMail({
-        from: 'bulatovic_nikola@yahoo.com', // sender address
-        to: customer.email, // list of receivers
-        subject: 'NFT claimed!', // Subject line
-        html: `
-          <p>NFT has been claimed:</p>
-    
-          <ul>
-            <li>First name: ${customer.firstName}</li>
-            <li>Last name: ${customer.lastName}</li>
-            <li>Email: ${customer.email}</li>
-            <li>Address line 1: ${customer.addressLine1}</li>
-            <li>Address line 2: ${customer.addressLine2}</li>
-            <li>Country: ${customer.country}</li>
-            <li>Region: ${customer.region}</li>
-            <li>City: ${customer.city}</li>
-            <li>Postal code: ${customer.postalCode}</li>
-          </ul>
-        `,
-      });
-    }
+    info = await transporter.sendMail(
+      createMailObject(data, !data.claimed ? 'NFT purchased!' : 'NFT claimed!')
+    );
   } else {
     info = await transporter.sendMail({
-      from: 'Rehberger app', // sender address
-      to: 'bulatovicnikola1990@gmail.com', // list of receivers
-      subject: 'Error with purchase', // Subject line
+      from: 'Rehberger app',
+      to: 'bulatovicnikola1990@gmail.com',
+      subject: 'Error with purchase',
       text: `
         For some reason, there was an error with the purchase:
 

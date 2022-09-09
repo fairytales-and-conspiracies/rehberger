@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 const SELECTED_FRAMES_SESSION_STORAGE_KEY = 'rehberger_selected_frames';
 
@@ -8,11 +8,11 @@ export function ShoppingCartProvider({ children }) {
   const [selectedFrames, setSelectedFrames] = useState([]);
 
   useEffect(() => {
-    const selectedFrames =
+    const selectedFramesInStorage =
       JSON.parse(sessionStorage.getItem(SELECTED_FRAMES_SESSION_STORAGE_KEY)) ||
       [];
 
-    setSelectedFrames(selectedFrames);
+    setSelectedFrames(selectedFramesInStorage);
   }, []);
 
   const storeInSessionStorage = (frames) => {
@@ -41,10 +41,18 @@ export function ShoppingCartProvider({ children }) {
     storeInSessionStorage([]);
   };
 
+  const memoizedValue = useMemo(
+    () => ({
+      addToCart,
+      removeAllFromCart,
+      removeFromCart,
+      selectedFrames,
+    }),
+    [addToCart, removeAllFromCart, removeFromCart, selectedFrames]
+  );
+
   return (
-    <ShoppingCartContext.Provider
-      value={{ addToCart, removeAllFromCart, removeFromCart, selectedFrames }}
-    >
+    <ShoppingCartContext.Provider value={memoizedValue}>
       {children}
     </ShoppingCartContext.Provider>
   );

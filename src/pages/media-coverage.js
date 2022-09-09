@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import ArtistPagesHeader from '@components/ArtistPagesHeader';
 
-export default function MediaCoverage(props) {
+export default function MediaCoverage() {
   return (
     <div className="media-coverage bg-primary">
       <ArtistPagesHeader active="media-coverage" />

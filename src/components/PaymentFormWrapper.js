@@ -13,6 +13,8 @@ import ThankYou from '@components/ThankYou';
 import ShoppingCartContext from '@context/ShoppingCartContext';
 import Web3Context from '@context/Web3Context';
 import CountriesWithProvinces from '@static-data/countries-with-provinces';
+import { getEthToUsdRate } from '@utils/conversion';
+import { formatDateTime } from '@utils/date';
 
 export default function PaymentFormWrapper({ isCheckout }) {
   const router = useRouter();
@@ -24,29 +26,20 @@ export default function PaymentFormWrapper({ isCheckout }) {
   const [shippingInfoFormSubmitted, setShippingInfoFormSubmitted] =
     useState(true);
   const [choosePaymentMethod, setChoosePaymentMethod] = useState(true);
-  const [paymentMethod, setPaymentMethod] = useState('WALLET');
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [confirmPaymentMethod, setConfirmPaymentMethod] = useState(false);
   const [transactionPassed, setTransactionPassed] = useState(false);
 
   useEffect(() => {
-    const orderNumber = query['order-number'];
-    const paymentMethodValue = orderNumber ? 'CARD' : '';
+    const thankYou = query['thank-you'] !== undefined;
+    const paymentMethodValue = thankYou ? 'CARD' : '';
 
-    if (orderNumber) {
-      removeAllFromCart();
+    if (thankYou) {
+      // removeAllFromCart();
     }
 
-    setPaymentMethod(paymentMethodValue);
-    setTransactionPassed(!!orderNumber);
-
-    if (orderNumber) {
-      axios
-        .post('/api/orders', {
-          _id: orderNumber,
-          transactionStatus: 'SUCCESS',
-        })
-        .then(console.log);
-    }
+    // setPaymentMethod(paymentMethodValue);
+    // setTransactionPassed(thankYou);
   }, [query]);
 
   const shippingInfoFormik = useFormik({
@@ -120,7 +113,7 @@ export default function PaymentFormWrapper({ isCheckout }) {
     onSubmit: (values) => {
       console.log('Submit: ', values);
       // eslint-disable-next-line no-use-before-define
-      onPayWithStripeClick();
+      onPayWithStripe();
     },
   });
 
@@ -129,49 +122,49 @@ export default function PaymentFormWrapper({ isCheckout }) {
       customer: { ...shippingInfoFormik.values },
       frames: selectedFrames,
       paymentMethod,
-      transactionStatus: 'PENDING',
-      ...securityQuestionFormik.values,
     };
 
     if (paymentMethod === 'CARD') {
-      Object.assign(
-        order,
-        { ...securityQuestionFormik.values },
-        { claimed: false }
-      );
-    } else {
-      order.claimed = true;
+      Object.assign(order, { ...securityQuestionFormik.values });
     }
 
     return order;
   };
 
   const payWithWallet = async () => {
-    // const order = createOrder();
+    // const tx = {
+    //   transactionHash:
+    //     '0x103da2af32e9e7e129679fad4b927a965ff05a8bf90949d93af0eaa30e767d13',
+    // };
     const tx = await sendTransaction(selectedFrames);
 
     if (tx) {
-      // removeAllFromCart();
+      const order = createOrder();
+      order.transactionHash = tx.transactionHash;
+      await axios.post('/api/orders', order);
       setTransactionPassed(true);
+      removeAllFromCart();
     } else {
       // const postToApi = await axios.post('/api/customers', order);
       // console.log('API Post: ', postToApi);
+      // TODO: LOG
       setTransactionPassed(false);
     }
   };
 
-  const onPayWithStripeClick = async () => {
-    const values = createOrder();
+  const onPayWithStripe = async () => {
+    const order = createOrder();
+    // TODO: LOG
 
     try {
       const {
         data: {
-          data: { _id: id },
+          data: { confirmationKey },
         },
-      } = await axios.post('/api/orders', values);
+      } = await axios.post('/api/orders', order);
       const checkoutCall = await axios.post('/api/checkout', {
         items: selectedFrames,
-        orderNumber: id,
+        confirmationKey,
       });
       const { url } = checkoutCall.data;
       window.location = url;

@@ -1,6 +1,4 @@
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+import stripe from '@lib/stripe';
 
 const currency = process.env.CURRENCY;
 const nftPriceInCents = process.env.NFT_PRICE * 100;
@@ -12,9 +10,10 @@ export default async function handler(req, res) {
   switch (method) {
     case 'POST':
       try {
-        const { items, orderNumber } = req.body;
+        const { confirmationKey, items } = req.body;
         const session = await stripe.checkout.sessions.create({
           cancel_url: `${serverUrl}/cancel`,
+          client_reference_id: confirmationKey,
           line_items: items.map((item) => ({
             price_data: {
               currency,
@@ -27,7 +26,7 @@ export default async function handler(req, res) {
           })),
           mode: 'payment',
           payment_method_types: ['card'],
-          success_url: `${serverUrl}/shopping-cart?order-number=${orderNumber}`,
+          success_url: `${serverUrl}/shopping-cart?thank-you`,
         });
         res.status(200).json({ success: true, url: session.url });
       } catch (err) {

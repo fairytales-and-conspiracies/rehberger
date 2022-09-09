@@ -13,7 +13,7 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
   const formik = useFormik({
     initialValues: {
       files: null,
-      orderNumber: '',
+      confirmationKey: '',
       walletAddress: '',
     },
     validationSchema: Yup.object({
@@ -31,7 +31,7 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
         .test('fileSize', 'Second file is too large', (value) => {
           return !value || (value.length > 1 && value[1].size <= 5000000);
         }),
-      orderNumber: Yup.string().required('Required'),
+      confirmationKey: Yup.string().required('Required'),
       walletAddress: Yup.string().required('Required'),
     }),
     onSubmit: async (values) => {
@@ -39,7 +39,7 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
       const formData = new FormData();
       formData.append('files', values.files[0]);
       formData.append('files', values.files[1]);
-      formData.append('orderNumber', values.orderNumber);
+      formData.append('confirmationKey', values.confirmationKey);
       formData.append('walletAddress', values.walletAddress);
       try {
         await axios.post('/api/identity-verification', formData, {
@@ -155,16 +155,17 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
                 ) : null}
                 <input
                   className="identity-verification__input input"
-                  id="orderNumber"
-                  name="orderNumber"
+                  id="confirmationKey"
+                  name="confirmationKey"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   placeholder="Confirmation Key *"
-                  value={formik.values.orderNumber}
+                  value={formik.values.confirmationKey}
                 />
-                {formik.touched.orderNumber && formik.errors.orderNumber ? (
+                {formik.touched.confirmationKey &&
+                formik.errors.confirmationKey ? (
                   <p className="identity-verification__error error">
-                    {formik.errors.orderNumber}
+                    {formik.errors.confirmationKey}
                   </p>
                 ) : null}
                 <input

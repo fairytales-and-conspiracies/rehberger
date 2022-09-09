@@ -25,6 +25,7 @@ module.exports = {
   plugins: ['react', 'prettier', 'import', 'jsx-a11y'],
   rules: {
     'prettier/prettier': 'error',
+    'react/function-component-definition': 'off',
     'react/jsx-filename-extension': 'off',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',

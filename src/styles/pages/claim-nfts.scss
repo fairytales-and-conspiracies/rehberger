@@ -13,6 +13,7 @@
 
   @include e('heading') {
     font-size: 5rem;
+    font-weight: 400;
   }
 
   @include e('thank-you') {

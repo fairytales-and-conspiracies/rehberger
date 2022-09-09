@@ -32,13 +32,13 @@ handler.use(upload.array('files'));
 handler.post(async (req, res) => {
   await dbConnect();
 
-  const { orderNumber, walletAddress } = req.body;
+  const { confirmationKey, walletAddress } = req.body;
 
   try {
     await IdentityVerification.create({
       file1Url: req.files[0].path,
       file2Url: req.files[1].path,
-      orderNumber,
+      confirmationKey,
       walletAddress,
     });
 
@@ -58,7 +58,7 @@ handler2.post(async (req, res) => {
   try {
     const [file1, file2] = req.files.files;
     const {
-      orderNumber: [orderNumber],
+      confirmationKey: [confirmationKey],
       walletAddress: [walletAddress],
     } = req.body;
 
@@ -73,7 +73,7 @@ handler2.post(async (req, res) => {
     const idVerification = await IdentityVerification.create({
       file1Url,
       file2Url,
-      orderNumber,
+      confirmationKey,
       walletAddress,
     });
     res.status(200).json({ success: true, data: idVerification });

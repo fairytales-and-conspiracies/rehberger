@@ -27,11 +27,9 @@ export default function SecurityQuestion({ formik }) {
             onChange={formik.handleChange}
             value={formik.values.question}
           >
-            <option selected value={null}>
-              Choose a security question
-            </option>
-            {securityQuestionOptions.map((question, index) => (
-              <option key={index} value={question}>
+            <option value={null}>Choose a security question</option>
+            {securityQuestionOptions.map((question) => (
+              <option key={question} value={question}>
                 {question}
               </option>
             ))}
@@ -64,7 +62,7 @@ export default function SecurityQuestion({ formik }) {
                 onChange={formik.handleChange}
                 type="checkbox"
                 value={formik.values.noSecurityQuestion}
-              />
+              />{' '}
               I don't want a security question
             </label>
           </div>

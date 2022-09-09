@@ -3,6 +3,8 @@ export const ErrorTypes = {
   GENERIC_ERROR: 1,
   INCORRECT_SECURITY_QUESTION_ANSWER: 2,
   NO_ORDER_FOUND: 3,
+  TRANSACTION_CREATION_UNSUCCESSFUL: 4,
+  METHOD_NOT_ALLOWED: 5,
 };
 
 export const Errors = {
@@ -21,5 +23,13 @@ export const Errors = {
   [ErrorTypes.NO_ORDER_FOUND]: {
     type: 'NoOrderFound',
     message: 'Incorrect order number.',
+  },
+  [ErrorTypes.TRANSACTION_CREATION_UNSUCCESSFUL]: {
+    type: 'TransactionCreationUnsuccessful',
+    message: 'Transaction has not been created.',
+  },
+  [ErrorTypes.METHOD_NOT_ALLOWED]: {
+    type: 'MethodNotAllowed,',
+    message: 'Method not allowed.',
   },
 };

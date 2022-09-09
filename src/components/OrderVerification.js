@@ -34,16 +34,16 @@ export default function OrderVerification({ error, formik }) {
         ) : null}
         <input
           className="order-verification__input input"
-          id="orderNumber"
-          name="orderNumber"
+          id="confirmationKey"
+          name="confirmationKey"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           placeholder="Order no. *"
           type="text"
-          value={formik.values.orderNumber}
+          value={formik.values.confirmationKey}
         />
-        {formik.touched.orderNumber && formik.errors.orderNumber ? (
-          <p className="error">{formik.errors.orderNumber}</p>
+        {formik.touched.confirmationKey && formik.errors.confirmationKey ? (
+          <p className="error">{formik.errors.confirmationKey}</p>
         ) : null}
         <input
           className="order-verification__input input"

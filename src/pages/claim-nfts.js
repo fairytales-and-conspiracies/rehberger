@@ -24,15 +24,18 @@ export default function ClaimNFTs() {
   const router = useRouter();
   const { query } = router;
 
+  let formik;
+  let securityFormik;
+
   useEffect(() => {
-    formik.setFieldValue('orderNumber', query['order-number']);
+    formik.setFieldValue('confirmationKey', query['confirmation-key']);
   }, [query]);
 
-  const formik = useFormik({
+  formik = useFormik({
     initialValues: {
       firstName: 'First',
       lastName: 'Last',
-      orderNumber: '',
+      confirmationKey: '',
       walletAddress: 'j;aldjksf;adjksf',
     },
     validationSchema: Yup.object({
@@ -42,7 +45,7 @@ export default function ClaimNFTs() {
       lastName: Yup.string()
         .max(25, 'Must be 25 characters or less')
         .required('Required'),
-      orderNumber: Yup.string().required('Required'),
+      confirmationKey: Yup.string().required('Required'),
       walletAddress: Yup.string().required('Required'),
     }),
     onSubmit: async (values) => {
@@ -52,9 +55,8 @@ export default function ClaimNFTs() {
           data: {
             data: { noSecurityQuestion, question },
           },
-        } = await axios.post('/api/orders', {
-          claimed: true,
-          orderNumber: formik.values.orderNumber,
+        } = await axios.post('/api/order-verification', {
+          confirmationKey: formik.values.confirmationKey,
           securityVerification: false,
         });
 
@@ -81,7 +83,7 @@ export default function ClaimNFTs() {
     },
   });
 
-  const securityFormik = useFormik({
+  securityFormik = useFormik({
     initialValues: {
       question: '',
       answer: '',
@@ -94,10 +96,9 @@ export default function ClaimNFTs() {
       console.log('Submit: ', values);
       const { answer, question } = values;
       try {
-        await axios.post('/api/orders', {
+        await axios.post('/api/order-verification', {
           answer,
-          claimed: true,
-          orderNumber: formik.values.orderNumber,
+          confirmationKey: formik.values.confirmationKey,
           question,
           securityVerification: true,
         });
@@ -118,7 +119,7 @@ export default function ClaimNFTs() {
 
   return (
     <div className="bg-primary">
-      <Header logoOnly={true} />
+      <Header logoOnly />
       <main className="claim-nfts">
         <h1 className="claim-nfts__heading">
           {securityVerification && !verificationAccepted

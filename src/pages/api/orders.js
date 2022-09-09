@@ -1,142 +1,125 @@
-import mongoose from 'mongoose';
+import HDWalletProvider from '@truffle/hdwallet-provider';
+import crypto from 'crypto';
+import Web3 from 'web3';
 
+import { address } from '@contract/exampleContract';
 import dbConnect from '@lib/dbConnect';
 import sendError from '@lib/errorHandling';
 import sendMail from '@lib/sendMail';
-import Frame from '@models/Frame';
 import Order from '@models/Order';
 import { ErrorTypes } from '@static-data/errors';
+import TransactionStatus from '@static-data/transaction-status';
+import { getEthToUsdRate } from '@utils/conversion';
+import { formatDateTime } from '@utils/date';
 
-const updateOrderForClaimedNFTs = async (orderNumber) => {
-  const order = await Order.findByIdAndUpdate(
-    mongoose.Types.ObjectId(orderNumber),
-    {
-      claimed: true,
-    },
-    {
-      lean: true,
-    }
-  );
-  order.claimed = true;
+const { INFURA_URL } = process.env;
+const { MNEMONIC } = process.env;
+const NFT_PRICE_ETH = parseFloat(process.env.NFT_PRICE_ETH);
+const SALES_TAX = parseFloat(process.env.NEXT_PUBLIC_SALES_TAX);
+
+const getWeb3 = () => {
+  const provider = new HDWalletProvider(MNEMONIC, INFURA_URL);
+  const web3 = new Web3(provider);
+  return web3;
+};
+
+let web3 = getWeb3();
+
+const fillOutRestOfOrderData = (frames) => {
+  const orderCreatedTimestamp = formatDateTime(Date.now());
+  const quantity = frames.length;
+  const framePriceETH = NFT_PRICE_ETH;
+  const netPriceETH = framePriceETH * quantity;
+  const totalPriceETH = netPriceETH;
+  const framePriceUSD = getEthToUsdRate(NFT_PRICE_ETH);
+  const netPriceUSD = framePriceUSD * quantity;
+  const totalPriceUSD = netPriceUSD;
+  return {
+    orderCreatedTimestamp,
+    quantity,
+    framePriceETH,
+    netPriceETH,
+    totalPriceETH,
+    framePriceUSD,
+    netPriceUSD,
+    totalPriceUSD,
+  };
+};
+
+const createOrder = async (req) => {
+  const { frames, paymentMethod } = req.body;
+
+  const isWalletPayment = paymentMethod === 'WALLET';
+  const restOfOrderData = fillOutRestOfOrderData(frames);
+  const body = {
+    ...req.body,
+    frames,
+    ...restOfOrderData,
+    toBeClaimed: !isWalletPayment,
+  };
+
+  if (isWalletPayment) {
+    body.transactionStatus = TransactionStatus.SUCCESSFUL;
+    body.transactionSuccessfulTimestamp = body.orderCreatedTimestamp;
+  } else {
+    body.claimed = false;
+    body.confirmationKey = crypto.randomBytes(16).toString('hex');
+    body.transactionStatus = TransactionStatus.PENDING;
+  }
+
+  let order;
+  try {
+    order = await Order.create(body);
+  } catch (err) {
+    order = null;
+  }
   return order;
 };
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   const { method } = req;
 
   await dbConnect();
 
   switch (method) {
-    case 'GET':
-      try {
-        const orders = await Order.find({});
-        res.status(200).json({ success: true, data: orders });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
     case 'POST':
       try {
         let order;
-        const {
-          answer,
-          claimed,
-          frames,
-          orderNumber,
-          question,
-          securityVerification,
-          transactionStatus,
-        } = req.body;
+        const { paymentMethod, transactionHash } = req.body;
 
-        // This is when a customer that has paid by card wants to
-        // claim their NFT
-        if (claimed) {
-          try {
-            order = await Order.findById(orderNumber);
-          } catch (err) {
-            console.log('Error: ', err);
-
-            // If order does not exist
-            if (!!err.name && err.name === 'CastError') {
-              sendError(res, ErrorTypes.NO_ORDER_FOUND);
-            }
-
-            // If there is another unexpected error
-            else {
-              sendError(res, ErrorTypes.GENERIC_ERROR);
-            }
-            return;
+        // For wallet payments, we have to make sure that a valid
+        // transaction has taken place. For Stripe payments, this
+        // is before the transaction is confirmed - the Stripe webhook
+        // receives the transactions after it has been confirmed.
+        if (paymentMethod === 'CARD') {
+          order = await createOrder(req);
+        } else if (transactionHash) {
+          if (!web3) {
+            web3 = getWeb3();
           }
-
-          // After submitting security question and answer form
-          if (securityVerification) {
-            if (order.question === question && order.answer === answer) {
-              order = await updateOrderForClaimedNFTs(orderNumber);
-              sendMail(true, order).catch(console.error);
-            } else {
-              sendError(res, ErrorTypes.INCORRECT_SECURITY_QUESTION_ANSWER);
-              return;
-            }
-          }
-
-          // After submitting the order verificatio form,
-          // before submitting the security question and answer form
-          else if (order.noSecurityQuestion) {
-            order = await updateOrderForClaimedNFTs(orderNumber);
-            sendMail(true, order).catch(console.error);
-          }
-
-          // In case there is a security question, do not send the whole
-          // order, since the question and ansewr can potentially be seen
-          // on the frontend
-          else {
-            const { noSecurityQuestion, question: orderQuestion } = order;
-            res.status(201).json({
-              success: true,
-              data: {
-                noSecurityQuestion,
-                question: orderQuestion,
-              },
-            });
-            return;
-          }
-        }
-
-        // This is when a card order is being created, but has not
-        // been processed through a wallet or the Stripe
-        // payment platform yet
-        else if (transactionStatus === 'PENDING') {
-          const body = {
-            ...req.body,
-            frames,
-          };
-          order = await Order.create(body);
-        }
-
-        // This is when an order has been successfully created, either
-        // when we have received a successful response from a wallet
-        // or from Stripe
-        else if (transactionStatus === 'SUCCESS') {
-          order = await Order.findByIdAndUpdate(
-            mongoose.Types.ObjectId(req.body._id),
-            {
-              transactionStatus,
-            },
-            {
-              lean: true,
-            }
+          const transactionReceipt = await web3.eth.getTransactionReceipt(
+            transactionHash
           );
 
-          const filter = { _id: { $in: [] } };
-          order.frames.forEach((frame) =>
-            filter['_id']['$in'].push(frame['_id'])
-          );
-          Frame.updateMany(filter, { sold: true });
-          order.claimed = false;
-          sendMail(true, order).catch(console.error);
+          if (
+            transactionReceipt &&
+            transactionReceipt.to === address.toLowerCase()
+          ) {
+            const ordersWithTransaction = await Order.find({ transactionHash });
+            if (!ordersWithTransaction || ordersWithTransaction.length === 0) {
+              order = await createOrder(req);
+              if (order) {
+                sendMail(true, order).catch(console.error);
+              }
+            }
+          }
         }
 
-        res.status(201).json({ success: true, data: order });
+        if (order) {
+          res.status(201).json({ success: true, data: order });
+        } else {
+          sendError(res, ErrorTypes.TRANSACTION_CREATION_UNSUCCESSFUL);
+        }
       } catch (err) {
         // sendMail(false, err).catch(console.error);
         res.status(400).json({ success: false, err });
@@ -146,4 +129,31 @@ export default async function handler(req, res) {
       res.status(400).json({ success: false });
       break;
   }
-}
+};
+
+export default handler;
+
+// This is when an order has been successfully created, either
+// when we have received a successful response from a wallet
+// or from Stripe
+
+// else if (transactionStatus === 'SUCCESS') {
+//   order = await Order.findByIdAndUpdate(
+//     mongoose.Types.ObjectId(req.body._id),
+//     {
+//       confirmationKey,
+//       transactionStatus,
+//     },
+//     {
+//       lean: true,
+//     }
+//   );
+
+//   const filter = { _id: { $in: [] } };
+//   order.frames.forEach((frame) =>
+//     filter['_id']['$in'].push(frame['_id'])
+//   );
+//   Frame.updateMany(filter, { sold: true });
+//   order.claimed = false;
+//   sendMail(true, order).catch(console.error);
+// }

@@ -16,4 +16,14 @@ const sendError = (res, errorType) => {
   });
 };
 
+export const sendErrorWithMessage = (res, message) => {
+  res.status(400).json({
+    success: false,
+    error: {
+      type: 'CustomError',
+      message,
+    },
+  });
+};
+
 export default sendError;
