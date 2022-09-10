@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { address as contractAddress, abi } from '@contract/exampleContract';
+import { address as contractAddress, abi } from '@/contract/exampleContract';
 
 const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
 

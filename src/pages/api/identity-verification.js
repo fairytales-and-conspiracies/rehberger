@@ -2,8 +2,8 @@ import fs from 'fs';
 import nextConnect from 'next-connect';
 import multer from 'multer';
 
-import dbConnect from '@lib/dbConnect';
-import IdentityVerification from '@models/IdentityVerification';
+import dbConnect from '@/lib/dbConnect';
+import IdentityVerification from '@/models/IdentityVerification';
 
 const upload = multer({
   storage: multer.diskStorage({

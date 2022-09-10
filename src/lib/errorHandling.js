@@ -1,4 +1,4 @@
-import { Errors, ErrorTypes } from '@static-data/errors';
+import { Errors, ErrorTypes } from '@/static-data/errors';
 
 const sendError = (res, errorType) => {
   if (!Errors[errorType]) {

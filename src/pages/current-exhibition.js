@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import ArtistPagesHeader from '@components/ArtistPagesHeader';
+import ArtistPagesHeader from '@/components/ArtistPagesHeader';
 
 export default function CurrentExhibition() {
   return (

@@ -1,6 +1,6 @@
 .factsheet {
   margin: -20rem auto 0;
-  max-width: 140rem;
+  max-width: 120rem;
   padding: 0 10rem 2rem 1rem;
 
   @include e('heading') {
@@ -25,7 +25,8 @@
 
   @include e('title-for-size') {
     display: inline-block;
-    width: 33rem;
+    width: 62rem;
+    word-break: break-word;
 
     &:nth-last-of-type(2) {
       margin-top: 0.8rem;
@@ -42,6 +43,7 @@
 
   @include max-screen-lg {
     margin-top: -15rem;
+    max-width: 100rem;
   }
 
   @include max-screen-md {
@@ -54,11 +56,16 @@
     @include e('heading') {
       font-size: 10rem;
     }
+
+    @include e('title-for-size') {
+      max-width: 60rem;
+      width: 100%;
+    }
   }
 
   @include max-screen-xs {
     @include e('heading') {
-      font-size: 7rem;
+      font-size: 6.5rem;
     }
 
     @include e('title-for-size') {

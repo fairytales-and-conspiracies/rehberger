@@ -2,20 +2,20 @@ import HDWalletProvider from '@truffle/hdwallet-provider';
 import crypto from 'crypto';
 import Web3 from 'web3';
 
-import { address } from '@contract/exampleContract';
-import dbConnect from '@lib/dbConnect';
-import sendError from '@lib/errorHandling';
-import sendMail from '@lib/sendMail';
-import Order from '@models/Order';
-import { ErrorTypes } from '@static-data/errors';
-import TransactionStatus from '@static-data/transaction-status';
-import { getEthToUsdRate } from '@utils/conversion';
-import { formatDateTime } from '@utils/date';
+import { address } from '@/contract/exampleContract';
+import dbConnect from '@/lib/dbConnect';
+import sendError from '@/lib/errorHandling';
+import sendMail from '@/lib/sendMail';
+import Order from '@/models/Order';
+import { ErrorTypes } from '@/static-data/errors';
+import TransactionStatus from '@/static-data/transaction-status';
+import { getEthToEurRate } from '@/utils/conversion';
+import { formatDateTime } from '@/utils/date';
 
 const { INFURA_URL } = process.env;
 const { MNEMONIC } = process.env;
 const NFT_PRICE_ETH = parseFloat(process.env.NFT_PRICE_ETH);
-const SALES_TAX = parseFloat(process.env.NEXT_PUBLIC_SALES_TAX);
+// const SALES_TAX = parseFloat(process.env.NEXT_PUBLIC_SALES_TAX);
 
 const getWeb3 = () => {
   const provider = new HDWalletProvider(MNEMONIC, INFURA_URL);
@@ -31,7 +31,7 @@ const fillOutRestOfOrderData = (frames) => {
   const framePriceETH = NFT_PRICE_ETH;
   const netPriceETH = framePriceETH * quantity;
   const totalPriceETH = netPriceETH;
-  const framePriceUSD = getEthToUsdRate(NFT_PRICE_ETH);
+  const framePriceUSD = getEthToEurRate(NFT_PRICE_ETH);
   const netPriceUSD = framePriceUSD * quantity;
   const totalPriceUSD = netPriceUSD;
   return {

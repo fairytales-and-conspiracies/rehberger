@@ -2,12 +2,12 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
 
-import CurrentFrame from '@components/CurrentFrame';
-import SelectionPreview from '@components/SelectionPreview';
-import ShoppingCartContext from '@context/ShoppingCartContext';
-import VideoData from '@static-data/videos';
+import CurrentFrame from '@/components/CurrentFrame';
+import SelectionPreview from '@/components/SelectionPreview';
+import ShoppingCartContext from '@/context/ShoppingCartContext';
+import VideoData from '@/static-data/videos';
 
-const VIDEO = 'brick-and-mortar';
+const VIDEO = 'IMAGINEYOURSELFWITHOUTAHOME';
 
 export default function FrameSelection({ onClose }) {
   const { selectedFramesInShoppingCart } = useContext(ShoppingCartContext);

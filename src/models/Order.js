@@ -34,10 +34,6 @@ const OrderSchema = new mongoose.Schema({
   claimedTimestamp: String,
 });
 
-module.exports = mongoose.models.Order || mongoose.model('Order', OrderSchema);
+const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);
 
-/* 
-  TODO
-  In our order, we need to have a customer, the order parameters, and the frames - the actual nft info
-  We need to add this stuff to the order
-*/
+export default Order;

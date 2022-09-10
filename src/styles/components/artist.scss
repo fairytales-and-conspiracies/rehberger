@@ -34,6 +34,10 @@
     @include flex-direction(column);
   }
 
+  @include e('button-links') {
+    margin-left: 2rem;
+  }
+
   @include e('button-link') {
     margin-bottom: 3.5rem;
     padding: 1rem;
@@ -57,8 +61,16 @@
 
     @include align-items(center);
 
+    @include e('heading') {
+      font-size: 20rem;
+    }
+
     @include e('content') {
       margin-left: 2rem;
+    }
+
+    @include e('button-links') {
+      margin-left: unset;
     }
   }
 

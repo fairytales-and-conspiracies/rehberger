@@ -2,8 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 
-import FrameImageWithRemoveButton from '@components/FrameImageWithRemoveButton';
-import ShoppingCartContext from '@context/ShoppingCartContext';
+import FrameImageWithRemoveButton from '@/components/FrameImageWithRemoveButton';
+import ShoppingCartContext from '@/context/ShoppingCartContext';
 
 export default function SelectionPreview({
   removeAllFrames,
@@ -45,23 +45,23 @@ export default function SelectionPreview({
 
   return (
     <div
-      className={
-        'selection-preview' +
-        (isSelectionPreviewVisible
+      className={`selection-preview ${
+        isSelectionPreviewVisible
           ? ' selection-preview--visible'
-          : ' selection-preview--hidden')
-      }
+          : ' selection-preview--hidden'
+      }`}
     >
       <div className="selection-preview__expander-wrapper">
         <div className="selection-preview__expander-wrapper-border" />
-        <span
-          className={
-            'selection-preview__expander' +
-            (!isSelectionPreviewVisible
-              ? ' selection-preview__expander--visible'
-              : ' selection-preview__expander--hidden')
-          }
+        <button
+          className={`selection-preview__expander
+            ${
+              !isSelectionPreviewVisible
+                ? ' selection-preview__expander--visible'
+                : ' selection-preview__expander--hidden'
+            }`}
           onClick={expandSelectionPreview}
+          type="button"
         >
           <Image
             alt="Expand section showing selected frames"
@@ -70,7 +70,7 @@ export default function SelectionPreview({
             src="/img/icons/chevron-left.svg"
             width="15"
           />
-        </span>
+        </button>
         <div className="selection-preview__expander-wrapper-border" />
       </div>
       <div className="selection-preview__container">

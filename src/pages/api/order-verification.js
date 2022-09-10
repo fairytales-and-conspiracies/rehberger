@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-import dbConnect from '@lib/dbConnect';
-import sendError from '@lib/errorHandling';
-import sendMail from '@lib/sendMail';
-import Order from '@models/Order';
-import { ErrorTypes } from '@static-data/errors';
+import dbConnect from '@/lib/dbConnect';
+import sendError from '@/lib/errorHandling';
+import sendMail from '@/lib/sendMail';
+import Order from '@/models/Order';
+import { ErrorTypes } from '@/static-data/errors';
 
 const updateOrderForClaimedNFTs = async (orderNumber) => {
   const order = await Order.findByIdAndUpdate(

@@ -14,7 +14,7 @@ export default function Music() {
             his grandfather, a conductor – incl. piano, guitar, drums,
             percussions and, most prominently, accordion. In 1983 he founded his
             first EBM/industrial band Whetzon Churchill. Markus also started
-            DJ'ing in 1986-87.
+            DJ’ing in 1986-87.
           </p>
 
           <p className="music__paragraph">
@@ -40,7 +40,7 @@ export default function Music() {
             his grandfather, a conductor – incl. piano, guitar, drums,
             percussions and, most prominently, accordion. In 1983 he founded his
             first EBM/industrial band Whetzon Churchill. Markus also started
-            DJ'ing in 1986-87.
+            DJ’ing in 1986-87.
           </p>
 
           <p className="music__paragraph">

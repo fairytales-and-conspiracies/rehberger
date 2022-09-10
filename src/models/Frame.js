@@ -7,4 +7,4 @@ const FrameSchema = new mongoose.Schema({
   sold: Boolean,
 });
 
-module.exports = mongoose.models.Frame || mongoose.model('Frame', FrameSchema);
+export default mongoose.models.Frame || mongoose.model('Frame', FrameSchema);

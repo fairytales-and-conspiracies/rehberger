@@ -7,6 +7,5 @@ const IdentityVerificationSchema = new mongoose.Schema({
   walletAddress: String,
 });
 
-module.exports =
-  mongoose.models.IdentityVerification ||
+export default mongoose.models.IdentityVerification ||
   mongoose.model('IdentityVerification', IdentityVerificationSchema);

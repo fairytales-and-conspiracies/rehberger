@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import VideoData from '@static-data/videos';
+import VideoData from '@/static-data/videos';
 
 export default function CurrentFrame({ selectedFrame, video }) {
   return (
@@ -38,14 +38,14 @@ export default function CurrentFrame({ selectedFrame, video }) {
                 .toFixed(4)
                 .toString()
                 .split('')
-                .map((digitOrDecimalPoint, index) => (
+                .map((digitOrDecimalPoint) => (
                   <span
                     className={`${
                       digitOrDecimalPoint !== '.'
                         ? 'selected-frame__timeframe-digit'
                         : ''
                     }`}
-                    key={index}
+                    key={selectedFrame.frame}
                   >
                     {digitOrDecimalPoint}
                   </span>

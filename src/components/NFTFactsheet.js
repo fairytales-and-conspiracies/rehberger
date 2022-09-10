@@ -28,27 +28,27 @@ export default function NFTFactsheet() {
           </span>
           <br />
           <span className="factsheet__title-for-size">
-            Liquid poster No.1 - “Brick & Mortar”:
+            Liquid poster No.1 - “HAVEYOUEVERTHOUGHTOFEMIGRATING?”:
+          </span>{' '}
+          <span className="factsheet__number-of-frames bold">720</span>
+          <br />
+          <span className="factsheet__title-for-size">
+            Liquid poster No.2 - “IMAGINEYOURSELFWITHOUTAHOME”:
           </span>{' '}
           <span className="factsheet__number-of-frames bold">1080</span>
           <br />
           <span className="factsheet__title-for-size">
-            Liquid poster No.2 - “Chicken & Egg”:
+            Liquid poster No.3 - “HAVEYOUEVERSTOLENANIDEA?”:
+          </span>{' '}
+          <span className="factsheet__number-of-frames bold">540</span>
+          <br />
+          <span className="factsheet__title-for-size">
+            Liquid poster No.4 - “AREYOUAFRAIDOFTHEPOOR?”:
           </span>{' '}
           <span className="factsheet__number-of-frames bold">720</span>
           <br />
           <span className="factsheet__title-for-size">
-            Liquid poster No.3 - “Bait & Switch”:
-          </span>{' '}
-          <span className="factsheet__number-of-frames bold">510</span>
-          <br />
-          <span className="factsheet__title-for-size">
-            Liquid poster No.4 - “Smoke & Mirrors”:
-          </span>{' '}
-          <span className="factsheet__number-of-frames bold">720</span>
-          <br />
-          <span className="factsheet__title-for-size">
-            Liquid poster No.5 - “Lost & Found”:
+            Liquid poster No.5 - “ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR”:
           </span>{' '}
           <span className="factsheet__number-of-frames bold">720</span>
           <br />
@@ -73,7 +73,7 @@ export default function NFTFactsheet() {
             <li className="factsheet__nft-includes-list-item">
               physical fine art paper print of their selected frame in A1 format
               (594 x 841 mm, 23.3 x 33.1 inch) size (unique + signed by hand by
-              Tobias Rehberger; including an „Artoken (r)“ authentification chip
+              Tobias Rehberger; including an “Artoken (r)” authentification chip
               ensuring unambiguous connection of the physical print to the NFT
               entry on the Ethereum blockchain and its associated digital files
               (digital image and video incl. audio); incl. international

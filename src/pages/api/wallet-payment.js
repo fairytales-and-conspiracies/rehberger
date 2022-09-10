@@ -1,9 +1,9 @@
 import HDWalletProvider from '@truffle/hdwallet-provider';
 import Web3 from 'web3';
 
-import sendError from '@lib/errorHandling';
-import { ErrorTypes } from '@static-data/errors';
-import sendTransaction from '@utils/sendTransaction';
+import sendError from '@/lib/errorHandling';
+import { ErrorTypes } from '@/static-data/errors';
+import sendTransaction from '@/utils/sendTransaction';
 
 const provider = new HDWalletProvider(
   'nerve blame win address example frost polar borrow dance wild deposit mesh',

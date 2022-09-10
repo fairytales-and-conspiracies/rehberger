@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import { useContext } from 'react';
 
-import FrameImageWithRemoveButton from '@components/FrameImageWithRemoveButton';
-import ShoppingCartContext from '@context/ShoppingCartContext';
-import VideoData from '@static-data/videos';
+import FrameImageWithRemoveButton from '@/components/FrameImageWithRemoveButton';
+import ShoppingCartContext from '@/context/ShoppingCartContext';
+import VideoData from '@/static-data/videos';
 
 export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
   const { removeFromCart, selectedFrames } = useContext(ShoppingCartContext);
 
   const selectedFramesByVideoMap = selectedFrames.reduce(
     (accumulator, frame) => {
-      if (!accumulator.hasOwnProperty(frame.video)) {
+      if (!(frame.video in accumulator)) {
         accumulator[frame.video] = [];
       }
       accumulator[frame.video].push(frame);

@@ -128,7 +128,7 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
                   formik.values.files.map((file, index) => (
                     <div
                       className="identity-verification__chosen-file"
-                      key={index}
+                      key={file.name}
                     >
                       <p className="identity-verification__chosen-file-name">
                         {file.name}
@@ -192,7 +192,7 @@ export default function IdentityVerification({ isVisible, setIsVisible }) {
                   {submissionError}
                 </p>
                 <button
-                  className="identity-verification__cancel btn btn--link"
+                  className="identity-verification__cancel btn link"
                   onClick={() => setIsVisible(false)}
                   type="button"
                 >

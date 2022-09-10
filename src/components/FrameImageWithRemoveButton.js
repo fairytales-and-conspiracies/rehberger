@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import VideoData from '@static-data/videos';
+import VideoData from '@/static-data/videos';
 
 export default function FrameImageWithRemoveButton({ frame, onRemoveClick }) {
   return (

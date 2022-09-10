@@ -1,4 +1,4 @@
-import securityQuestionOptions from '@static-data/security-question-options';
+import securityQuestionOptions from '@/static-data/security-question-options';
 
 export default function SecurityQuestion({ formik }) {
   return (
@@ -63,7 +63,7 @@ export default function SecurityQuestion({ formik }) {
                 type="checkbox"
                 value={formik.values.noSecurityQuestion}
               />{' '}
-              I don't want a security question
+              I don’t want a security question
             </label>
           </div>
           <button className="btn btn--primary" type="submit">

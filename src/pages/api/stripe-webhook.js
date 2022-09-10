@@ -1,13 +1,13 @@
 import { buffer } from 'micro';
 
-import dbConnect from '@lib/dbConnect';
-import sendError, { sendErrorWithMessage } from '@lib/errorHandling';
-import sendMail from '@lib/sendMail';
-import stripe from '@lib/stripe';
-import Frame from '@models/Frame';
-import Order from '@models/Order';
-import { ErrorTypes } from '@static-data/errors';
-import TransactionStatus from '@static-data/transaction-status';
+import dbConnect from '@/lib/dbConnect';
+import sendError, { sendErrorWithMessage } from '@/lib/errorHandling';
+import sendMail from '@/lib/sendMail';
+import stripe from '@/lib/stripe';
+import Frame from '@/models/Frame';
+import Order from '@/models/Order';
+import { ErrorTypes } from '@/static-data/errors';
+import TransactionStatus from '@/static-data/transaction-status';
 
 const { STRIPE_WEBHOOK_SECRET } = process.env;
 

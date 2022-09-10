@@ -1,6 +1,6 @@
-import CountdownTimer from '@components/CountdownTimer';
+import CountdownTimer from '@/components/CountdownTimer';
 
-const INTERIM = process.env.NEXT_PUBLIC_INTERIM == 'true';
+const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
 export default function Home() {
   return (

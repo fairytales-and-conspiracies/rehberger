@@ -4,17 +4,15 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
-import ChoosePaymentMethod from '@components/ChoosePaymentMethod';
-import ConfirmPaymentMethod from '@components/ConfirmPaymentMethod';
-import PaymentFormInfo from '@components/PaymentFormInfo';
-import PaymentFormInputs from '@components/PaymentFormInputs';
-import SecurityQuestion from '@components/SecurityQuestion';
-import ThankYou from '@components/ThankYou';
-import ShoppingCartContext from '@context/ShoppingCartContext';
-import Web3Context from '@context/Web3Context';
-import CountriesWithProvinces from '@static-data/countries-with-provinces';
-import { getEthToUsdRate } from '@utils/conversion';
-import { formatDateTime } from '@utils/date';
+import ChoosePaymentMethod from '@/components/ChoosePaymentMethod';
+import ConfirmPaymentMethod from '@/components/ConfirmPaymentMethod';
+import PaymentFormInfo from '@/components/PaymentFormInfo';
+import PaymentFormInputs from '@/components/PaymentFormInputs';
+import SecurityQuestion from '@/components/SecurityQuestion';
+import ThankYou from '@/components/ThankYou';
+import ShoppingCartContext from '@/context/ShoppingCartContext';
+import Web3Context from '@/context/Web3Context';
+import CountriesWithProvinces from '@/static-data/countries-with-provinces';
 
 export default function PaymentFormWrapper({ isCheckout }) {
   const router = useRouter();
@@ -35,11 +33,11 @@ export default function PaymentFormWrapper({ isCheckout }) {
     const paymentMethodValue = thankYou ? 'CARD' : '';
 
     if (thankYou) {
-      // removeAllFromCart();
+      removeAllFromCart();
     }
 
-    // setPaymentMethod(paymentMethodValue);
-    // setTransactionPassed(thankYou);
+    setPaymentMethod(paymentMethodValue);
+    setTransactionPassed(thankYou);
   }, [query]);
 
   const shippingInfoFormik = useFormik({

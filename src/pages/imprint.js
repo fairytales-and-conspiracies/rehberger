@@ -70,7 +70,7 @@ export default function Imprint() {
             basis for the processing of personal data is the applicable European
             and German data protection law and the German Telemedia Act (TMG).
             In the course of establishing and maintaining the connection via the
-            Internet between the visitor's computer and the infas computer
+            Internet between the visitor’s computer and the infas computer
             requested, the following data is stored: Time of the server call, IP
             address, browser type, domain called up and, if the website is
             called up via a link, also the origin. This data is only collected

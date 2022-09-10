@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import ConnectWalletButton from '@components/ConnectWalletButton';
+import ConnectWalletButton from '@/components/ConnectWalletButton';
 
 const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 

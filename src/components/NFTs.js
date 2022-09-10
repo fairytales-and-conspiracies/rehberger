@@ -1,12 +1,10 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import Image from 'next/image';
-import Link from 'next/link';
 import { forwardRef, useEffect, useState } from 'react';
 
-import FrameSelection from '@components/FrameSelection';
-import IndividualPrice from '@components/IndividualPrice';
-import IndividualPricePurple from '@components/IndividualPricePurple';
-import NFTFactsheet from '@components/NFTFactsheet';
+import FrameSelection from '@/components/FrameSelection';
+import IndividualPrice from '@/components/IndividualPrice';
+import IndividualPricePurple from '@/components/IndividualPricePurple';
+import NFTFactsheet from '@/components/NFTFactsheet';
 
 function Home(_, ref) {
   const [isFrameSelectionActive, setIsFrameSelectionActive] = useState(false);
@@ -29,6 +27,8 @@ function Home(_, ref) {
     };
   }, []);
 
+  // TODO: Etherscan and IPFS links
+
   return (
     <>
       <div className="bg-primary">
@@ -36,9 +36,10 @@ function Home(_, ref) {
           <div className="nfts__upper-half">
             <div className="nfts__upper-half-nfts">
               <div className="nfts__nft nfts__nft-1">
-                <div
-                  className="nfts__nft-thumbnail nfts__nft-1-thumbnail"
+                <button
+                  className="nfts__nft-thumbnail nfts__nft-1-thumbnail btn btn--no-style"
                   onClick={frameSelectionOpen}
+                  type="button"
                 >
                   <Image
                     alt="Brick & Mortar clickable thumbnail"
@@ -48,9 +49,11 @@ function Home(_, ref) {
                   <div className="nfts__nft-number nfts__nft-1-number">
                     <Image alt="Number 1" layout="fill" src="/img/1.svg" />
                   </div>
-                </div>
+                </button>
                 <div className="nfts__nft-text nfts__nft-1-text">
-                  <h4 className="nfts__nft-title">BRICK & MORTAR</h4>
+                  <h4 className="nfts__nft-title">
+                    HAVEYOUEVERTHOUGHTOFEMIGRATING?
+                  </h4>
                   <p className="nfts__nft-description">
                     Liquid Poster No. 1<br />
                     <span className="nfts__nft-description-question">
@@ -60,18 +63,24 @@ function Home(_, ref) {
                 </div>
               </div>
               <div className="nfts__nft nfts__nft-2">
-                <div className="nfts__nft-thumbnail nfts__nft-2-thumbnail">
+                <button
+                  className="nfts__nft-thumbnail nfts__nft-2-thumbnail btn btn--no-style"
+                  onClick={frameSelectionOpen}
+                  type="button"
+                >
                   <Image
-                    alt="Chicken & Egg clickable thumbnail"
+                    alt="IMAGINEYOURSELFWITHOUTAHOME clickable thumbnail"
                     src="/img/02-1.png"
                     layout="fill"
                   />
                   <div className="nfts__nft-number nfts__nft-2-number">
                     <Image alt="Number 2" layout="fill" src="/img/2.svg" />
                   </div>
-                </div>
+                </button>
                 <div className="nfts__nft-text nfts__nft-2-text">
-                  <h4 className="nfts__nft-title">CHICKEN & EGG</h4>
+                  <h4 className="nfts__nft-title">
+                    IMAGINEYOURSELFWITHOUTAHOME
+                  </h4>
                   <p className="nfts__nft-description">
                     Liquid Poster No. 2<br />
                     <span className="nfts__nft-description-question">
@@ -82,30 +91,34 @@ function Home(_, ref) {
               </div>
             </div>
             <div className="nfts__upper-half-right-section">
-              <Link href="#">
+              <a href="https://etherscan.io">
                 <a className="nfts__btn btn btn--primary">View on Etherscan</a>
-              </Link>
-              <Link href="#">
+              </a>
+              <a href="https://www.pinata.cloud">
                 <a className="nfts__btn btn btn--primary">View on IPFS</a>
-              </Link>
+              </a>
               <IndividualPrice />
               <IndividualPricePurple />
             </div>
           </div>
           <div className="nfts__lower-half">
             <div className="nfts__nft nfts__nft-3">
-              <div className="nfts__nft-thumbnail nfts__nft-3-thumbnail">
+              <button
+                className="nfts__nft-thumbnail nfts__nft-3-thumbnail"
+                onClick={frameSelectionOpen}
+                type="submit"
+              >
                 <Image
-                  alt="Chicken & Egg clickable thumbnail"
+                  alt="HAVEYOUEVERSTOLENANIDEA? clickable thumbnail"
                   src="/img/03-1.png"
                   layout="fill"
                 />
                 <div className="nfts__nft-number nfts__nft-3-number">
                   <Image alt="Number 3" layout="fill" src="/img/3.svg" />
                 </div>
-              </div>
+              </button>
               <div className="nfts__nft-text nfts__nft-3-text">
-                <h4 className="nfts__nft-title">BAIT & SWITCH</h4>
+                <h4 className="nfts__nft-title">HAVEYOUEVERSTOLENANIDEA?</h4>
                 <p className="nfts__nft-description">
                   Liquid Poster No. 3<br />
                   <span className="nfts__nft-description-question">
@@ -115,18 +128,22 @@ function Home(_, ref) {
               </div>
             </div>
             <div className="nfts__nft nfts__nft-4">
-              <div className="nfts__nft-thumbnail nfts__nft-4-thumbnail">
+              <button
+                className="nfts__nft-thumbnail nfts__nft-4-thumbnail btn btn--no-style"
+                onClick={frameSelectionOpen}
+                type="button"
+              >
                 <Image
-                  alt="Chicken & Egg clickable thumbnail"
+                  alt="AREYOUAFRAIDOFTHEPOOR? clickable thumbnail"
                   src="/img/04-1.png"
                   layout="fill"
                 />
                 <div className="nfts__nft-number nfts__nft-4-number">
                   <Image alt="Number 4" layout="fill" src="/img/4.svg" />
                 </div>
-              </div>
+              </button>
               <div className="nfts__nft-text nfts__nft-4-text">
-                <h4 className="nfts__nft-title">SMOKE & MIRRORS</h4>
+                <h4 className="nfts__nft-title">AREYOUAFRAIDOFTHEPOOR?</h4>
                 <p className="nfts__nft-description">
                   Liquid Poster No. 4<br />
                   <span className="nfts__nft-description-question">
@@ -137,18 +154,24 @@ function Home(_, ref) {
             </div>
             <div className="nfts__how-it-works-and-nft-5-wrapper">
               <div className="nfts__nft nfts__nft-5">
-                <div className="nfts__nft-thumbnail nfts__nft-5-thumbnail">
+                <button
+                  className="nfts__nft-thumbnail nfts__nft-5-thumbnail btn btn--no-style"
+                  onClick={frameSelectionOpen}
+                  type="button"
+                >
                   <Image
-                    alt="Chicken & Egg clickable thumbnail"
+                    alt="ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR clickable thumbnail"
                     src="/img/05-1.png"
                     layout="fill"
                   />
                   <div className="nfts__nft-number nfts__nft-5-number">
                     <Image alt="Number 5" layout="fill" src="/img/5.svg" />
                   </div>
-                </div>
+                </button>
                 <div className="nfts__nft-text nfts__nft-5-text">
-                  <h4 className="nfts__nft-title">LOST & FOUND</h4>
+                  <h4 className="nfts__nft-title">
+                    ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR
+                  </h4>
                   <p className="nfts__nft-description">
                     Liquid Poster No. 5<br />
                     <span className="nfts__nft-description-question">

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import Header from '@components/Header';
-import PaymentFormWrapper from '@components/PaymentFormWrapper';
-import ShoppingCartViewer from '@components/ShoppingCartViewer';
+import Header from '@/components/Header';
+import PaymentFormWrapper from '@/components/PaymentFormWrapper';
+import ShoppingCartViewer from '@/components/ShoppingCartViewer';
 
 export default function ShoppingCart() {
   const [isCheckout, setIsCheckout] = useState();

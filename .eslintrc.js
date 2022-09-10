@@ -30,20 +30,27 @@ module.exports = {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'import/extensions': 'off',
-    'import/no-unresolved': 'warn',
     // TODO figure these out below
-    'react/no-unescaped-entities': 'warn',
-    'no-unused-vars': 'warn',
-    'no-multi-assign': 'warn',
-    'jsx-a11y/click-events-have-key-events': 'warn',
-    'react/jsx-props-no-spreading': 'warn',
-    'prefer-template': 'warn',
-    'jsx-a11y/no-noninteractive-element-interactions': 'warn',
-    'jsx-a11y/no-static-element-interactions': 'warn',
-    'no-prototype-builtins': 'warn',
-    'react/no-array-index-key': 'warn',
-    'no-undef': 'warn',
-    eqeqeq: 'warn',
+    // 'react/no-unescaped-entities': 'warn',
+    // 'no-unused-vars': 'warn',
+    // 'no-multi-assign': 'warn',
+    // 'jsx-a11y/click-events-have-key-events': 'warn',
+    // 'react/jsx-props-no-spreading': 'warn',
+    // 'prefer-template': 'warn',
+    // 'jsx-a11y/no-noninteractive-element-interactions': 'warn',
+    // 'jsx-a11y/no-static-element-interactions': 'warn',
+    // 'no-prototype-builtins': 'warn',
+    // 'react/no-array-index-key': 'warn',
+    // 'no-undef': 'warn',
+    // eqeqeq: 'warn',
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['hrefLeft', 'hrefRight'],
+        aspects: ['invalidHref', 'preferButton'],
+      },
+    ],
     'import/order': [
       'off',
       {
@@ -68,18 +75,26 @@ module.exports = {
         },
       },
     ],
-    'jsx-a11y/anchor-is-valid': [
-      'error',
-      {
-        components: ['Link'],
-        specialLink: ['hrefLeft', 'hrefRight'],
-        aspects: ['invalidHref', 'preferButton'],
-      },
-    ],
   },
   settings: {
     react: {
       version: 'detect',
+    },
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@/components', './src/components'],
+          ['@/context', './src/context'],
+          ['@/contract', './src/contract'],
+          ['@/lib', './src/lib'],
+          ['@/models', './src/models'],
+          ['@/pages', './src/pages'],
+          ['@/static-data', './src/static-data'],
+          ['@/styles', './src/styles'],
+          ['@/utils', './src/utils'],
+        ],
+        extensions: ['.js', '.jsx', '.json'],
+      },
     },
   },
 };

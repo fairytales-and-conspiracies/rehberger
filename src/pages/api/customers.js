@@ -1,6 +1,6 @@
-import dbConnect from '@lib/dbConnect';
-import sendMail from '@lib/sendMail';
-import Customer from '@models/Customer';
+import dbConnect from '@/lib/dbConnect';
+import sendMail from '@/lib/sendMail';
+import Customer from '@/models/Customer';
 
 export default async function handler(req, res) {
   const { method } = req;

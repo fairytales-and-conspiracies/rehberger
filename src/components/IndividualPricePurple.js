@@ -1,5 +1,14 @@
 import Image from 'next/image';
 
+import { getEthToEurRate } from '@/utils/conversion';
+
+const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
+const NFT_PRICE_ETH_STRING = NFT_PRICE_ETH.replace('.', ',');
+
+const nftPriceInEurosString = `${getEthToEurRate(NFT_PRICE_ETH)
+  .toString()
+  .replace('.', ',')} EUR`;
+
 export default function IndividualPricePurple() {
   return (
     <div className="individual-price-purple">
@@ -11,10 +20,12 @@ export default function IndividualPricePurple() {
           <span className="individual-price-purple__currency-eth">
             <Image alt="Ether" height="50px" src="/img/eth.svg" width="30px" />
           </span>
-          0,501
+          {NFT_PRICE_ETH_STRING}
         </div>
       </div>
-      <p className="individual-price-purple__euro-price">666,00 EUR</p>
+      <p className="individual-price-purple__euro-price">
+        {nftPriceInEurosString}
+      </p>
     </div>
   );
 }

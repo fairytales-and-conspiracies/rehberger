@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import IdentityVerification from '@components/IdentityVerification';
+import IdentityVerification from '@/components/IdentityVerification';
 
 export default function SecurityVerification({ error, formik }) {
   const [isIdentityVerificationVisible, setIsIdentityVerificationVisible] =
@@ -48,14 +48,15 @@ export default function SecurityVerification({ error, formik }) {
         </button>
       </form>
       <p className="security-verification__submit-error">{error}</p>
-      <p
-        className="security-verification__cannot-remember link"
+      <button
+        className="security-verification__cannot-remember link btn"
         onClick={() => {
           setIsIdentityVerificationVisible(true);
         }}
+        type="button"
       >
-        Can't remember the correct answer?
-      </p>
+        Can’t remember the correct answer?
+      </button>
       <IdentityVerification
         isVisible={isIdentityVerificationVisible}
         setIsVisible={setIsIdentityVerificationVisible}

@@ -28,7 +28,7 @@ export default function Artist() {
             of art and what the future possibilities for art production are. The
             objects he creates are versatile and can be repeatedly adapted to
             the context in which they are meant to function. In this way,
-            Rehberger's oeuvre evolves into an unpredictable and playful
+            Rehberger’§s oeuvre evolves into an unpredictable and playful
             whirlpool of shapes and colours.
           </p>
         </div>

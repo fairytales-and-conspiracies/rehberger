@@ -1,11 +1,24 @@
 import Image from 'next/image';
 
+import { getEthToEurRate } from '@/utils/conversion';
+
+const INDIVIDUAL_PRICE_TEXT = 'Individual price';
+const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
+const NFT_PRICE_ETH_STRING = NFT_PRICE_ETH.replace('.', ',');
+
+const nftPriceInEurosString = `${getEthToEurRate(NFT_PRICE_ETH)
+  .toString()
+  .replace('.', ',')} EUR`;
+
 export default function IndividualPrice() {
   return (
     <div className="individual-price">
       <div className="individual-price__main">
-        {'Individual price'.split('').map((char, index) => (
-          <span className={`individual-price__step-${index}`} key={index}>
+        {INDIVIDUAL_PRICE_TEXT.split('').map((char, index) => (
+          <span
+            className={`individual-price__step-${index}`}
+            key={INDIVIDUAL_PRICE_TEXT.substring(index)}
+          >
             {char}
           </span>
         ))}
@@ -14,10 +27,10 @@ export default function IndividualPrice() {
           <span className="individual-price__currency-eth">
             <Image alt="Ether" height="45px" src="/img/eth.svg" width="27px" />{' '}
           </span>
-          {'0,501'.split('').map((char, index) => (
+          {NFT_PRICE_ETH_STRING.split('').map((char, index) => (
             <span
               className={`individual-price__price-step-${index}`}
-              key={index}
+              key={NFT_PRICE_ETH_STRING.substring(index)}
             >
               {char}
             </span>
@@ -25,10 +38,10 @@ export default function IndividualPrice() {
         </div>
       </div>
       <p className="individual-price__euro-price">
-        {'666,00 EUR'.split('').map((char, index) => (
+        {nftPriceInEurosString.split('').map((char, index) => (
           <span
             className={`individual-price__euro-price-step-${index}`}
-            key={index}
+            key={nftPriceInEurosString.substring(index)}
           >
             {char}
           </span>

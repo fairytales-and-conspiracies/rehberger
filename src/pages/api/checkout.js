@@ -1,8 +1,10 @@
-import stripe from '@lib/stripe';
+import stripe from '@/lib/stripe';
+import { getEthToEurRate } from '@/utils/conversion';
 
-const currency = process.env.CURRENCY;
-const nftPriceInCents = process.env.NFT_PRICE * 100;
-const serverUrl = process.env.SERVER_URL;
+const { CURRENCY } = process.env;
+const { SERVER_URL } = process.env;
+
+const nftPriceInCents = getEthToEurRate(process.env.NFT_PRICE_ETH) * 100;
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -12,11 +14,11 @@ export default async function handler(req, res) {
       try {
         const { confirmationKey, items } = req.body;
         const session = await stripe.checkout.sessions.create({
-          cancel_url: `${serverUrl}/cancel`,
+          cancel_url: `${SERVER_URL}/cancel`,
           client_reference_id: confirmationKey,
           line_items: items.map((item) => ({
             price_data: {
-              currency,
+              currency: CURRENCY,
               product_data: {
                 name: `${item.time}`,
               },
@@ -26,7 +28,7 @@ export default async function handler(req, res) {
           })),
           mode: 'payment',
           payment_method_types: ['card'],
-          success_url: `${serverUrl}/shopping-cart?thank-you`,
+          success_url: `${SERVER_URL}/shopping-cart?thank-you`,
         });
         res.status(200).json({ success: true, url: session.url });
       } catch (err) {

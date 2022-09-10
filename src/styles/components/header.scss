@@ -73,6 +73,35 @@
   }
 
   @include max-screen-md {
+    @include e('logo') {
+      margin-left: 1rem;
+    }
+
+    @include e('nav') {
+      ul {
+        li {
+          font-size: 2.2rem;
+          padding: 3.6rem 1vw;
+        }
+      }
+
+      @include m('hidden') {
+        visibility: hidden;
+      }
+    }
+
+    @include e('shop') {
+      .btn {
+        margin-left: 0.5rem;
+
+        &:last-child {
+          margin-right: 1.5rem;
+        }
+      }
+    }
+  }
+
+  @include max-screen-sm {
     @include e('nav') {
       display: none;
     }

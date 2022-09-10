@@ -5,13 +5,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
-import Header from '@components/Header';
-import OrderVerification from '@components/OrderVerification';
-import SecurityVerification from '@components/SecurityVerification';
+import Header from '@/components/Header';
+import OrderVerification from '@/components/OrderVerification';
+import SecurityVerification from '@/components/SecurityVerification';
 
 export default function ClaimNFTs() {
   const [verificationAccepted, setVerificationAccepted] = useState(false);
-  const [securityVerification, setSecurityVerification] = useState(false);
+  const [securityVerification, setSecurityVerification] = useState(true);
   const [
     orderVerificationSubmissionError,
     setOrderVerificationSubmissionError,

@@ -12,5 +12,5 @@ const CustomerSchema = new mongoose.Schema({
   postalCode: String,
 });
 
-module.exports =
-  mongoose.models.Customer || mongoose.model('Customer', CustomerSchema);
+export default mongoose.models.Customer ||
+  mongoose.model('Customer', CustomerSchema);

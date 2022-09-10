@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 
-import ShoppingCartContext from '@context/ShoppingCartContext';
+import ShoppingCartContext from '@/context/ShoppingCartContext';
 
 export default function PaymentFormInputs({ formik }) {
   const { selectedFrames } = useContext(ShoppingCartContext);

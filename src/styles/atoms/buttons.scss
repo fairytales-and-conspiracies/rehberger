@@ -60,6 +60,29 @@ $btn-border-quarternary-disabled: 0.3rem darken($background-purple, 35%) solid;
     }
   }
 
+  @include m('no-style') {
+    background: transparent;
+    box-shadow: 0px 0px 0px transparent;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
+
+    &:hover {
+      background: transparent;
+      box-shadow: 0px 0px 0px transparent;
+      border: 0px solid transparent;
+      text-shadow: 0px 0px 0px transparent;
+    }
+
+    &:active {
+      outline: none;
+      border: none;
+    }
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
   @include m('primary') {
     background-color: $background-dark;
     color: $color-text-light;

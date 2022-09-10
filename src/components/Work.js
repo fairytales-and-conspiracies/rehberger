@@ -5,10 +5,10 @@ export default function Work() {
         <h1 className="work__heading">About the work</h1>
         <div className="work__content">
           <p className="work__paragraph">
-            „Fairytales and Conspiracies“ is a series of animated digital
+            “Fairytales and Conspiracies” is a series of animated digital
             collages that are deeply rooted in the surrealist tradition. Using
             typographic elements that are quotes of Max Frisch’s book
-            „questionnaire“ the pieces raises thought-provoking questions about
+            “questionnaire” the pieces raises thought-provoking questions about
             the state of our world and the individual in today’s society.
           </p>
 
@@ -22,7 +22,7 @@ export default function Work() {
           <p className="work__paragraph">
             When offered the possibility to publish these collages as NFTs,
             Rehberger developed a unique concept for them, unprecedented in the
-            art world: By animating the collages he created “liquid posters”in
+            art world: By animating the collages he created “liquid posters” in
             which the compositions of the collages are constantly in motion as
             elements float, turn, grow, shrink and travel across the image pane
             in loops ranging from 18 to 36 seconds.

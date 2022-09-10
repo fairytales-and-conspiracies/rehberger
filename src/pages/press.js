@@ -1,9 +1,12 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-import Header from '@components/Header';
+import Header from '@/components/Header';
+import { onEnterPress } from '@/utils/keypress';
+import download from '@/utils/download';
+
+const TEASER_VIDEO_LINK = '/vid/NFT_TEASER_SUBTITLE.mp4';
 
 const Loading = () => {
   return <h1 className="press__page-heading">Loading...</h1>;
@@ -32,6 +35,7 @@ const PressLogin = () => {
       <input
         className="input press__login-input"
         onChange={(event) => setPassword(event.target.value)}
+        onKeyPress={onEnterPress(logIn)}
         placeholder="Password"
         type="text"
         value={password}
@@ -98,6 +102,9 @@ const PressPage = () => {
             <div className="press__teaser-video-btn-area">
               <button
                 className="btn btn--quarternary press__teaser-video-btn"
+                onClick={() =>
+                  download(TEASER_VIDEO_LINK, 'Teaser Video', 'mp4')
+                }
                 type="button"
               >
                 <span className="press__teaser-video-btn-icon">

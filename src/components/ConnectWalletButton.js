@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
-import Web3Context from '@context/Web3Context';
-import wallets from '@static-data/wallets';
+import Web3Context from '@/context/Web3Context';
+import wallets from '@/static-data/wallets';
 
 const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 

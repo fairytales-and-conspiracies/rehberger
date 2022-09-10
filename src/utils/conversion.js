@@ -1,4 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
-export const getEthToUsdRate = (eth) => {
-  return eth * 1500;
+export const getEthToEurRate = (eth) => {
+  const parsedEth = parseFloat(eth);
+
+  return (parsedEth * 1500).toFixed(2);
 };

@@ -80,13 +80,14 @@ export default function FAQ() {
         <h1 className="faq__heading">FAQ</h1>
         <div className="faq__content">
           {FAQ_CONTENT.map((questionAndAnswer, index) => (
-            <div key={index}>
-              <div
-                className="faq__question"
+            <div className="faq__question" key={questionAndAnswer.question}>
+              <button
+                className="faq__question-btn btn"
                 onClick={() => toggleExpand(index)}
+                type="button"
               >
                 {questionAndAnswer.question}
-              </div>
+              </button>
               <p
                 className={`faq__answer${
                   visibleIndex === index ? ' faq__answer--visible' : ''
