@@ -1,4 +1,3 @@
-import fs from 'fs';
 import nextConnect from 'next-connect';
 import multer from 'multer';
 
@@ -45,40 +44,6 @@ handler.post(async (req, res) => {
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
-  }
-});
-
-const handler2 = { post: () => {} };
-handler2.post(async (req, res) => {
-  await dbConnect();
-
-  console.log(req.body);
-  console.log(req.files);
-
-  try {
-    const [file1, file2] = req.files.files;
-    const {
-      confirmationKey: [confirmationKey],
-      walletAddress: [walletAddress],
-    } = req.body;
-
-    let buffer = await streamToBuffer(file1);
-    const file1Url = `/Users/nikolabulatovic/Downloads/rehberger/${file1.originalFilename}`;
-    fs.writeFileSync(file1Url, buffer);
-
-    buffer = await streamToBuffer(file2);
-    const file2Url = `/Users/nikolabulatovic/Downloads/rehberger/${file1.originalFilename}`;
-    fs.writeFileSync(file2Url, buffer);
-
-    const idVerification = await IdentityVerification.create({
-      file1Url,
-      file2Url,
-      confirmationKey,
-      walletAddress,
-    });
-    res.status(200).json({ success: true, data: idVerification });
-  } catch (error) {
-    res.status(400).json({ success: false });
   }
 });
 
