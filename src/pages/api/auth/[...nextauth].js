@@ -34,7 +34,6 @@ const options = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default (req, res) => NextAuth(req, res, options);
