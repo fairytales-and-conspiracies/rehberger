@@ -106,7 +106,7 @@
   }
 
   @include e('community') {
-    margin: 0 auto 2rem;
+    margin: 3rem auto 2rem;
     width: 115rem;
 
     @include align-items(center);
@@ -132,7 +132,10 @@
   }
 
   @include e('sign-up-input') {
+    font-family: $font-primary;
+    font-size: 2.2rem;
     height: 4.3rem;
+    padding-top: 1rem;
     width: 50rem;
 
     @include m('bottom-space') {

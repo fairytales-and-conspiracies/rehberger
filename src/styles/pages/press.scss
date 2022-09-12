@@ -1,14 +1,27 @@
+%press-page-section {
+  margin-top: 7rem;
+}
+
 %press-page-heading {
   color: $color-text-red;
   font-family: $font-primary;
   font-size: 4rem;
   font-weight: 400;
+  line-height: 0.9;
   text-transform: uppercase;
+}
+
+%press-page-btn {
+  font-family: $font-secondary;
+  font-size: 1.6rem;
+  padding: 0.5rem;
+  width: 12rem;
 }
 
 %press-link-copied {
   color: lighten($color-text-green, 20%);
   font-family: $font-secondary;
+  font-size: 1.4rem;
   padding-bottom: 0.5rem;
   text-align: center;
 }
@@ -29,9 +42,6 @@
     width: 100%;
     height: 100%;
   }
-}
-
-%press-video-responsive-objects {
 }
 
 .press {
@@ -78,6 +88,12 @@
     text-align: center;
   }
 
+  @include e('btn-icon') {
+    margin-right: 0.5rem;
+    position: relative;
+    top: 0.2rem;
+  }
+
   @include e('top-section-main') {
     margin-top: 1rem;
 
@@ -108,6 +124,7 @@
 
   @include e('teaser-video-info-docs-section') {
     font-family: $font-secondary;
+    margin-top: 0.8rem;
 
     @include flex;
   }
@@ -139,20 +156,14 @@
   }
 
   @include e('teaser-video-btn') {
-    font-family: $font-secondary;
-    padding: 0.5rem;
-    width: 17rem;
+    @extend %press-page-btn;
 
     &:first-child {
       margin: {
         right: 3rem;
-        top: 2.6rem;
+        top: 2.4rem;
       }
     }
-  }
-
-  @include e('teaser-video-btn-icon') {
-    margin-right: 0.5rem;
   }
 
   @include e('teaser-video-link-copied-text') {
@@ -213,7 +224,7 @@
   }
 
   @include e('social-media-section') {
-    margin-top: 3rem;
+    @extend %press-page-section;
   }
 
   @include e('socials') {
@@ -225,8 +236,9 @@
   }
 
   @include e('liquid-poster-section') {
+    @extend %press-page-section;
+
     font-family: $font-secondary;
-    margin-top: 5rem;
   }
 
   @include e('liquid-posters-row') {
@@ -285,8 +297,7 @@
   }
 
   @include e('liquid-poster-btn') {
-    padding: 0.5rem;
-    width: 15rem;
+    @extend %press-page-btn;
 
     @include m('download') {
       margin: {
@@ -302,6 +313,10 @@
 
   @include e('liquid-poster-link-copied-text') {
     @extend %press-link-copied;
+  }
+
+  @include e('gallery-section') {
+    @extend %press-page-section;
   }
 
   @include e('gallery') {
@@ -320,7 +335,16 @@
   }
 
   @include e('gallery-image-caption') {
-    text-align: center;
+    padding: 0.5rem;
+  }
+
+  @include e('gallery-btn') {
+    @extend %press-page-btn;
+
+    margin: {
+      left: 0.5rem;
+      top: 1rem;
+    }
   }
 
   @include max-screen-lg {
@@ -360,7 +384,7 @@
     }
 
     @include e('teaser-video-info-row') {
-      margin-top: 1rem;
+      margin-top: 2rem;
     }
 
     @include e('liquid-poster') {

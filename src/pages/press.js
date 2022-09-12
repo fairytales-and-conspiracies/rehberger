@@ -7,11 +7,13 @@ import { onEnterPress } from '@/utils/keypress';
 import download from '@/utils/download';
 
 const TEASER_VIDEO_LINK = '/vid/NFT_TEASER_SUBTITLE.mp4';
-const TEASER_VIDEO_LINK_YOUTUBE = 'https://www.youtube.com/embed/aqz-KE-bpKQ';
+const TEASER_VIDEO_YOUTUBE = 'https://www.youtube.com/embed/eZ0ydV252ZI';
+const TEASER_VIDEO_YOUTUBE_LINK = 'https://youtu.be/eZ0ydV252ZI';
 
 const LIQUID_POSTER_1 = 'HAVEYOUEVERTHOUGHOFEMIGRATING?';
 const LIQUID_POSTER_1_LINK = '/vid/HAVEYOUEVERTHOUGHOFEMIGRATING?.mov';
-const LIQUID_POSTER_1_YOUTUBE = 'https://www.youtube.com/embed/aqz-KE-bpKQ';
+const LIQUID_POSTER_1_YOUTUBE = 'https://youtube.com/embed/U3IRKY7QJXc';
+const LIQUID_POSTER_1_YOUTUBE_LINK = 'https://youtube.com/shorts/U3IRKY7QJXc';
 
 const LIQUID_POSTER_2 = 'IMAGINEYOURSELFWITHOUTAHOME';
 const LIQUID_POSTER_2_LINK = '/img/press/liquid-poster-2-unavailable.svg';
@@ -24,6 +26,31 @@ const LIQUID_POSTER_4_LINK = '/img/press/liquid-poster-4-unavailable.svg';
 
 const LIQUID_POSTER_5 = 'ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR';
 const LIQUID_POSTER_5_LINK = '/img/press/liquid-poster-5-unavailable.svg';
+
+const IMAGE_1_LINK =
+  '/img/press/01_Tobias_Rehberger_Liquid_Poster_Detail_1.jpg';
+const IMAGE_2_LINK =
+  '/img/press/02_Tobias_Rehberger_Liquid_Poster_Detail_2.jpg';
+const IMAGE_3_LINK =
+  '/img/press/03_Tobias_Rehberger_Liquid_Poster_Detail_3.jpg';
+const IMAGE_4_LINK =
+  '/img/press/04_Tobias_Rehberger_Liquid_Poster_Detail_4.jpg';
+const IMAGE_5_LINK =
+  '/img/press/05_Tobias_Rehberger_Liquid_Poster_Detail_5.jpg';
+const IMAGE_6_LINK =
+  '/img/press/06_Tobias_Rehberger_Liquid_Poster_Detail_6.jpg';
+const IMAGE_7_LINK =
+  '/img/press/07_Tobias_Rehberger_Liquid_Poster_Detail_7.jpg';
+const IMAGE_8_LINK =
+  '/img/press/08_Tobias_Rehberger_Portrait_In_Landscape_Format.jpg';
+const IMAGE_9_LINK =
+  '/img/press/09_Tobias_Rehberger_Portrait_In_Portrait_Format.jpg';
+const IMAGE_10_LINK =
+  '/img/press/10_Tobias_Rehberger_Kunstmuseum_Stuttgart_Facade_Installation.jpg';
+const IMAGE_11_LINK =
+  '/img/press/11_Tobias_Rehberger_Installation_I_Do_If_I_Don_t.jpg';
+const IMAGE_12_LINK =
+  '/img/press/12_Tobias_Rehberger_Was_Du_Liebst_Bringt_Dich_Auch_Zum_Weinen.jpg';
 
 const Loading = () => {
   return <h1 className="press__page-heading">Loading...</h1>;
@@ -74,6 +101,7 @@ const PressLiquidPoster = ({
   link,
   name,
   posterNumber,
+  youtube,
   youtubeLink,
 }) => {
   const [linkCopied, setLinkCopied] = useState(false);
@@ -105,7 +133,7 @@ const PressLiquidPoster = ({
             className="press__liquid-poster-iframe"
             frameBorder="0"
             height="225"
-            src={youtubeLink}
+            src={youtube}
             title="YouTube video player"
             width="400"
           />
@@ -140,12 +168,12 @@ const PressLiquidPoster = ({
             onClick={available ? () => download(link, name, 'mov') : null}
             type="button"
           >
-            <span className="press__liquid-poster-btn-icon">
+            <span className="press__btn-icon">
               <Image
                 alt="Download"
-                height="20"
+                height="15"
                 src="/img/icons/download.svg"
-                width="20"
+                width="15"
               />
             </span>
             Download
@@ -198,7 +226,7 @@ const PressPage = () => {
             <iframe
               width="560"
               height="315"
-              src={TEASER_VIDEO_LINK_YOUTUBE}
+              src={TEASER_VIDEO_YOUTUBE}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -217,16 +245,16 @@ const PressPage = () => {
                   </div>
                   <div className="press__teaser-video-info-docs">
                     <a
-                      className="press__teaser-video-info-doc link"
+                      className="press__teaser-video-info-doc link link--purple"
                       download="Tobias Rehberger Media Information"
-                      href="/doc/Media_Information_Tobias_Rehberger_English.docx"
+                      href="/doc/Media_Information_Tobias_Rehberger_ENGLISH.docx"
                     >
                       DOCX
                     </a>
                     <a
-                      className="press__teaser-video-info-doc link"
+                      className="press__teaser-video-info-doc link link--purple"
                       download="Tobias Rehberger Media Information"
-                      href="/doc/Media_Information_Tobias_Rehberger_English.pdf"
+                      href="/doc/Media_Information_Tobias_Rehberger_ENGLISH.pdf"
                     >
                       PDF
                     </a>
@@ -238,16 +266,16 @@ const PressPage = () => {
                   </div>
                   <div className="press__teaser-video-info-docs">
                     <a
-                      className="press__teaser-video-info-doc link"
-                      download="Tobias Rehberger Media Information"
-                      href="/doc/Media_Information_Tobias_Rehberger_Deutsch.docx"
+                      className="press__teaser-video-info-doc link link--purple"
+                      download="Tobias Rehberger Medieninformation"
+                      href="/doc/Medieninformation_Tobias_Rehberger_DEUTSCH.docx"
                     >
                       DOCX
                     </a>
                     <a
-                      className="press__teaser-video-info-doc link"
-                      download="Tobias Rehberger Media Information"
-                      href="/doc/Media_Information_Tobias_Rehberger_Deutsch.pdf"
+                      className="press__teaser-video-info-doc link link--purple"
+                      download="Tobias Rehberger Medieninformation"
+                      href="/doc/Medieninformation_Tobias_Rehberger_DEUTSCH.pdf"
                     >
                       PDF
                     </a>
@@ -266,16 +294,16 @@ const PressPage = () => {
                   </div>
                   <div className="press__teaser-video-info-docs">
                     <a
-                      className="press__teaser-video-info-doc link"
+                      className="press__teaser-video-info-doc link link--purple"
                       download="Tobias Rehberger Interview"
-                      href="/doc/Interview_Tobias_Rehberger_English.docx"
+                      href="/doc/Interview_Tobias_Rehberger_ENGLISH.docx"
                     >
                       DOCX
                     </a>
                     <a
-                      className="press__teaser-video-info-doc link"
+                      className="press__teaser-video-info-doc link link--purple"
                       download="Tobias Rehberger Interview"
-                      href="/doc/Interview_Tobias_Rehberger_English.pdf"
+                      href="/doc/Interview_Tobias_Rehberger_ENGLISH.pdf"
                     >
                       PDF
                     </a>
@@ -287,16 +315,16 @@ const PressPage = () => {
                   </div>
                   <div className="press__teaser-video-info-docs">
                     <a
-                      className="press__teaser-video-info-doc link"
+                      className="press__teaser-video-info-doc link link--purple"
                       download="Tobias Rehberger Interview"
-                      href="/doc/Interview_Tobias_Rehberger_Deutsch.docx"
+                      href="/doc/Interview_Tobias_Rehberger_DEUTSCH.docx"
                     >
                       DOCX
                     </a>
                     <a
-                      className="press__teaser-video-info-doc link"
+                      className="press__teaser-video-info-doc link link--purple"
                       download="Tobias Rehberger Interview"
-                      href="/doc/Interview_Tobias_Rehberger_Deutsch.pdf"
+                      href="/doc/Interview_Tobias_Rehberger_DEUTSCH.pdf"
                     >
                       PDF
                     </a>
@@ -312,12 +340,12 @@ const PressPage = () => {
                 }
                 type="button"
               >
-                <span className="press__teaser-video-btn-icon">
+                <span className="press__btn-icon">
                   <Image
                     alt="Download"
-                    height="20"
+                    height="15"
                     src="/img/icons/download.svg"
-                    width="20"
+                    width="15"
                   />
                 </span>
                 Download
@@ -331,7 +359,7 @@ const PressPage = () => {
                 <button
                   className="btn btn--quarternary press__teaser-video-btn"
                   onClick={() => {
-                    copyLink(TEASER_VIDEO_LINK_YOUTUBE);
+                    copyLink(TEASER_VIDEO_YOUTUBE_LINK);
                   }}
                   type="button"
                 >
@@ -452,12 +480,14 @@ const PressPage = () => {
               link={LIQUID_POSTER_1_LINK}
               name={LIQUID_POSTER_1}
               posterNumber={1}
-              youtubeLink={LIQUID_POSTER_1_YOUTUBE}
+              youtube={LIQUID_POSTER_1_YOUTUBE}
+              youtubeLink={LIQUID_POSTER_1_YOUTUBE_LINK}
             />
             <PressLiquidPoster
               link={LIQUID_POSTER_2_LINK}
               name={LIQUID_POSTER_2}
               posterNumber={2}
+              youtube=""
               youtubeLink=""
             />
           </div>
@@ -466,12 +496,14 @@ const PressPage = () => {
               link={LIQUID_POSTER_3_LINK}
               name={LIQUID_POSTER_3}
               posterNumber={3}
+              youtube=""
               youtubeLink=""
             />
             <PressLiquidPoster
               link={LIQUID_POSTER_4_LINK}
               name={LIQUID_POSTER_4}
               posterNumber={4}
+              youtube=""
               youtubeLink=""
             />
           </div>
@@ -480,6 +512,7 @@ const PressPage = () => {
               link={LIQUID_POSTER_5_LINK}
               name={LIQUID_POSTER_5}
               posterNumber={5}
+              youtube=""
               youtubeLink=""
             />
           </div>
@@ -501,6 +534,21 @@ const PressPage = () => {
             <div className="press__gallery-image-caption">
               Liquid Poster Detail 1
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(IMAGE_1_LINK, 'Liquid Poster Detail 1', 'jpg')
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -515,6 +563,21 @@ const PressPage = () => {
             <div className="press__gallery-image-caption">
               Liquid Poster Detail 2
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(IMAGE_2_LINK, 'Liquid Poster Detail 2', 'jpg')
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -529,6 +592,21 @@ const PressPage = () => {
             <div className="press__gallery-image-caption">
               Liquid Poster Detail 3
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(IMAGE_3_LINK, 'Liquid Poster Detail 3', 'jpg')
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -543,6 +621,21 @@ const PressPage = () => {
             <div className="press__gallery-image-caption">
               Liquid Poster Detail 4
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(IMAGE_4_LINK, 'Liquid Poster Detail 4', 'jpg')
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -557,6 +650,21 @@ const PressPage = () => {
             <div className="press__gallery-image-caption">
               Liquid Poster Detail 5
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(IMAGE_5_LINK, 'Liquid Poster Detail 5', 'jpg')
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -571,6 +679,21 @@ const PressPage = () => {
             <div className="press__gallery-image-caption">
               Liquid Poster Detail 6
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(IMAGE_6_LINK, 'Liquid Poster Detail 6', 'jpg')
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -585,6 +708,21 @@ const PressPage = () => {
             <div className="press__gallery-image-caption">
               Liquid Poster Detail 7
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(IMAGE_7_LINK, 'Liquid Poster Detail 7', 'jpg')
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -597,12 +735,29 @@ const PressPage = () => {
               />
             </div>
             <div className="press__gallery-image-caption">
-              Portrait
-              <br />
-              Tobias Rehberger
+              Portrait Tobias Rehberger
               <br />
               Photo: Swatch
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(
+                  IMAGE_8_LINK,
+                  'Tobias Rehberger Portrait in Landscape Format',
+                  'jpg'
+                )
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -615,12 +770,29 @@ const PressPage = () => {
               />
             </div>
             <div className="press__gallery-image-caption">
-              Portrait
-              <br />
-              Tobias Rehberger
+              Portrait Tobias Rehberger
               <br />
               Photo: Swatch
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(
+                  IMAGE_9_LINK,
+                  'Tobias Rehberger Portrait in Portrait Format',
+                  'jpg'
+                )
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -646,6 +818,25 @@ const PressPage = () => {
               Photo: Wolfgang Günzel, Offenbach
               <br />© Tobias Rehberger
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(
+                  IMAGE_10_LINK,
+                  'Kunstmuseum Stuttgart Facade Installation',
+                  'jpg'
+                )
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -667,6 +858,25 @@ const PressPage = () => {
               Photo: Wolfgang Günzel, Offenbach
               <br />© Tobias Rehberger
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(
+                  IMAGE_11_LINK,
+                  'Installation "I Do If I don\'t"',
+                  'jpg'
+                )
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
           <div className="press__gallery-image-container">
             <div className="press__gallery-image">
@@ -688,6 +898,25 @@ const PressPage = () => {
               Courtesy: neugerriemschneider, Berlin
               <br />© Tobias Rehberger
             </div>
+            <button
+              className="btn btn--quarternary press__gallery-btn"
+              onClick={() =>
+                download(
+                  IMAGE_12_LINK,
+                  'Was Du liebst, bringt dich auch zum Weinen',
+                  'jpg'
+                )
+              }
+              type="button"
+            >
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+              Download
+            </button>
           </div>
         </div>
       </div>

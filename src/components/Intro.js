@@ -46,7 +46,7 @@ export default function Home() {
     }
   }, [signupSuccessful]);
 
-  const onSignupClick = (event) => {
+  const onSignupClick = () => {
     if (!formik.isSubmitting) {
       setSignupSuccessful(false);
       setSignupError(false);

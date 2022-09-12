@@ -5,4 +5,12 @@
   &:hover {
     color: lighten($color-text-red, 15%);
   }
+
+  @include m('purple') {
+    color: $color-text-purple;
+
+    &:hover {
+      color: lighten($color-text-purple, 15%);
+    }
+  }
 }
