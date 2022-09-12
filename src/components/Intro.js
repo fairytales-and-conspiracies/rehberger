@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 import CountdownTimer from '@/components/CountdownTimer';
@@ -9,6 +9,7 @@ import CountdownTimer from '@/components/CountdownTimer';
 const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
 export default function Home() {
+  const [signupError, setSignupError] = useState(false);
   const [signupSuccessful, setSignupSuccessful] = useState(false);
 
   const formik = useFormik({
@@ -24,20 +25,46 @@ export default function Home() {
         setSignupSuccessful(true);
       } catch (err) {
         // TODO: LOG
+        setSignupError(true);
       }
     },
   });
 
-  const onSignupClick = () => {
-    setSignupSuccessful(false);
+  useEffect(() => {
+    if (signupError) {
+      setTimeout(() => {
+        setSignupError(false);
+      }, 10000);
+    }
+  }, [signupError]);
+
+  useEffect(() => {
+    if (signupSuccessful) {
+      setTimeout(() => {
+        setSignupSuccessful(false);
+      }, 10000);
+    }
+  }, [signupSuccessful]);
+
+  const onSignupClick = (event) => {
+    if (!formik.isSubmitting) {
+      setSignupSuccessful(false);
+      setSignupError(false);
+    }
   };
 
   if (formik.touched.email && formik.errors.email && signupSuccessful) {
     setSignupSuccessful(false);
   }
 
+  if (formik.touched.email && formik.errors.email && signupError) {
+    setSignupError(false);
+  }
+
   const shouldInputHaveMarginBottom =
-    !signupSuccessful && !(formik.touched.email && formik.errors.email);
+    !signupError &&
+    !signupSuccessful &&
+    !(formik.touched.email && formik.errors.email);
 
   return (
     <div className={`bg-home${INTERIM ? ' bg-home--interim' : ''}`}>
@@ -115,13 +142,19 @@ export default function Home() {
                       Thank you for signing up!
                     </p>
                   )}
+                  {signupError && (
+                    <p className="error home__sign-up-error">
+                      There has been an error!
+                    </p>
+                  )}
                 </div>
                 <button
                   className="btn btn--primary home__sign-up-btn"
+                  disabled={formik.isSubmitting || undefined}
                   onClick={onSignupClick}
                   type="submit"
                 >
-                  Sign up
+                  {formik.isSubmitting ? 'Signing up...' : 'Sign up'}
                 </button>
               </form>
             </div>
