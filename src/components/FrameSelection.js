@@ -166,7 +166,7 @@ export default function FrameSelection({ onClose }) {
               muted
               onClick={onVideoClick}
             >
-              <source src="/vid/brick-and-mortar.mov" />
+              <source src="/vid/IMAGINEYOURSELFWITHOUTAHOME.mov" />
             </video>
 
             <div className="frame-selection__instructions-wrapper">

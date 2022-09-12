@@ -1,4 +1,14 @@
 export default (url, filename, extension) => {
+  const link = document.createElement('a');
+  link.download = filename && extension ? `${filename}.${extension}` : true;
+  link.href = url;
+  link.target = '_blank';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+export const downloadExternal = (url, filename, extension) => {
   fetch(url)
     .then((res) => res.blob())
     .then((file) => {

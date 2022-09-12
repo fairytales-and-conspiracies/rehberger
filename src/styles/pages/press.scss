@@ -1,11 +1,37 @@
 %press-page-heading {
   color: $color-text-red;
+  font-family: $font-primary;
   font-size: 4rem;
   font-weight: 400;
   text-transform: uppercase;
 }
 
-%press-page-btn {
+%press-link-copied {
+  color: lighten($color-text-green, 20%);
+  font-family: $font-secondary;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+@mixin press-video-responsive {
+  height: 0;
+  margin-right: unset;
+  overflow: hidden;
+  padding-bottom: 56.1%;
+  position: relative;
+
+  iframe,
+  object,
+  embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+%press-video-responsive-objects {
 }
 
 .press {
@@ -23,6 +49,7 @@
 
     @include m('larger') {
       font-size: 5rem;
+      margin-bottom: 1.5rem;
     }
   }
 
@@ -76,26 +103,60 @@
   }
 
   @include e('teaser-video-info-row') {
-    justify-content: space-between;
     position: relative;
+  }
 
-    @include align-items(center);
+  @include e('teaser-video-info-docs-section') {
+    font-family: $font-secondary;
+
     @include flex;
+  }
+
+  @include e('teaser-video-doc-group') {
+    @include flex;
+
+    &:last-of-type {
+      margin-left: 2rem;
+    }
+  }
+
+  @include e('teaser-video-info-language') {
+    margin-left: 2rem;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+  }
+
+  @include e('teaser-video-info-doc') {
+    margin-left: 1rem;
   }
 
   @include e('teaser-video-btn-area') {
     margin-bottom: 1rem;
+
+    @include flex;
   }
 
   @include e('teaser-video-btn') {
     font-family: $font-secondary;
-    margin-right: 3rem;
     padding: 0.5rem;
     width: 17rem;
+
+    &:first-child {
+      margin: {
+        right: 3rem;
+        top: 2.6rem;
+      }
+    }
   }
 
   @include e('teaser-video-btn-icon') {
     margin-right: 0.5rem;
+  }
+
+  @include e('teaser-video-link-copied-text') {
+    @extend %press-link-copied;
   }
 
   @include e('docx-icon') {
@@ -151,6 +212,117 @@
     }
   }
 
+  @include e('social-media-section') {
+    margin-top: 3rem;
+  }
+
+  @include e('socials') {
+    margin: 1.5rem auto;
+  }
+
+  @include e('social-link') {
+    @extend %social-link;
+  }
+
+  @include e('liquid-poster-section') {
+    font-family: $font-secondary;
+    margin-top: 5rem;
+  }
+
+  @include e('liquid-posters-row') {
+    justify-content: space-between;
+
+    @include flex;
+
+    &:last-of-type {
+      justify-content: center;
+    }
+  }
+
+  @include e('liquid-poster') {
+    @include m('unavailable') {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  @include e('liquid-poster-video') {
+    height: 27rem;
+    position: relative;
+    width: 48rem;
+  }
+
+  @include e('liquid-poster-unavailable-text') {
+    background: transparentize($background-dark, 0.2);
+    font-size: 3rem;
+    left: 50%;
+    padding: 1rem 2rem;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+  }
+
+  @include e('liquid-poster-iframe') {
+    height: 100%;
+    width: 100%;
+  }
+
+  @include e('liquid-poster-name') {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: {
+      bottom: 0.3rem;
+      top: 0.5rem;
+    }
+    word-break: break-all;
+  }
+
+  @include e('liquid-poster-btn-area') {
+    margin-bottom: 3.5rem;
+
+    @include align-items(flex-end);
+    @include flex;
+  }
+
+  @include e('liquid-poster-btn') {
+    padding: 0.5rem;
+    width: 15rem;
+
+    @include m('download') {
+      margin: {
+        right: 2rem;
+        top: 2.7rem;
+      }
+    }
+
+    @include m('unavailable') {
+      cursor: not-allowed;
+    }
+  }
+
+  @include e('liquid-poster-link-copied-text') {
+    @extend %press-link-copied;
+  }
+
+  @include e('gallery') {
+    display: grid;
+    font-family: $font-secondary;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include e('gallery-image-container') {
+    margin-bottom: 3rem;
+  }
+
+  @include e('gallery-image') {
+    position: relative;
+  }
+
+  @include e('gallery-image-caption') {
+    text-align: center;
+  }
+
   @include max-screen-lg {
     max-width: 95rem;
 
@@ -159,16 +331,20 @@
     }
 
     @include e('teaser-video-btn') {
-      margin-right: unset;
-
-      &:first-of-type {
+      &:first-child {
         margin-right: 2rem;
       }
+    }
+
+    @include e('liquid-poster-video') {
+      height: 24.75rem;
+      position: relative;
+      width: 44rem;
     }
   }
 
   @include max-screen-md {
-    margin: 5rem 3rem;
+    margin: 5rem 3rem 0;
     max-width: unset;
 
     @include e('top-section-main') {
@@ -176,34 +352,38 @@
     }
 
     @include e('teaser-video') {
-      height: 0;
-      margin-right: unset;
-      overflow: hidden;
-      padding-bottom: 56.1%;
-      position: relative;
+      @include press-video-responsive;
+    }
 
-      iframe,
-      object,
-      embed {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
+    @include e('teaser-video-btn-area') {
+      margin-top: 1rem;
     }
 
     @include e('teaser-video-info-row') {
       margin-top: 1rem;
     }
 
-    @include e('teaser-video-btn') {
-      margin-top: 1.5rem;
+    @include e('liquid-poster') {
+      margin-bottom: 3rem;
+    }
+
+    @include e('liquid-posters-row') {
+      @include flex-direction(column);
+    }
+
+    @include e('liquid-poster-video') {
+      width: unset;
+
+      @include press-video-responsive;
+    }
+
+    @include e('gallery') {
+      grid-template-columns: 1fr;
     }
   }
 
   @include max-screen-sm {
-    margin: 5rem 1.5rem;
+    margin: 5rem 1.5rem 0;
 
     @include e('media-contact-section') {
       @include flex-direction(column);
@@ -238,6 +418,43 @@
     @include e('login-btn') {
       max-width: 29.5rem;
       width: 100%;
+    }
+
+    @include e('teaser-video-info-heading') {
+      width: unset;
+    }
+
+    @include e('teaser-video-info-docs-section') {
+      @include flex-direction(column);
+    }
+
+    @include e('teaser-video-doc-group') {
+      &:last-of-type {
+        margin-left: 0;
+      }
+    }
+
+    @include e('teaser-video-btn-area') {
+      @include flex-direction(column);
+    }
+
+    @include e('teaser-video-link-copied-text') {
+      margin: {
+        left: 4.5rem;
+        top: 2rem;
+      }
+      text-align: left;
+    }
+
+    @include e('liquid-poster-btn-area') {
+      @include align-items(flex-start);
+      @include flex-direction(column);
+    }
+
+    @include e('liquid-poster-btn') {
+      @include m('download') {
+        margin-bottom: 2rem;
+      }
     }
   }
 }

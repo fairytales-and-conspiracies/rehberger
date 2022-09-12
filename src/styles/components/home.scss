@@ -1,3 +1,14 @@
+%home-sign-up-below-input-text {
+  background: $background-grey;
+  margin-top: -2rem;
+  padding: {
+    bottom: 0.2rem;
+    top: 2rem;
+  }
+
+  @include border-radius(1rem);
+}
+
 .bg-home {
   background-image: url('/img/home-bg.jpeg');
   background-size: cover;
@@ -94,6 +105,90 @@
     line-height: 0.9;
   }
 
+  @include e('community') {
+    margin: 0 auto 2rem;
+    width: 115rem;
+
+    @include align-items(center);
+    @include flex;
+  }
+
+  @include e('sign-up') {
+    flex-shrink: 0;
+    padding-right: 0.5rem;
+  }
+
+  @include e('sign-up-text') {
+    font-family: $font-secondary;
+    margin-bottom: 1rem;
+  }
+
+  @include e('sign-up-form') {
+    @include flex;
+  }
+
+  @include e('sign-up-input-and-error') {
+    margin-right: 2rem;
+  }
+
+  @include e('sign-up-input') {
+    height: 4.3rem;
+    width: 50rem;
+
+    @include m('bottom-space') {
+      margin-bottom: 1.95rem;
+    }
+  }
+
+  @include e('sign-up-btn') {
+    margin: {
+      bottom: 2.2rem;
+      top: 0.2rem;
+    }
+    padding: 0.5rem;
+    width: 15rem;
+
+    @include border-radius(1.2rem);
+  }
+
+  @include e('sign-up-error') {
+    @extend %home-sign-up-below-input-text;
+  }
+
+  @include e('sign-up-success') {
+    @extend %home-sign-up-below-input-text;
+
+    color: $color-text-green;
+    font-family: $font-secondary;
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding-left: 2rem;
+  }
+
+  @include e('community-separator') {
+    background: $background-light;
+    flex: 1 1;
+    height: 0.5rem;
+    margin: 1.5rem 1.5rem 0;
+  }
+
+  @include e('socials-wrapper') {
+    flex-shrink: 1;
+  }
+
+  @include e('socials') {
+    margin-bottom: 1.4rem;
+  }
+
+  @include e('socials-text') {
+    font-family: $font-secondary;
+    margin-bottom: 1rem;
+  }
+
+  @include e('social-link') {
+    @extend %social-link;
+  }
+
   @include max-screen-xl {
     @include e('website-title') {
       font-size: 15rem;
@@ -104,11 +199,25 @@
     @include e('artist-statement') {
       font-size: 2rem;
     }
+
+    @include e('community') {
+      width: 95rem;
+    }
+
+    @include e('sign-up-input') {
+      width: 35rem;
+    }
   }
 
   @include max-screen-md {
     @include e('artist-statement') {
       font-size: 1.7rem;
+    }
+
+    @include e('community') {
+      width: unset;
+
+      @include flex-direction(column);
     }
   }
 
@@ -129,6 +238,27 @@
     @include e('artist-statement') {
       font-size: 1.6rem;
     }
+
+    @include e('community') {
+      margin: 0 1.5rem;
+    }
+
+    @include e('sign-up') {
+      width: 100%;
+    }
+
+    @include e('sign-up-input-and-error') {
+      flex-grow: 1;
+
+      @include flex;
+      @include flex-direction(column);
+    }
+
+    @include e('sign-up-input') {
+      flex-grow: 1;
+      width: auto;
+      z-index: 1;
+    }
   }
 
   @include max-screen-xs {
@@ -138,6 +268,22 @@
 
     @include e('artist-statement') {
       font-size: 1.4rem;
+    }
+
+    @include e('sign-up-form') {
+      @include flex-direction(column);
+    }
+
+    @include e('sign-up-input-and-error') {
+      margin: {
+        bottom: 1rem;
+        right: 0;
+      }
+    }
+
+    @include e('sign-up-btn') {
+      flex-grow: 1;
+      width: auto;
     }
   }
 }

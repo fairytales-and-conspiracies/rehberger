@@ -132,28 +132,3 @@ const handler = async (req, res) => {
 };
 
 export default handler;
-
-// This is when an order has been successfully created, either
-// when we have received a successful response from a wallet
-// or from Stripe
-
-// else if (transactionStatus === 'SUCCESS') {
-//   order = await Order.findByIdAndUpdate(
-//     mongoose.Types.ObjectId(req.body._id),
-//     {
-//       confirmationKey,
-//       transactionStatus,
-//     },
-//     {
-//       lean: true,
-//     }
-//   );
-
-//   const filter = { _id: { $in: [] } };
-//   order.frames.forEach((frame) =>
-//     filter['_id']['$in'].push(frame['_id'])
-//   );
-//   Frame.updateMany(filter, { sold: true });
-//   order.claimed = false;
-//   sendMail(true, order).catch(console.error);
-// }

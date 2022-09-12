@@ -42,7 +42,7 @@ function Home(_, ref) {
                   type="button"
                 >
                   <Image
-                    alt="Brick & Mortar clickable thumbnail"
+                    alt="HAVEYOUEVERTHOUGHTOFEMIGRATING? clickable thumbnail"
                     src="/img/01-1.png"
                     layout="fill"
                   />

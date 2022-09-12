@@ -14,7 +14,7 @@ export default function Footer() {
               <Image
                 alt="Rehberger Linked In"
                 height="18"
-                src="/img/icons/linkedin.svg"
+                src="/img/icons/linkedin-red.svg"
                 width="18"
               />
             </a>
@@ -26,7 +26,7 @@ export default function Footer() {
               <Image
                 alt="Rehberger Facebook"
                 height="18"
-                src="/img/icons/facebook.svg"
+                src="/img/icons/facebook-red.svg"
                 width="18"
               />
             </a>
@@ -38,7 +38,7 @@ export default function Footer() {
               <Image
                 alt="Rehberger Twitter"
                 height="18"
-                src="/img/icons/twitter.svg"
+                src="/img/icons/twitter-red.svg"
                 width="18"
               />
             </a>
