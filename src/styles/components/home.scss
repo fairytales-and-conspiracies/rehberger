@@ -161,7 +161,7 @@
   @include e('sign-up-success') {
     @extend %home-sign-up-below-input-text;
 
-    color: $color-text-green;
+    color: $color-text-gold;
     font-family: $font-secondary;
     font-size: 1.4rem;
     font-weight: bold;

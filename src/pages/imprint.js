@@ -5,13 +5,15 @@ export default function Imprint() {
   return (
     <div className="bg-primary imprint">
       <header className="imprint__header">
-        <div className="imprint__logo">
-          <Image
-            alt="Fairytales and conspiracies"
-            layout="fill"
-            src="/img/fairytales-conspiracies.svg"
-          />
-        </div>
+        <Link href="/" passHref>
+          <div className="imprint__logo">
+            <Image
+              alt="Fairytales and conspiracies"
+              layout="fill"
+              src="/img/fairytales-conspiracies.svg"
+            />
+          </div>
+        </Link>
         <div className="imprint__back-link-container">
           <Link href="/">
             <a>← Back</a>

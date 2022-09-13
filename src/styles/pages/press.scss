@@ -19,7 +19,7 @@
 }
 
 %press-link-copied {
-  color: lighten($color-text-green, 20%);
+  color: lighten($color-text-gold, 20%);
   font-family: $font-secondary;
   font-size: 1.4rem;
   padding-bottom: 0.5rem;
@@ -266,12 +266,15 @@
 
   @include e('liquid-poster-unavailable-text') {
     background: transparentize($background-dark, 0.2);
+    font-family: $font-primary;
     font-size: 3rem;
     left: 50%;
     padding: 1rem 2rem;
     position: absolute;
+    text-align: center;
     transform: translate(-50%, -50%);
     top: 50%;
+    width: 30rem;
   }
 
   @include e('liquid-poster-iframe') {

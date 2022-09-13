@@ -12,8 +12,8 @@ const TEASER_VIDEO_YOUTUBE_LINK = 'https://youtu.be/eZ0ydV252ZI';
 
 const LIQUID_POSTER_1 = 'HAVEYOUEVERTHOUGHOFEMIGRATING?';
 const LIQUID_POSTER_1_LINK = '/vid/HAVEYOUEVERTHOUGHOFEMIGRATING?.mov';
-const LIQUID_POSTER_1_YOUTUBE = 'https://youtube.com/embed/U3IRKY7QJXc';
-const LIQUID_POSTER_1_YOUTUBE_LINK = 'https://youtube.com/shorts/U3IRKY7QJXc';
+const LIQUID_POSTER_1_YOUTUBE = 'https://www.youtube.com/embed/3DvckB6LKNs';
+const LIQUID_POSTER_1_YOUTUBE_LINK = 'https://youtu.be/3DvckB6LKNs';
 
 const LIQUID_POSTER_2 = 'IMAGINEYOURSELFWITHOUTAHOME';
 const LIQUID_POSTER_2_LINK = '/img/press/liquid-poster-2-unavailable.svg';
@@ -148,7 +148,9 @@ const PressLiquidPoster = ({
               width="400"
             />
             <div className="press__liquid-poster-unavailable-text">
-              Coming Soon
+              Coming on
+              <br />
+              Sep. 28th, 19:00 CET
             </div>
           </>
         )}

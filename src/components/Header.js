@@ -8,13 +8,15 @@ const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 export default function Header({ logoOnly }) {
   return (
     <header className="header">
-      <div className="header__logo">
-        <Image
-          alt="Fairytales and conspiracies"
-          layout="fill"
-          src="/img/fairytales-conspiracies.svg"
-        />
-      </div>
+      <Link href="/" passHref>
+        <div className="header__logo">
+          <Image
+            alt="Fairytales and conspiracies"
+            layout="fill"
+            src="/img/fairytales-conspiracies.svg"
+          />
+        </div>
+      </Link>
       <nav
         className={`header__nav ${
           INTERIM || logoOnly ? 'header__nav--hidden' : ''
