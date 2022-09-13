@@ -95,6 +95,10 @@
     top: 0.2rem;
   }
 
+  @include e('top-section') {
+    @extend %press-page-section;
+  }
+
   @include e('top-section-main') {
     margin-top: 1rem;
 
