@@ -15,6 +15,7 @@
   font-family: $font-secondary;
   font-size: 1.6rem;
   padding: 0.5rem;
+  padding-bottom: 0.3rem;
   width: 12rem;
 }
 
@@ -120,6 +121,14 @@
 
   @include e('teaser-video-info-row') {
     position: relative;
+
+    &:first-of-type {
+      top: -0.7rem;
+    }
+
+    &:nth-of-type(2) {
+      top: -0.35rem;
+    }
   }
 
   @include e('teaser-video-info-docs-section') {
@@ -177,7 +186,7 @@
 
   @include e('media-contact-section') {
     justify-content: space-between;
-    margin-top: 3rem;
+    margin-top: 5rem;
 
     @include flex;
   }
@@ -388,6 +397,14 @@
 
     @include e('teaser-video-info-row') {
       margin-top: 2rem;
+
+      &:first-of-type {
+        top: unset;
+      }
+
+      &:nth-of-type(2) {
+        top: unset;
+      }
     }
 
     @include e('liquid-poster') {

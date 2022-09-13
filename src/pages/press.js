@@ -10,8 +10,8 @@ const TEASER_VIDEO_LINK = '/vid/NFT_TEASER_SUBTITLE.mp4';
 const TEASER_VIDEO_YOUTUBE = 'https://www.youtube.com/embed/eZ0ydV252ZI';
 const TEASER_VIDEO_YOUTUBE_LINK = 'https://youtu.be/eZ0ydV252ZI';
 
-const LIQUID_POSTER_1 = 'HAVEYOUEVERTHOUGHOFEMIGRATING?';
-const LIQUID_POSTER_1_LINK = '/vid/HAVEYOUEVERTHOUGHOFEMIGRATING?.mov';
+const LIQUID_POSTER_1 = 'HAVEYOUEVERTHOUGHTOFEMIGRATING?';
+const LIQUID_POSTER_1_LINK = '/vid/HAVEYOUEVERTHOUGHTOFEMIGRATING.mov';
 const LIQUID_POSTER_1_YOUTUBE = 'https://www.youtube.com/embed/3DvckB6LKNs';
 const LIQUID_POSTER_1_YOUTUBE_LINK = 'https://youtu.be/3DvckB6LKNs';
 
@@ -119,6 +119,8 @@ const PressLiquidPoster = ({
     }
   }, [linkCopied]);
 
+  const downloadName = name.replace('?', '');
+
   return (
     <div
       className={`press__liquid-poster ${
@@ -167,7 +169,9 @@ const PressLiquidPoster = ({
             className={`btn btn--quarternary press__liquid-poster-btn press__liquid-poster-btn--download ${
               available ? '' : 'press__liquid-poster-btn--unavailable'
             }`}
-            onClick={available ? () => download(link, name, 'mov') : null}
+            onClick={
+              available ? () => download(link, downloadName, 'mov') : null
+            }
             type="button"
           >
             <span className="press__btn-icon">
@@ -334,41 +338,86 @@ const PressPage = () => {
                 </div>
               </div>
             </div>
-            <div className="press__teaser-video-btn-area">
-              <button
-                className="btn btn--quarternary press__teaser-video-btn"
-                onClick={() =>
-                  download(TEASER_VIDEO_LINK, 'Teaser Video', 'mp4')
-                }
-                type="button"
-              >
-                <span className="press__btn-icon">
-                  <Image
-                    alt="Download"
-                    height="15"
-                    src="/img/icons/download.svg"
-                    width="15"
-                  />
-                </span>
-                Download
-              </button>
-              <div className="press__teaser-video-copy-btn-container">
-                {linkCopied && (
-                  <div className="press__teaser-video-link-copied-text">
-                    Link Copied
+            <div className="press__teaser-video-info-row">
+              <h3 className="press__teaser-video-info-heading">Biography</h3>
+              <div className="press__teaser-video-info-docs-section">
+                <div className="press__teaser-video-doc-group">
+                  <div className="press__teaser-video-info-language">
+                    English:
                   </div>
-                )}
-                <button
-                  className="btn btn--quarternary press__teaser-video-btn"
-                  onClick={() => {
-                    copyLink(TEASER_VIDEO_YOUTUBE_LINK);
-                  }}
-                  type="button"
-                >
-                  Copy Link
-                </button>
+                  <div className="press__teaser-video-info-docs">
+                    <a
+                      className="press__teaser-video-info-doc link link--purple"
+                      download="Tobias Rehberger - Life and work"
+                      href="/doc/Life_and_work_Tobias_Rehberger_ENGLISH.docx"
+                    >
+                      DOCX
+                    </a>
+                    <a
+                      className="press__teaser-video-info-doc link link--purple"
+                      download="Tobias Rehberger - Life and work"
+                      href="/doc/Life_and_work_Tobias_Rehberger_ENGLISH.pdf"
+                    >
+                      PDF
+                    </a>
+                  </div>
+                </div>
+                <div className="press__teaser-video-doc-group">
+                  <div className="press__teaser-video-info-language">
+                    German:
+                  </div>
+                  <div className="press__teaser-video-info-docs">
+                    <a
+                      className="press__teaser-video-info-doc link link--purple"
+                      download="Tobias Rehberger - Leben und Werk"
+                      href="/doc/Leben_und_Werk_Tobias Rehberger_DEUTSCH.docx"
+                    >
+                      DOCX
+                    </a>
+                    <a
+                      className="press__teaser-video-info-doc link link--purple"
+                      download="Tobias Rehberger - Leben und Werk"
+                      href="/doc/Leben_und_Werk_Tobias Rehberger_DEUTSCH.pdf"
+                    >
+                      PDF
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="press__teaser-video-btn-area">
+          <button
+            className="btn btn--quarternary press__teaser-video-btn"
+            onClick={() => download(TEASER_VIDEO_LINK, 'Teaser Video', 'mp4')}
+            type="button"
+          >
+            <span className="press__btn-icon">
+              <Image
+                alt="Download"
+                height="15"
+                src="/img/icons/download.svg"
+                width="15"
+              />
+            </span>
+            Download
+          </button>
+          <div className="press__teaser-video-copy-btn-container">
+            {linkCopied && (
+              <div className="press__teaser-video-link-copied-text">
+                Link Copied
+              </div>
+            )}
+            <button
+              className="btn btn--quarternary press__teaser-video-btn"
+              onClick={() => {
+                copyLink(TEASER_VIDEO_YOUTUBE_LINK);
+              }}
+              type="button"
+            >
+              Copy Link
+            </button>
           </div>
         </div>
         <div className="press__media-contact-section">
@@ -543,12 +592,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -572,12 +623,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -601,12 +654,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -630,12 +685,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -659,12 +716,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -688,12 +747,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -717,12 +778,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -752,12 +815,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -787,12 +852,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -831,12 +898,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -871,12 +940,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
@@ -911,12 +982,14 @@ const PressPage = () => {
               }
               type="button"
             >
-              <Image
-                alt="Download"
-                height="15"
-                src="/img/icons/download.svg"
-                width="15"
-              />
+              <span className="press__btn-icon">
+                <Image
+                  alt="Download"
+                  height="15"
+                  src="/img/icons/download.svg"
+                  width="15"
+                />
+              </span>
               Download
             </button>
           </div>
