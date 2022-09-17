@@ -1,7 +1,8 @@
 export default function Music() {
   return (
     <div className="bg-music">
-      <section className="music" id="music">
+      <div className="anchor" id="music" />
+      <section className="music">
         <h1 className="music__heading">About the music</h1>
         <div className="music__content">
           <p className="music__paragraph">

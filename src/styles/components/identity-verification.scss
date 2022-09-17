@@ -11,26 +11,20 @@ $identity-verification-modal-width: 68rem;
   }
 
   @include e('backdrop') {
-    @extend %fixed-fullscreen;
-
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: -1;
+    @extend %backdrop;
   }
 
   @include e('main') {
-    background-color: $background-dark;
-    height: 60.8rem;
-    left: 50%;
-    margin-left: $identity-verification-modal-width * -1 / 2;
-    margin-top: $identity-verification-modal-height * -1 / 2;
-    padding: 4rem 7rem;
-    position: fixed;
-    text-align: left;
-    top: 50%;
-    width: 68rem;
-    z-index: 99;
+    @extend %modal;
 
-    @include border-radius(3rem);
+    height: $identity-verification-modal-height;
+    margin: {
+      left: $identity-verification-modal-width * -1 / 2;
+      top: $identity-verification-modal-height * -1 / 2;
+    }
+    padding: 4rem 7rem;
+    text-align: left;
+    width: $identity-verification-modal-width;
   }
 
   @include e('close') {

@@ -2,6 +2,7 @@ import Artist from '@/components/Artist';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import Intro from '@/components/Intro';
+import JoinCommunity from '@/components/JoinCommunity';
 import Header from '@/components/Header';
 import Music from '@/components/Music';
 import NFTs from '@/components/NFTs';
@@ -13,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main>
+      <main className="offset-by-header">
         <Intro />
         {!INTERIM && (
           <>
@@ -22,6 +23,7 @@ export default function Home() {
             <Artist />
             <Music />
             <FAQ />
+            <JoinCommunity />
           </>
         )}
       </main>

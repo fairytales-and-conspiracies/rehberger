@@ -1,0 +1,110 @@
+%sign-up-below-input-text {
+  background: $background-grey;
+  font-weight: bold;
+  margin-top: -2rem;
+  padding: {
+    bottom: 0.2rem;
+    top: 2rem;
+  }
+
+  @include border-radius(1rem);
+}
+
+.sign-up {
+  flex-shrink: 0;
+  padding-right: 0.5rem;
+
+  @include e('text') {
+    font-family: $font-secondary;
+    margin-bottom: 1rem;
+  }
+
+  @include e('form') {
+    @include flex;
+
+    @include m('flex-column') {
+      @include flex-direction(column);
+    }
+  }
+
+  @include e('input-and-error') {
+    margin-right: 2rem;
+  }
+
+  @include e('input') {
+    font-family: $font-primary;
+    font-size: 2.2rem;
+    height: 4.3rem;
+    padding-top: 1rem;
+    width: 50rem;
+
+    @include m('bottom-space') {
+      margin-bottom: 1.95rem;
+    }
+  }
+
+  @include e('btn') {
+    margin: {
+      bottom: 2.2rem;
+      top: 0.2rem;
+    }
+    padding: 0.5rem;
+    width: 15rem;
+
+    @include border-radius(1.2rem);
+  }
+
+  @include e('error') {
+    @extend %sign-up-below-input-text;
+  }
+
+  @include e('success') {
+    @extend %sign-up-below-input-text;
+
+    color: $color-text-gold;
+    font-family: $font-secondary;
+    font-size: 1.4rem;
+    padding-left: 2rem;
+  }
+
+  @include max-screen-lg {
+    @include e('input') {
+      width: 35rem;
+    }
+  }
+
+  @include max-screen-sm {
+    width: 100%;
+
+    @include e('input-and-error') {
+      flex-grow: 1;
+
+      @include flex;
+      @include flex-direction(column);
+    }
+
+    @include e('input') {
+      flex-grow: 1;
+      width: auto;
+      z-index: 1;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('form') {
+      @include flex-direction(column);
+    }
+
+    @include e('input-and-error') {
+      margin: {
+        bottom: 1rem;
+        right: 0;
+      }
+    }
+
+    @include e('btn') {
+      flex-grow: 1;
+      width: auto;
+    }
+  }
+}

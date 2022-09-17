@@ -3,7 +3,11 @@
   border-bottom: 0.3rem solid $color-purple;
   justify-content: space-between;
   height: $header-height;
-  position: relative;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 9;
 
   @include align-items(center);
   @include flex;
@@ -52,9 +56,17 @@
   }
 
   @include e('menu-button') {
-    cursor: not-allowed;
     height: 3rem;
     margin-right: 3rem;
+
+    @include m('menu-open') {
+      left: 0.2rem;
+      top: -0.2rem;
+    }
+
+    @include m('interim') {
+      cursor: not-allowed;
+    }
   }
 
   @include max-screen-lg {
@@ -103,7 +115,37 @@
 
   @include max-screen-sm {
     @include e('nav') {
-      display: none;
+      background: $background-purple;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+      position: fixed;
+      top: $header-height;
+      transition-property: padding-left, width;
+      transition-duration: 0.5s;
+      transition-timing-function: ease-in-out;
+      width: 0;
+      z-index: 99;
+
+      ul {
+        height: 100%;
+        justify-content: space-around;
+        max-height: 70rem;
+
+        @include flex;
+        @include flex-direction(column);
+
+        li {
+          display: block;
+          font-size: 5.2rem;
+          padding: 0.6rem;
+        }
+      }
+
+      @include m('open') {
+        padding-left: 3rem;
+        width: 100vw;
+      }
     }
   }
 }

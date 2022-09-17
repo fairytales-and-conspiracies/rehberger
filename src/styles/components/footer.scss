@@ -1,5 +1,5 @@
 .footer {
-  background-color: $background-dark;
+  background-color: $background-light;
   color: $color-text-red;
   font-size: 1.8rem;
   height: $footer-height;
@@ -8,8 +8,12 @@
 
   @include flex;
 
+  @include m('interim') {
+    background-color: $background-dark;
+  }
+
   @include e('socials') {
-    visibility: hidden;
+    display: none;
   }
 
   @include e('social-link') {

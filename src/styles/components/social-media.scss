@@ -1,0 +1,30 @@
+.social-media {
+  flex-shrink: 1;
+
+  @include m('large') {
+    margin-top: 3rem;
+  }
+
+  @include e('text') {
+    font-family: $font-secondary;
+    margin-bottom: 1rem;
+  }
+
+  @include e('medias') {
+    margin-bottom: 1.4rem;
+  }
+
+  @include e('social-link') {
+    @extend %social-link;
+
+    @include m('large') {
+      background: unset;
+      height: 10rem;
+      margin: {
+        right: 0.6rem;
+        bottom: 0.6rem;
+      }
+      width: 10rem;
+    }
+  }
+}

@@ -118,9 +118,9 @@ export default function ClaimNFTs() {
   });
 
   return (
-    <div className="bg-primary">
+    <div className="bg-primary claim-nfts">
       <Header logoOnly />
-      <main className="claim-nfts">
+      <main className="claim-nfts__main">
         <h1 className="claim-nfts__heading">
           {securityVerification && !verificationAccepted
             ? 'Security verification'

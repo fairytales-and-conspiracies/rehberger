@@ -3,7 +3,8 @@ import Link from 'next/link';
 export default function Artist() {
   return (
     <div className="bg-artist">
-      <section className="artist" id="artist">
+      <div className="anchor" id="artist" />
+      <section className="artist">
         <h1 className="artist__heading">About the artist</h1>
         <div className="artist__content">
           <div className="artist__button-links">

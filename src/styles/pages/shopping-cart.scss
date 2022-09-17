@@ -1,13 +1,20 @@
 .shopping-cart {
-  justify-content: space-between;
-  margin: 0 auto;
-  max-width: 165rem;
+  margin-top: $header-height;
+  min-height: calc(100vh - $header-height);
 
-  @include flex;
+  @include e('main') {
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 165rem;
+
+    @include flex;
+  }
 
   @include max-screen-xl {
-    justify-content: space-around;
-    margin: unset;
-    max-width: unset;
+    @include e('main') {
+      justify-content: space-around;
+      margin: unset;
+      max-width: unset;
+    }
   }
 }

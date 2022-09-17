@@ -64,7 +64,12 @@ $btn-border-quarternary-disabled: 0.3rem darken($background-purple, 35%) solid;
     background: transparent;
     box-shadow: 0px 0px 0px transparent;
     border: 0px solid transparent;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
     text-shadow: 0px 0px 0px transparent;
+
+    @include border-radius(inherit);
 
     &:hover {
       background: transparent;

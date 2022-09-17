@@ -1,0 +1,76 @@
+.join-community {
+  margin: 0 auto;
+  max-width: 120rem;
+  padding: 12rem 1.5rem;
+
+  @include flex;
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 16rem;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  @include e('right-section') {
+    flex: 1 1 100%;
+    padding: {
+      left: 5rem;
+      right: 1rem;
+    }
+    text-align: center;
+  }
+
+  @include e('sign-up-input-and-error') {
+    margin: {
+      bottom: 1rem;
+      right: unset;
+    }
+  }
+
+  @include e('sign-up-input') {
+    width: 100%;
+  }
+
+  @include e('sign-up-btn') {
+    margin: {
+      left: 0.2rem;
+      right: 0.5rem;
+    }
+    width: unset;
+  }
+
+  @include max-screen-lg {
+    @include e('right-section') {
+      text-align: left;
+    }
+  }
+
+  @include max-screen-md {
+    max-width: 70rem;
+    padding: 2rem 1.5rem;
+
+    @include flex-direction(column);
+
+    @include e('heading') {
+      margin-bottom: 3rem;
+    }
+
+    @include e('right-section') {
+      padding: unset;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('heading') {
+      font-size: 12rem;
+      width: auto;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('heading') {
+      font-size: 6.5rem;
+    }
+  }
+}

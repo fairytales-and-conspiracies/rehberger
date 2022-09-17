@@ -2,11 +2,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
+
 export default function Footer() {
   return (
-    <footer className="footer">
-      <Link href="/imprint">Imprint</Link>
+    <footer className={`footer ${INTERIM ? 'footer--interim' : ''}`}>
       <span>@2022</span>
+      <Link href="/press">Press</Link>
+      <Link href="/imprint">Imprint</Link>
       <span className="footer__socials">
         <span className="footer__social-link">
           <Link href="#">

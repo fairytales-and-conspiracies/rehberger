@@ -1,45 +1,99 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import ConnectWalletButton from '@/components/ConnectWalletButton';
 
 const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
 export default function Header({ logoOnly }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const onMenuClick = () => {
+    const newIsMenuOpen = !isMenuOpen;
+    setIsMenuOpen(newIsMenuOpen);
+
+    document.body.style = `overflow: ${newIsMenuOpen ? 'hidden' : 'auto'}`;
+  };
+
+  const onLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  let menuButtonImage;
+  if (INTERIM) {
+    menuButtonImage = '/img/icons/menu-disabled.svg';
+  } else if (!isMenuOpen) {
+    menuButtonImage = '/img/icons/menu.svg';
+  } else {
+    menuButtonImage = '/img/icons/close.svg';
+  }
+
   return (
     <header className="header">
       <Link href="/" passHref>
-        <div className="header__logo">
+        <a
+          className="header__logo"
+          onClick={onLinkClick}
+          role="link"
+          tabIndex="0"
+        >
           <Image
             alt="Fairytales and conspiracies"
             layout="fill"
             src="/img/fairytales-conspiracies.svg"
           />
-        </div>
+        </a>
       </Link>
       <nav
         className={`header__nav ${
           INTERIM || logoOnly ? 'header__nav--hidden' : ''
-        }`}
+        } ${isMenuOpen ? 'header__nav--open' : ''}`}
       >
         <ul>
           <li>
-            <Link href="/#home">Home</Link>
+            <Link href="/#nfts">
+              <a onClick={onLinkClick} role="link" tabIndex="0">
+                NFTs
+              </a>
+            </Link>
           </li>
           <li>
-            <Link href="/#nfts">NFTs</Link>
+            <Link href="/#work">
+              <a onClick={onLinkClick} role="link" tabIndex="0">
+                Work
+              </a>
+            </Link>
           </li>
           <li>
-            <Link href="/#work">Work</Link>
+            <Link href="/#artist">
+              <a onClick={onLinkClick} role="link" tabIndex="0">
+                Artist
+              </a>
+            </Link>
           </li>
           <li>
-            <Link href="/#artist">Artist</Link>
+            <Link href="/#music">
+              <a onClick={onLinkClick} role="link" tabIndex="0">
+                Music
+              </a>
+            </Link>
           </li>
           <li>
-            <Link href="/#music">Music</Link>
+            <Link href="/#faq">
+              <a onClick={onLinkClick} role="link" tabIndex="0">
+                FAQ
+              </a>
+            </Link>
           </li>
           <li>
-            <Link href="/#faq">FAQ</Link>
+            <Link href="/#join">
+              <a onClick={onLinkClick} role="link" tabIndex="0">
+                Join
+              </a>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -75,14 +129,17 @@ export default function Header({ logoOnly }) {
             )}
           </div>
           <button
-            className="header__menu-button btn min-screen-sm-hidden"
+            className={`header__menu-button btn min-screen-sm-hidden ${
+              isMenuOpen ? 'header__menu-button--menu-open' : ''
+            } ${INTERIM ? 'header__menu-button--interim' : ''}`}
+            onClick={!INTERIM ? onMenuClick : () => {}}
             type="button"
           >
             <Image
               alt="Menu"
-              height="16"
-              src="/img/icons/menu.svg"
-              width="30"
+              height={isMenuOpen ? '33' : '16'}
+              src={menuButtonImage}
+              width={isMenuOpen ? '33' : '30'}
             />
           </button>
         </>

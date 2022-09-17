@@ -1,0 +1,73 @@
+$connect-wallet-modal-height: 48rem;
+$connect-wallet-modal-width: 68rem;
+
+.connect-wallet-modal {
+  display: none;
+
+  @include m('visible') {
+    display: unset;
+  }
+
+  @include e('backdrop') {
+    @extend %backdrop;
+  }
+
+  @include e('main') {
+    @extend %modal;
+
+    height: $connect-wallet-modal-height;
+    margin: {
+      left: $connect-wallet-modal-width * -1 / 2;
+      top: $connect-wallet-modal-height * -1 / 2;
+    }
+    padding: 7rem;
+    width: $connect-wallet-modal-width;
+  }
+
+  @include e('top-section') {
+    position: relative;
+    margin-bottom: 4rem;
+  }
+
+  @include e('heading') {
+    color: $color-text-red;
+    font-size: 3.2rem;
+  }
+
+  @include e('subheading') {
+    font-family: $font-secondary;
+    margin-top: 1.5rem;
+  }
+
+  @include e('close') {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  @include e('wallets') {
+    @include flex;
+    @include flex-direction(column);
+  }
+
+  @include e('btn') {
+    font-family: $font-secondary;
+    font-size: 2rem;
+    height: 5rem;
+    margin-bottom: 3rem;
+    padding: 0 2rem;
+    position: relative;
+    text-align: left;
+  }
+
+  @include e('btn-icon') {
+    bottom: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 2.5rem;
+    text-indent: 100%;
+    top: 0;
+    width: 3rem;
+    white-space: nowrap;
+  }
+}

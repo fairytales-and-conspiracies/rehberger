@@ -8,9 +8,9 @@ export default function ShoppingCart() {
   const [isCheckout, setIsCheckout] = useState();
 
   return (
-    <div className="bg-primary">
+    <div className="bg-primary shopping-cart">
       <Header />
-      <main className="shopping-cart">
+      <main className="shopping-cart__main">
         <ShoppingCartViewer
           isCheckout={isCheckout}
           setIsCheckout={setIsCheckout}

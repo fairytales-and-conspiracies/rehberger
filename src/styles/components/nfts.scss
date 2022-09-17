@@ -48,9 +48,11 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-thumbnail') {
+    cursor: pointer;
     height: 40rem;
     position: relative;
     width: $nfts-nft-thumbnail-width;
+    z-index: 1;
   }
 
   @include e('nft-2-thumbnail') {
@@ -65,14 +67,14 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-1-number') {
-    left: calc($nfts-nft-thumbnail-width - 2rem);
+    left: 40rem;
     top: -5rem;
   }
 
   @include e('nft-2-number') {
     bottom: -2rem;
     left: unset;
-    right: $nfts-nft-thumbnail-width;
+    right: 41rem;
   }
 
   @include e('nft-3-number') {
@@ -80,6 +82,7 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-4-number') {
+    left: 57rem;
     margin-top: -30rem;
   }
 
@@ -241,8 +244,16 @@ $nfts-nft-thumbnail-width: 30rem;
       width: 10rem;
     }
 
+    @include e('nft-1-number') {
+      left: 32rem;
+    }
+
     @include e('nft-2') {
       bottom: 10rem;
+    }
+
+    @include e('nft-2-number') {
+      right: 32rem;
     }
 
     @include e('nft-3') {
@@ -256,6 +267,10 @@ $nfts-nft-thumbnail-width: 30rem;
     @include e('nft-4') {
       margin-left: 10rem;
       margin-top: -5rem;
+    }
+
+    @include e('nft-4-number') {
+      left: 46rem;
     }
 
     @include e('nft-5-number') {
@@ -398,6 +413,8 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include max-screen-sm {
+    overflow-x: hidden;
+
     @include e('nft') {
       max-width: 45rem;
     }
@@ -441,25 +458,29 @@ $nfts-nft-thumbnail-width: 30rem;
     }
 
     @include e('nft-number') {
-      left: 21rem;
+      left: 22.5rem;
       top: -8rem;
       width: 20vw;
     }
 
     @include e('nft-2-number') {
       left: unset;
-      right: 21rem;
+      right: 22.5rem;
     }
 
     @include e('nft-4-number') {
       left: unset;
-      right: 21rem;
+      right: 22.5rem;
     }
   }
 
   @media screen and (max-width: 299.98px) {
     @include e('nft') {
       padding: 0 1rem;
+    }
+
+    @include e('nft-number') {
+      display: none;
     }
   }
 }

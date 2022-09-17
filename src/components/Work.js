@@ -1,7 +1,8 @@
 export default function Work() {
   return (
     <div className="bg-light">
-      <section className="work" id="work">
+      <div className="anchor" id="work" />
+      <section className="work">
         <h1 className="work__heading">About the work</h1>
         <div className="work__content">
           <p className="work__paragraph">

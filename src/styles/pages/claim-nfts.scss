@@ -7,9 +7,15 @@
 }
 
 .claim-nfts {
-  margin: 5rem auto 0;
-  text-align: center;
-  width: 67rem;
+  margin-top: $header-height;
+  min-height: calc(100vh - $header-height);
+
+  @include e('main') {
+    margin: 0 auto;
+    padding-top: 5rem;
+    text-align: center;
+    width: 67rem;
+  }
 
   @include e('heading') {
     font-size: 5rem;
@@ -33,11 +39,15 @@
   }
 
   @include max-screen-sm {
-    width: 40rem;
+    @include e('main') {
+      width: 40rem;
+    }
   }
 
   @include max-screen-xs {
-    width: 25rem;
+    @include e('main') {
+      width: 25rem;
+    }
 
     @include e('heading') {
       font-size: 3.6rem;

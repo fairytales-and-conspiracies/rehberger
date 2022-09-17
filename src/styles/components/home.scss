@@ -113,83 +113,11 @@
     @include flex;
   }
 
-  @include e('sign-up') {
-    flex-shrink: 0;
-    padding-right: 0.5rem;
-  }
-
-  @include e('sign-up-text') {
-    font-family: $font-secondary;
-    margin-bottom: 1rem;
-  }
-
-  @include e('sign-up-form') {
-    @include flex;
-  }
-
-  @include e('sign-up-input-and-error') {
-    margin-right: 2rem;
-  }
-
-  @include e('sign-up-input') {
-    font-family: $font-primary;
-    font-size: 2.2rem;
-    height: 4.3rem;
-    padding-top: 1rem;
-    width: 50rem;
-
-    @include m('bottom-space') {
-      margin-bottom: 1.95rem;
-    }
-  }
-
-  @include e('sign-up-btn') {
-    margin: {
-      bottom: 2.2rem;
-      top: 0.2rem;
-    }
-    padding: 0.5rem;
-    width: 15rem;
-
-    @include border-radius(1.2rem);
-  }
-
-  @include e('sign-up-error') {
-    @extend %home-sign-up-below-input-text;
-  }
-
-  @include e('sign-up-success') {
-    @extend %home-sign-up-below-input-text;
-
-    color: $color-text-gold;
-    font-family: $font-secondary;
-    font-size: 1.4rem;
-    font-weight: bold;
-    padding-left: 2rem;
-  }
-
   @include e('community-separator') {
     background: $background-light;
     flex: 1 1;
     height: 0.5rem;
     margin: 1.5rem 1.5rem 0;
-  }
-
-  @include e('socials-wrapper') {
-    flex-shrink: 1;
-  }
-
-  @include e('socials') {
-    margin-bottom: 1.4rem;
-  }
-
-  @include e('socials-text') {
-    font-family: $font-secondary;
-    margin-bottom: 1rem;
-  }
-
-  @include e('social-link') {
-    @extend %social-link;
   }
 
   @include max-screen-xl {
@@ -205,10 +133,6 @@
 
     @include e('community') {
       width: 95rem;
-    }
-
-    @include e('sign-up-input') {
-      width: 35rem;
     }
   }
 
@@ -227,6 +151,7 @@
   @include max-screen-sm {
     @include e('website-title') {
       font-size: 10rem;
+      left: -0.5rem;
     }
 
     @include e('artist-info-wrapper') {
@@ -245,23 +170,6 @@
     @include e('community') {
       margin: 0 1.5rem;
     }
-
-    @include e('sign-up') {
-      width: 100%;
-    }
-
-    @include e('sign-up-input-and-error') {
-      flex-grow: 1;
-
-      @include flex;
-      @include flex-direction(column);
-    }
-
-    @include e('sign-up-input') {
-      flex-grow: 1;
-      width: auto;
-      z-index: 1;
-    }
   }
 
   @include max-screen-xs {
@@ -271,22 +179,6 @@
 
     @include e('artist-statement') {
       font-size: 1.4rem;
-    }
-
-    @include e('sign-up-form') {
-      @include flex-direction(column);
-    }
-
-    @include e('sign-up-input-and-error') {
-      margin: {
-        bottom: 1rem;
-        right: 0;
-      }
-    }
-
-    @include e('sign-up-btn') {
-      flex-grow: 1;
-      width: auto;
     }
   }
 }
