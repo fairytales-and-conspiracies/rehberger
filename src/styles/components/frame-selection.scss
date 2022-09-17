@@ -94,38 +94,43 @@
   }
 
   @include max-screen-md {
-    @include e('video') {
-      margin: 0 1.5rem;
-    }
+    // @include e('video') {
+    //   margin: 0 1.5rem;
+    // }
 
-    @include e('instructions-wrapper') {
-      padding-right: 1.5rem;
-    }
+    // @include e('instructions-wrapper') {
+    //   padding-right: 1.5rem;
+    // }
 
-    @include e('instructions-group') {
-      &:last-of-type {
-        align-items: flex-end;
+    // @include e('instructions-group') {
+    //   &:last-of-type {
+    //     align-items: flex-end;
 
-        @include flex;
-        @include flex-direction(column);
-      }
-    }
+    //     @include flex;
+    //     @include flex-direction(column);
+    //   }
+    // }
 
-    @include e('instructions-image') {
-      margin-bottom: 0.2rem;
-      width: 4rem;
-    }
+    // @include e('instructions-image') {
+    //   margin-bottom: 0.2rem;
+    //   width: 4rem;
+    // }
 
-    @include e('instructions') {
-      font-size: 1.6rem;
-    }
+    // @include e('instructions') {
+    //   font-size: 1.6rem;
+    // }
   }
 
-  @include max-screen-sm {
+  @include max-screen-md {
     @include e('encapsulator') {
       padding-bottom: 0;
 
       @include flex-direction(column);
+    }
+
+    @include e('container') {
+      width: 70rem;
+      margin: 0 auto;
     }
 
     @include e('inner-container') {
@@ -134,6 +139,7 @@
     }
 
     @include e('instructions-wrapper') {
+      margin-top: 7rem;
       order: -1;
       padding-right: 0;
     }
@@ -161,6 +167,7 @@
     @include e('instructions') {
       font-size: 2rem;
       margin-bottom: 0.5rem;
+      width: 37rem;
     }
 
     @include e('frame-info') {
@@ -171,8 +178,24 @@
 
     @include e('video') {
       margin: 3rem 0;
-      max-width: 40rem;
       width: 80%;
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('container') {
+      width: unset;
+      margin: unset;
+    }
+
+    @include e('instructions') {
+      width: 28rem;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('instructions') {
+      width: 25rem;
     }
   }
 }

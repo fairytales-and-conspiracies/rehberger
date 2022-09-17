@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import VideoData from '@/static-data/videos';
+import { padZeroes } from '@/utils/string';
 
 export default function CurrentFrame({ selectedFrame, video }) {
   return (
@@ -33,21 +34,13 @@ export default function CurrentFrame({ selectedFrame, video }) {
         <div className="selected-frame__time">
           {!!selectedFrame && (
             <>
-              <div className="selected-frame__timeframe-title">Timeframe</div>
-              {selectedFrame.time
-                .toFixed(4)
-                .toString()
+              <div className="selected-frame__timeframe-title">Frame</div>
+              {padZeroes(selectedFrame.frame)
                 .split('')
-                .map((digitOrDecimalPoint) => (
-                  <span
-                    className={`${
-                      digitOrDecimalPoint !== '.'
-                        ? 'selected-frame__timeframe-digit'
-                        : ''
-                    }`}
-                    key={selectedFrame.frame}
-                  >
-                    {digitOrDecimalPoint}
+                .map((digit, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <span className="selected-frame__timeframe-digit" key={index}>
+                    {digit}
                   </span>
                 ))}
             </>

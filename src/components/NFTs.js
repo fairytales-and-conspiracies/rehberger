@@ -5,27 +5,26 @@ import FrameSelection from '@/components/FrameSelection';
 import IndividualPrice from '@/components/IndividualPrice';
 import IndividualPricePurple from '@/components/IndividualPricePurple';
 import NFTFactsheet from '@/components/NFTFactsheet';
+import videos from '@/static-data/videos';
 
 function Home(_, ref) {
-  const [isFrameSelectionActive, setIsFrameSelectionActive] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
-  const frameSelectionOpen = () => {
-    setIsFrameSelectionActive(true);
+  const frameSelectionOpen = (video) => {
+    setSelectedVideo(video);
   };
 
   const frameSelectionClose = () => {
-    setIsFrameSelectionActive(false);
+    setSelectedVideo(null);
   };
 
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = isFrameSelectionActive ? 'hidden' : 'auto';
-  }
-
   useEffect(() => {
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
+    if (selectedVideo) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }, [selectedVideo]);
 
   // TODO: Etherscan and IPFS links
 
@@ -36,10 +35,14 @@ function Home(_, ref) {
         <section className="nfts" ref={ref}>
           <div className="nfts__upper-half">
             <div className="nfts__upper-half-nfts">
-              <div className="nfts__nft nfts__nft-1">
+              <div className="nfts__nft nfts__n§ft-1">
                 <button
                   className="nfts__nft-thumbnail nfts__nft-1-thumbnail btn btn--no-style"
-                  onClick={frameSelectionOpen}
+                  onClick={() =>
+                    frameSelectionOpen(
+                      videos['HAVEYOUEVERTHOUGHTOFEMIGRATING?'].title
+                    )
+                  }
                   type="button"
                 >
                   <Image
@@ -57,16 +60,15 @@ function Home(_, ref) {
                   </h4>
                   <p className="nfts__nft-description">
                     Liquid Poster No. 1<br />
-                    <span className="nfts__nft-description-question">
-                      Is it a place or is it a feeling?
-                    </span>
                   </p>
                 </div>
               </div>
               <div className="nfts__nft nfts__nft-2">
                 <button
                   className="nfts__nft-thumbnail nfts__nft-2-thumbnail btn btn--no-style"
-                  onClick={frameSelectionOpen}
+                  onClick={() =>
+                    frameSelectionOpen(videos.IMAGINEYOURSELFWITHOUTAHOME.title)
+                  }
                   type="button"
                 >
                   <Image
@@ -84,9 +86,6 @@ function Home(_, ref) {
                   </h4>
                   <p className="nfts__nft-description">
                     Liquid Poster No. 2<br />
-                    <span className="nfts__nft-description-question">
-                      Which came first and who is having the last laugh?
-                    </span>
                   </p>
                 </div>
               </div>
@@ -112,7 +111,9 @@ function Home(_, ref) {
             <div className="nfts__nft nfts__nft-3">
               <button
                 className="nfts__nft-thumbnail nfts__nft-3-thumbnail"
-                onClick={frameSelectionOpen}
+                onClick={() =>
+                  frameSelectionOpen(videos['HAVEYOUEVERSTOLENANIDEA?'].title)
+                }
                 type="submit"
               >
                 <Image
@@ -128,16 +129,15 @@ function Home(_, ref) {
                 <h4 className="nfts__nft-title">HAVEYOUEVERSTOLENANIDEA?</h4>
                 <p className="nfts__nft-description">
                   Liquid Poster No. 3<br />
-                  <span className="nfts__nft-description-question">
-                    We have a question for you
-                  </span>
                 </p>
               </div>
             </div>
             <div className="nfts__nft nfts__nft-4">
               <button
                 className="nfts__nft-thumbnail nfts__nft-4-thumbnail btn btn--no-style"
-                onClick={frameSelectionOpen}
+                onClick={() =>
+                  frameSelectionOpen(videos['AREYOUAFRAIDOFTHEPOOR?'].title)
+                }
                 type="button"
               >
                 <Image
@@ -153,9 +153,6 @@ function Home(_, ref) {
                 <h4 className="nfts__nft-title">AREYOUAFRAIDOFTHEPOOR?</h4>
                 <p className="nfts__nft-description">
                   Liquid Poster No. 4<br />
-                  <span className="nfts__nft-description-question">
-                    Can you feel the wind of change?
-                  </span>
                 </p>
               </div>
             </div>
@@ -163,7 +160,11 @@ function Home(_, ref) {
               <div className="nfts__nft nfts__nft-5">
                 <button
                   className="nfts__nft-thumbnail nfts__nft-5-thumbnail btn btn--no-style"
-                  onClick={frameSelectionOpen}
+                  onClick={() =>
+                    frameSelectionOpen(
+                      videos.ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR.title
+                    )
+                  }
                   type="button"
                 >
                   <Image
@@ -181,9 +182,6 @@ function Home(_, ref) {
                   </h4>
                   <p className="nfts__nft-description">
                     Liquid Poster No. 5<br />
-                    <span className="nfts__nft-description-question">
-                      Where would you go?
-                    </span>
                   </p>
                 </div>
               </div>
@@ -212,8 +210,8 @@ function Home(_, ref) {
           <NFTFactsheet />
         </section>
       </div>
-      {isFrameSelectionActive && (
-        <FrameSelection onClose={frameSelectionClose} />
+      {selectedVideo && (
+        <FrameSelection onClose={frameSelectionClose} video={selectedVideo} />
       )}
     </>
   );

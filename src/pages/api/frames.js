@@ -9,8 +9,7 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const video = { query };
-        const frames = await Frame.find({ video });
+        const frames = await Frame.find({ query });
         res.status(200).json({ success: true, data: frames });
       } catch (error) {
         res.status(400).json({ success: false });

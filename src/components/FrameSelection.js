@@ -7,9 +7,7 @@ import SelectionPreview from '@/components/SelectionPreview';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
 
-const VIDEO = 'IMAGINEYOURSELFWITHOUTAHOME';
-
-export default function FrameSelection({ onClose }) {
+export default function FrameSelection({ onClose, video }) {
   const { selectedFramesInShoppingCart } = useContext(ShoppingCartContext);
 
   const [loading, setLoading] = useState(true);
@@ -19,7 +17,7 @@ export default function FrameSelection({ onClose }) {
 
   useEffect(() => {
     axios
-      .get(`/api/frames?video=${VIDEO}`)
+      .get(`/api/frames?video=${video}`)
       .then((response) => {
         const responseFrames = response.data.data.map((frame) => {
           // When checking for the closest available frame, we also want
@@ -102,8 +100,6 @@ export default function FrameSelection({ onClose }) {
       // TODO: what to do when there are no more available frames
     }
 
-    setCurrentSelectedFrame(closestAvailableFrame);
-
     const newSelectedFrames = selectedFrames.slice();
     newSelectedFrames.push(closestAvailableFrame);
     setSelectedFrames(newSelectedFrames);
@@ -142,18 +138,18 @@ export default function FrameSelection({ onClose }) {
         </span>
         <div className="frame-selection__container">
           <div className="frame-selection__inner-container">
-            <CurrentFrame selectedFrame={currentSelectedFrame} video={VIDEO} />
+            <CurrentFrame selectedFrame={currentSelectedFrame} video={video} />
 
-            {VIDEO && (
+            {video && (
               <div className="frame-selection__frame-info">
                 <h2 className="selected-frame__title">
-                  {VideoData[VIDEO].title}
+                  {VideoData[video].title}
                 </h2>
                 <h3 className="selected-frame__subtitle">
-                  {VideoData[VIDEO].subtitle}
+                  {VideoData[video].subtitle}
                 </h3>
                 <p className="selected-frame__description">
-                  {VideoData[VIDEO].description}
+                  {VideoData[video].description}
                 </p>
                 <div className="selected-frame__price euro-price">€666</div>
               </div>

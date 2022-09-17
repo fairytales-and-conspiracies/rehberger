@@ -91,6 +91,10 @@ a {
 .offset-by-header {
   margin-top: $header-height;
 }
+
+.overflow-hidden {
+  overflow: hidden;
+}
 /* END COMMON CLASSES */
 
 @import 'components';

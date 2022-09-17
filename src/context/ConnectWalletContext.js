@@ -11,9 +11,11 @@ export function ConnectWalletProvider({ children }) {
   const [isConnectWalletOpen, setIsConnectWalletOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style = `overflow: ${
-      isConnectWalletOpen ? 'hidden' : 'auto'
-    } `;
+    if (isConnectWalletOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
   }, [isConnectWalletOpen]);
 
   const selectWallet = (walletType) => {

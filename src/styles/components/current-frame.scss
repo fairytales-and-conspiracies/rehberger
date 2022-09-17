@@ -51,7 +51,9 @@
     font-size: 5.6rem;
     font-weight: 400;
     line-height: 0.8;
+    max-width: 40rem;
     text-transform: uppercase;
+    word-break: break-all;
   }
 
   @include e('subtitle') {
@@ -70,50 +72,13 @@
     font-size: 4rem;
   }
 
-  @include max-screen-md {
-    @include e('image-with-timeframe-container') {
-      width: 18vw;
-    }
-
-    @include e('image-frame') {
-      padding: 0.5rem;
-    }
-
-    @include e('image') {
-      margin: 0.5rem 1rem;
-    }
-
-    @include e('time') {
-      font-size: 1.8rem;
-    }
-
-    @include e('timeframe-title') {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-
-    @include e('timeframe-digit') {
-      padding: 0.2rem;
-    }
-
+  @include max-screen-xl {
     @include e('title') {
-      font-size: 3rem;
-    }
-
-    @include e('subtitle') {
-      font-size: 2rem;
-    }
-
-    @include e('description') {
-      margin-top: 0.2rem;
-    }
-
-    @include e('price') {
-      font-size: 2.4rem;
+      max-width: 35rem;
     }
   }
 
-  @include max-screen-sm {
+  @include max-screen-md {
     @include e('wrapper') {
       margin-bottom: 3rem;
       order: 1;
@@ -132,8 +97,8 @@
     }
 
     @include e('image') {
-      margin: 0.4rem 1rem;
-      padding: 1rem;
+      margin: 0.6rem 1.5rem;
+      padding: 1.4rem;
     }
 
     @include e('time') {

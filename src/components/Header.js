@@ -15,7 +15,11 @@ export default function Header({ logoOnly }) {
     const newIsMenuOpen = !isMenuOpen;
     setIsMenuOpen(newIsMenuOpen);
 
-    document.body.style = `overflow: ${newIsMenuOpen ? 'hidden' : 'auto'}`;
+    if (newIsMenuOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
   };
 
   const onLinkClick = () => {

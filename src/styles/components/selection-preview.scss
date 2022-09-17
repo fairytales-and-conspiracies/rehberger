@@ -156,7 +156,7 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
     cursor: pointer;
   }
 
-  @include max-screen-sm {
+  @include max-screen-md {
     position: static;
     transition: unset;
     width: unset;
@@ -170,6 +170,7 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
     }
 
     @include e('close') {
+      display: none;
       margin-left: 1.5rem;
     }
 
@@ -187,13 +188,29 @@ $selection-preview-frame-remove-wrapper-height: 3.5rem;
     }
 
     @include e('selected-frames') {
-      display: unset;
-      margin: 2rem -1rem;
+      grid-template-columns:
+        minmax(15rem, 23rem)
+        minmax(15rem, 23rem)
+        minmax(15rem, 23rem)
+        minmax(15rem, 23rem);
 
       @include m('no-frames') {
+        grid-gap: unset;
+        grid-auto-rows: unset;
+        grid-template-columns: unset;
         font-size: 2.8rem;
+        justify-content: center;
         margin: 2rem 0;
+
+        @include align-items(center);
       }
+    }
+  }
+
+  @include max-screen-sm {
+    @include e('selected-frames') {
+      display: unset;
+      margin: 2rem -1rem;
     }
   }
 
