@@ -1,6 +1,11 @@
 import Link from 'next/link';
+import { useContext } from 'react';
 
-export default function ThankYou({ paymentMethod }) {
+import PaymentContext from '@/context/PaymentContext';
+
+export default function ThankYou() {
+  const { paymentMethod } = useContext(PaymentContext);
+
   return (
     <div className="thank-you">
       <h2 className="thank-you__heading">THANK YOU FOR YOUR PURCHASE!</h2>

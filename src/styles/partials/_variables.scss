@@ -1,5 +1,12 @@
-@import 'https://fonts.googleapis.com/css?family=VT323:300,400,600,700';
-@import 'https://fonts.googleapis.com/css?family=Nunito:300,400,600,700';
+@font-face {
+  font-family: 'VT323';
+  src: url('/fonts/VT323-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('/fonts/Nunito-VariableFont_wght.ttf');
+}
 
 $background-dark: #1d1d1d;
 $background-grey: #c4c4c4;
@@ -22,8 +29,8 @@ $color-text-purple: #c800ff;
 $color-text-red: #f00;
 $color-text-yellow: #ffdd00;
 
-$font-primary: 'VT323';
-$font-secondary: 'Nunito';
+$font-primary: 'VT323', monospace;
+$font-secondary: 'Nunito', sans-serif;
 
 $header-height: 10rem;
 $footer-height: 4rem;

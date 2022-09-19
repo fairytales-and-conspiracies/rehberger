@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useContext } from 'react';
 
 import FrameImageWithRemoveButton from '@/components/FrameImageWithRemoveButton';
+import NFTPrice from '@/components/NFTPrice';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
 
@@ -34,7 +35,7 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
         <h1 className="cart-viewer__heading">Shopping cart</h1>
         <div className="cart-viewer__total-and-proceed-wrapper">
           <div className="cart-viewer__total">
-            Total: €{selectedFrames.length * 666}
+            <NFTPrice isTotalPrice />
           </div>
           <button
             className="cart-viewer__proceed-small-devices btn btn--primary"
@@ -71,11 +72,11 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
                     <div className="cart-viewer__frame-image-title">
                       {`${VideoData[video].title} - `}
                       <span className="cart-viewer__frame-image-timeframe">
-                        {`Timeframe ${frame.time}`}
+                        {`${frame.frame}`}
                       </span>
                     </div>
                     <div className="cart-viewer__frame-image-price euro-price">
-                      €666
+                      <NFTPrice inShoppingCart />
                     </div>
                   </div>
                 </div>

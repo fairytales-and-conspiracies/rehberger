@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import NFTPrice from '@/components/NFTPrice';
 import VideoData from '@/static-data/videos';
 import { padZeroes } from '@/utils/string';
 
@@ -53,10 +54,9 @@ export default function CurrentFrame({ selectedFrame, video }) {
           <h3 className="selected-frame__subtitle">
             {VideoData[video].subtitle}
           </h3>
-          <p className="selected-frame__description">
-            {VideoData[video].description}
-          </p>
-          <div className="selected-frame__price euro-price">€666</div>
+          <div className="selected-frame__price euro-price">
+            <NFTPrice />
+          </div>
         </div>
       )}
     </div>

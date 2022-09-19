@@ -1,10 +1,11 @@
-import ConnectWalletButton from '@/components/ConnectWalletButton';
+import { useContext } from 'react';
 
-export default function ConfirmPaymentMethod({
-  paymentMethod,
-  payWithWallet,
-  setConfirmPaymentMethod,
-}) {
+import ConnectWalletButton from '@/components/ConnectWalletButton';
+import PaymentContext from '@/context/PaymentContext';
+
+export default function ConfirmPaymentMethod({ setConfirmPaymentMethod }) {
+  const { paymentMethod, payWithWallet } = useContext(PaymentContext);
+
   return (
     <>
       <h2 className="payment-form__heading">Confirm payment method</h2>

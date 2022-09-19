@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
 
 import CurrentFrame from '@/components/CurrentFrame';
+import NFTPrice from '@/components/NFTPrice';
 import SelectionPreview from '@/components/SelectionPreview';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
@@ -148,10 +149,9 @@ export default function FrameSelection({ onClose, video }) {
                 <h3 className="selected-frame__subtitle">
                   {VideoData[video].subtitle}
                 </h3>
-                <p className="selected-frame__description">
-                  {VideoData[video].description}
-                </p>
-                <div className="selected-frame__price euro-price">€666</div>
+                <div className="selected-frame__price euro-price">
+                  <NFTPrice />
+                </div>
               </div>
             )}
 
@@ -185,7 +185,7 @@ export default function FrameSelection({ onClose, video }) {
                 </div>
                 <p className="frame-selection__instructions">
                   Click on the liquid poster to select the frame you like. Keep
-                  klicking on desired frames to select multiple.
+                  clicking on desired frames to select multiple.
                 </p>
               </div>
               <div className="frame-selection__instructions-group">

@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import Web3 from 'web3';
 
 import { ConnectWalletProvider } from '@/context/ConnectWalletContext';
+import { PaymentProvider } from '@/context/PaymentContext';
 import { ShoppingCartProvider } from '@/context/ShoppingCartContext';
 import { Web3Provider } from '@/context/Web3Context';
 import '@/styles/globals.scss';
@@ -23,7 +24,9 @@ function MyApp({ Component, pageProps }) {
           <Web3Provider>
             <ConnectWalletProvider>
               <ShoppingCartProvider>
-                <Component />
+                <PaymentProvider>
+                  <Component />
+                </PaymentProvider>
               </ShoppingCartProvider>
             </ConnectWalletProvider>
           </Web3Provider>

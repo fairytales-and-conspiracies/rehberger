@@ -1,4 +1,10 @@
-export default function ChoosePaymentMethod({ setPaymentMethod }) {
+import { useContext } from 'react';
+
+import PaymentContext from '@/context/PaymentContext';
+
+export default function ChoosePaymentMethod() {
+  const { setPaymentMethod } = useContext(PaymentContext);
+
   return (
     <>
       <h2 className="payment-form__heading">Choose payment method</h2>

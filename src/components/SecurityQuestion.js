@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+
+import PaymentContext from '@/context/PaymentContext';
 import securityQuestionOptions from '@/static-data/security-question-options';
 
-export default function SecurityQuestion({ formik }) {
+export default function SecurityQuestion() {
+  const { securityQuestionFormik: formik } = useContext(PaymentContext);
+
   return (
     <>
       <h2 className="payment-form__heading">Security question</h2>

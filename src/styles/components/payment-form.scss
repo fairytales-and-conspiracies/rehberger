@@ -39,6 +39,7 @@
   @include e('info') {
     display: inline-block;
     font-size: 2.4rem;
+    word-break: break-all;
   }
 
   @include e('success-message') {
@@ -51,7 +52,15 @@
     margin-top: 2rem;
   }
 
+  @include e('back-btn-small-devices') {
+    display: none;
+  }
+
   @include max-screen-md {
+    flex: 1 1;
+    min-width: 28rem;
+    max-width: 32rem;
+
     margin: {
       left: 2rem;
       right: 2rem;
@@ -63,6 +72,10 @@
 
     @include m('hidden-small-devices') {
       display: none;
+    }
+
+    @include e('back-btn-small-devices') {
+      display: unset;
     }
   }
 

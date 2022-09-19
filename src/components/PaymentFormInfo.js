@@ -1,8 +1,11 @@
-export default function SubmittedFormInfo({
-  setChoosePaymentMethod,
-  transactionPassed,
-  values,
-}) {
+import { useContext } from 'react';
+
+import PaymentContext from '@/context/PaymentContext';
+
+export default function SubmittedFormInfo({ setChoosePaymentMethod }) {
+  const { infoFormik } = useContext(PaymentContext);
+  const { values } = infoFormik;
+
   return (
     <>
       <h2 className="payment-form__heading">Confirmation</h2>
@@ -55,16 +58,6 @@ export default function SubmittedFormInfo({
       >
         Choose payment method
       </button>
-      {transactionPassed && (
-        <div className="payment-form__success-message">
-          You purchased your NFTs!
-        </div>
-      )}
-      {transactionPassed === false && (
-        <div className="payment-form__error-message error">
-          There has been an error with the transaction.
-        </div>
-      )}
     </>
   );
 }

@@ -8,6 +8,7 @@
 
   @include e('image-with-timeframe-container') {
     margin-bottom: 2rem;
+    max-width: 39rem;
     width: 20vw;
 
     @include flex;
@@ -29,7 +30,6 @@
   @include e('time') {
     color: $color-text-grey;
     font-size: 3rem;
-    margin-top: 0.5rem;
     text-align: center;
   }
 
@@ -48,7 +48,7 @@
 
   @include e('title') {
     color: $color-text-red;
-    font-size: 5.6rem;
+    font-size: 4.5rem;
     font-weight: 400;
     line-height: 0.8;
     max-width: 40rem;
@@ -60,6 +60,10 @@
     color: $color-text-red;
     font-size: 3.2rem;
     font-weight: 400;
+    margin: {
+      bottom: 0.2rem;
+      top: 0.6rem;
+    }
   }
 
   @include e('description') {
@@ -74,13 +78,20 @@
 
   @include max-screen-xl {
     @include e('title') {
-      max-width: 35rem;
+      max-width: 30rem;
+    }
+  }
+
+  @include max-screen-lg {
+    @include e('wrapper') {
+      max-width: 26rem;
     }
   }
 
   @include max-screen-md {
     @include e('wrapper') {
       margin-bottom: 3rem;
+      max-width: unset;
       order: 1;
       width: 100%;
 

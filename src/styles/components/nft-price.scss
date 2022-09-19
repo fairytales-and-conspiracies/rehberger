@@ -1,0 +1,36 @@
+.nft-price {
+  @include e('eth-icon') {
+    margin-right: 0.5rem;
+
+    @include m('total-price') {
+      display: inline-block;
+      height: 2.4rem;
+      position: relative;
+      width: 1.37rem;
+    }
+  }
+
+  @include e('eur') {
+    font-size: 2.4rem;
+    margin-left: 1.5rem;
+
+    @include m('next-line') {
+      display: block;
+      margin-left: 0;
+    }
+
+    @include m('total-price') {
+      font-size: 3.2rem;
+      text-align: right;
+    }
+  }
+
+  @include max-screen-md {
+    @include e('eth-icon') {
+      @include m('total-price') {
+        height: 1.8rem;
+        width: 1.08rem;
+      }
+    }
+  }
+}
