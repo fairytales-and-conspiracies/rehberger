@@ -104,7 +104,7 @@ export default function Header({ logoOnly }) {
       {!logoOnly && (
         <>
           <div className="header__shop max-screen-sm-hidden">
-            <ConnectWalletButton />
+            {!INTERIM && <ConnectWalletButton />}
             {INTERIM && (
               <button
                 className="btn btn--primary btn--small"
