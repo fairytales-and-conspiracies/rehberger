@@ -6,8 +6,12 @@ import sendMail from '@/lib/sendMail';
 import stripe from '@/lib/stripe';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
+import { getNextOrderNumber, orderFramesMongoFilter } from '@/pages/api/orders';
+import emailTypes from '@/static-data/email-types';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
+import niceInvoice from '@/templates/niceInvoice';
+import { padZeroes } from '@/utils/string';
 
 const { STRIPE_WEBHOOK_SECRET } = process.env;
 
@@ -15,20 +19,19 @@ const updateOrder = async (confirmationKey) => {
   let order;
   try {
     order = await Order.findOne({ confirmationKey });
-    const filter = { _id: { $in: [] } };
-    order.frames.forEach(async (frame) => {
-      // eslint-disable-next-line no-underscore-dangle
-      const id = frame._id.toString();
-      // eslint-disable-next-line no-underscore-dangle
-      filter._id.$in.push(id);
-    });
+    const { frames } = order;
+    const filter = orderFramesMongoFilter(frames);
     await Frame.updateMany(filter, { sold: true });
 
-    const transactionSuccessful = {
+    const nextOrderNumber = await getNextOrderNumber();
+    const update = {
+      invoiceNumber: `NFT${padZeroes(nextOrderNumber, 6)}`,
+      orderNumber: nextOrderNumber,
       transactionStatus: TransactionStatus.SUCCESSFUL,
     };
-    await Order.updateOne({ confirmationKey }, transactionSuccessful);
-    Object.assign(order, transactionSuccessful);
+
+    await Order.updateOne({ confirmationKey }, update);
+    Object.assign(order, update);
   } catch (err) {
     order = null;
   }
@@ -63,8 +66,17 @@ const handler = async (req, res) => {
       const confirmationKey = event.data.object.client_reference_id;
       const order = await updateOrder(confirmationKey);
 
+      const filter = orderFramesMongoFilter(order.frames);
+      const frames = await Frame.find(filter);
+
       if (order) {
-        sendMail(true, order).catch(console.error);
+        const invoice = niceInvoice(order, frames);
+        const attachments = [{ filename: 'Invoice.pdf', content: invoice }];
+        sendMail(
+          emailTypes.NFTsPurchased,
+          { order, frames },
+          attachments
+        ).catch(console.error);
         res.status(201).json({ success: true, data: order });
       } else {
         sendError(res, ErrorTypes.TRANSACTION_CREATION_UNSUCCESSFUL);

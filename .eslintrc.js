@@ -91,6 +91,7 @@ module.exports = {
           ['@/pages', './src/pages'],
           ['@/static-data', './src/static-data'],
           ['@/styles', './src/styles'],
+          ['@/templates', './src/templates'],
           ['@/utils', './src/utils'],
         ],
         extensions: ['.js', '.jsx', '.json'],

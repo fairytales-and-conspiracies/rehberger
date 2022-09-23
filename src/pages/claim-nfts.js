@@ -10,8 +10,10 @@ import OrderVerification from '@/components/OrderVerification';
 import SecurityVerification from '@/components/SecurityVerification';
 
 export default function ClaimNFTs() {
+  const [address, setAddress] = useState('');
+  const [key, setKey] = useState('');
   const [verificationAccepted, setVerificationAccepted] = useState(false);
-  const [securityVerification, setSecurityVerification] = useState(true);
+  const [securityVerification, setSecurityVerification] = useState(false);
   const [
     orderVerificationSubmissionError,
     setOrderVerificationSubmissionError,
@@ -28,6 +30,7 @@ export default function ClaimNFTs() {
   let securityFormik;
 
   useEffect(() => {
+    setKey(query['confirmation-key']);
     formik.setFieldValue('confirmationKey', query['confirmation-key']);
   }, [query]);
 
@@ -51,13 +54,16 @@ export default function ClaimNFTs() {
     onSubmit: async (values) => {
       console.log('Submit: ', values);
       try {
+        const { confirmationKey, walletAddress } = values;
+        setAddress(walletAddress);
         const {
           data: {
             data: { noSecurityQuestion, question },
           },
         } = await axios.post('/api/order-verification', {
-          confirmationKey: formik.values.confirmationKey,
+          confirmationKey,
           securityVerification: false,
+          walletAddress,
         });
 
         console.log(`PROPOS: ${noSecurityQuestion} --- ${question}`);
@@ -94,13 +100,14 @@ export default function ClaimNFTs() {
     }),
     onSubmit: async (values) => {
       console.log('Submit: ', values);
-      const { answer, question } = values;
       try {
+        const { answer, question } = values;
         await axios.post('/api/order-verification', {
           answer,
-          confirmationKey: formik.values.confirmationKey,
+          confirmationKey: key,
           question,
           securityVerification: true,
+          walletAddress: address,
         });
         setSecurityVerificationSubmissionError(null);
         setVerificationAccepted(true);
@@ -134,8 +141,10 @@ export default function ClaimNFTs() {
         )}
         {!verificationAccepted && securityVerification && (
           <SecurityVerification
+            confirmationKey={key}
             error={securityVerificationSubmissionError}
             formik={securityFormik}
+            walletAddress={address}
           />
         )}
         {verificationAccepted && (

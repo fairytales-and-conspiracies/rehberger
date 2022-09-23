@@ -6,15 +6,20 @@ import * as Yup from 'yup';
 
 const REQUIRED_NUMBER_OF_FILES = 2;
 
-export default function IdentityVerification({ isVisible, setIsVisible }) {
+export default function IdentityVerification({
+  confirmationKey,
+  isVisible,
+  setIsVisible,
+  walletAddress,
+}) {
   const [submissionError, setSubmissionError] = useState(null);
   const [showThankYou, setShowThankYou] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       files: null,
-      confirmationKey: '',
-      walletAddress: '',
+      confirmationKey,
+      walletAddress,
     },
     validationSchema: Yup.object({
       files: Yup.mixed()

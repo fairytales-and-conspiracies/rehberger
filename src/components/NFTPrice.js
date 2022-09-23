@@ -11,6 +11,10 @@ const nftPriceInEurosString = `€${getEthToEurRate(NFT_PRICE_ETH)
   .toString()
   .replace('.', ',')}`;
 
+const totalPriceInEurosString = (totalPrice) => {
+  return `€${getEthToEurRate(totalPrice).toString().replace('.', ',')}`;
+};
+
 const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
   const { totalPrice } = useContext(PaymentContext);
 
@@ -35,16 +39,20 @@ const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
             />
           )}
         </span>
-        {isTotalPrice ? totalPrice : NFT_PRICE_ETH_STRING}
+        {isTotalPrice
+          ? totalPrice.toString().replace('.', ',')
+          : NFT_PRICE_ETH_STRING}
       </span>
       <span
         className={`nft-price__eur ${
           inShoppingCart || isTotalPrice ? 'nft-price__eur--next-line' : ''
         } ${isTotalPrice ? 'nft-price__eur--total-price' : ''}`}
       >
-        {inShoppingCart || isTotalPrice
-          ? `${nftPriceInEurosString}`
-          : `/${nftPriceInEurosString}`}
+        {!isTotalPrice &&
+          (inShoppingCart
+            ? `${nftPriceInEurosString}`
+            : `/${nftPriceInEurosString}`)}
+        {isTotalPrice && <>{totalPriceInEurosString(totalPrice)}</>}
       </span>
     </div>
   );

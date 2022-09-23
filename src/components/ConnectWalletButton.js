@@ -1,12 +1,14 @@
 import { useContext } from 'react';
 
 import ConnectWalletContext from '@/context/ConnectWalletContext';
+import PaymentContext from '@/context/PaymentContext';
 import Web3Context from '@/context/Web3Context';
 
 const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
-export default function ConnectWalletButton({ isPayButton, payWithWallet }) {
+export default function ConnectWalletButton({ isPayButton }) {
   const { setIsConnectWalletOpen } = useContext(ConnectWalletContext);
+  const { pay } = useContext(PaymentContext);
   const { address, disconnectWallet } = useContext(Web3Context);
 
   return (
@@ -18,7 +20,7 @@ export default function ConnectWalletButton({ isPayButton, payWithWallet }) {
         if (!address) {
           setIsConnectWalletOpen(true);
         } else if (isPayButton) {
-          payWithWallet();
+          pay();
         } else {
           disconnectWallet();
         }

@@ -3,8 +3,8 @@ import { useContext } from 'react';
 import ConnectWalletButton from '@/components/ConnectWalletButton';
 import PaymentContext from '@/context/PaymentContext';
 
-export default function ConfirmPaymentMethod({ setConfirmPaymentMethod }) {
-  const { paymentMethod, payWithWallet } = useContext(PaymentContext);
+export default function ConfirmPaymentMethod() {
+  const { paymentMethod, setConfirmPaymentMethod } = useContext(PaymentContext);
 
   return (
     <>
@@ -22,7 +22,7 @@ export default function ConfirmPaymentMethod({ setConfirmPaymentMethod }) {
             WalletConnect by clicking “Connect wallet” button bellow or in the
             top right corner of the page and simply follow the instructions.
           </div>
-          <ConnectWalletButton isPayButton payWithWallet={payWithWallet} />
+          <ConnectWalletButton isPayButton />
         </div>
       )}
       {paymentMethod === 'CARD' && (

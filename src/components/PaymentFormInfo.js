@@ -2,8 +2,8 @@ import { useContext } from 'react';
 
 import PaymentContext from '@/context/PaymentContext';
 
-export default function SubmittedFormInfo({ setChoosePaymentMethod }) {
-  const { infoFormik } = useContext(PaymentContext);
+export default function SubmittedFormInfo() {
+  const { infoFormik, setChoosePaymentMethod } = useContext(PaymentContext);
   const { values } = infoFormik;
 
   return (

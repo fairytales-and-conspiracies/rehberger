@@ -2,7 +2,12 @@ import { useState } from 'react';
 
 import IdentityVerification from '@/components/IdentityVerification';
 
-export default function SecurityVerification({ error, formik }) {
+export default function SecurityVerification({
+  confirmationKey,
+  error,
+  formik,
+  walletAddress,
+}) {
   const [isIdentityVerificationVisible, setIsIdentityVerificationVisible] =
     useState(false);
 
@@ -58,8 +63,10 @@ export default function SecurityVerification({ error, formik }) {
         Can’t remember the correct answer?
       </button>
       <IdentityVerification
+        confirmationKey={confirmationKey}
         isVisible={isIdentityVerificationVisible}
         setIsVisible={setIsIdentityVerificationVisible}
+        walletAddress={walletAddress}
       />
     </>
   );

@@ -36,15 +36,19 @@ const BILLING_INFO_INITIAL_VALUES = {
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 
 export const PaymentProvider = ({ children }) => {
-  const { removeAllFromCart, selectedFrames } = useContext(ShoppingCartContext);
+  const { removeAllFromCart, removeManyFromCart, selectedFrames } =
+    useContext(ShoppingCartContext);
   const { sendTransaction } = useContext(Web3Context);
 
+  const [alreadySoldFrames, setAlreadySoldFrames] = useState([]);
+  const [choosePaymentMethod, setChoosePaymentMethod] = useState(false);
+  const [confirmPaymentMethod, setConfirmPaymentMethod] = useState(false);
   const [isPaymentBeingProcessed, setIsPaymentBeingProcessed] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [shippingInfoFormSubmitted, setShippingInfoFormSubmitted] =
     useState(false);
   const [totalPrice, setTotalPrice] = useState(0.0);
-  const [transactionPassed, setTransactionPassed] = useState(true);
+  const [transactionPassed, setTransactionPassed] = useState(false);
 
   useEffect(() => {
     if (selectedFrames) {
@@ -70,10 +74,12 @@ export const PaymentProvider = ({ children }) => {
         .required('Required'),
       addressLine2: Yup.string().max(50, 'Must be 50 characters or less'),
       country: Yup.string().required('Required'),
-      region: Yup.string().when('country', {
-        is: (country) => CountriesWithProvinces.includes(country),
-        then: Yup.string().required('Required'),
-      }),
+      region: Yup.string()
+        .nullable()
+        .when('country', {
+          is: (country) => CountriesWithProvinces.includes(country),
+          then: Yup.string().nullable().required('Required'),
+        }),
       city: Yup.string()
         .max(60, 'Must be 60 characters or less')
         .required('Required'),
@@ -105,7 +111,7 @@ export const PaymentProvider = ({ children }) => {
     }),
     onSubmit: () => {
       // eslint-disable-next-line no-use-before-define
-      payWithStripe();
+      pay();
     },
   });
 
@@ -123,6 +129,23 @@ export const PaymentProvider = ({ children }) => {
     return order;
   };
 
+  const haveSomeFramesHaveBeenSold = async () => {
+    const requestBody = selectedFrames.reduce((acc, frame) => {
+      if (!acc[frame.video]) {
+        acc[frame.video] = [];
+      }
+      acc[frame.video].push(frame.frame);
+      return acc;
+    }, {});
+
+    const {
+      data: { data: soldFrames },
+    } = await axios.post('/api/frames', requestBody);
+    setAlreadySoldFrames(soldFrames);
+    removeManyFromCart(soldFrames);
+    return soldFrames.length > 0;
+  };
+
   const payWithWallet = async () => {
     // const tx = {
     //   transactionHash:
@@ -130,8 +153,7 @@ export const PaymentProvider = ({ children }) => {
     // };
     setIsPaymentBeingProcessed(true);
     const tx = await sendTransaction(selectedFrames);
-
-    return;
+    setIsPaymentBeingProcessed(false);
 
     if (tx) {
       const order = createOrder();
@@ -140,8 +162,6 @@ export const PaymentProvider = ({ children }) => {
       setTransactionPassed(true);
       removeAllFromCart();
     } else {
-      // const postToApi = await axios.post('/api/customers', order);
-      // console.log('API Post: ', postToApi);
       // TODO: LOG
       setTransactionPassed(false);
     }
@@ -153,30 +173,52 @@ export const PaymentProvider = ({ children }) => {
 
     try {
       const {
-        data: {
-          data: { confirmationKey },
-        },
+        data: { url },
       } = await axios.post('/api/orders', order);
-      const checkoutCall = await axios.post('/api/checkout', {
-        items: selectedFrames,
-        confirmationKey,
-      });
-      const { url } = checkoutCall.data;
       window.location = url;
     } catch (err) {
       console.error('Error: ', err);
     }
   };
 
+  const pay = async () => {
+    const haveFramesBeenSold = await haveSomeFramesHaveBeenSold();
+    if (haveFramesBeenSold) {
+      return;
+    }
+
+    if (paymentMethod === 'WALLET') {
+      payWithWallet();
+    } else {
+      payWithStripe();
+    }
+  };
+
+  const setInitialState = () => {
+    setAlreadySoldFrames([]);
+    setChoosePaymentMethod(false);
+    setConfirmPaymentMethod(false);
+    setIsPaymentBeingProcessed(false);
+    setPaymentMethod(null);
+    setShippingInfoFormSubmitted(false);
+    setTransactionPassed(false);
+  };
+
   const memoizedValue = useMemo(
     () => ({
+      alreadySoldFrames,
+      choosePaymentMethod,
+      confirmPaymentMethod,
       infoFormik,
       isPaymentBeingProcessed,
       paymentMethod,
-      payWithStripe,
-      payWithWallet,
+      pay,
       securityQuestionFormik,
+      setAlreadySoldFrames,
+      setChoosePaymentMethod,
+      setConfirmPaymentMethod,
       setIsPaymentBeingProcessed,
+      setInitialState,
       setPaymentMethod,
       setShippingInfoFormSubmitted,
       setTransactionPassed,
@@ -185,13 +227,19 @@ export const PaymentProvider = ({ children }) => {
       transactionPassed,
     }),
     [
+      alreadySoldFrames,
+      choosePaymentMethod,
+      confirmPaymentMethod,
       infoFormik,
       isPaymentBeingProcessed,
       paymentMethod,
-      payWithStripe,
-      payWithWallet,
+      pay,
       securityQuestionFormik,
+      setAlreadySoldFrames,
+      setChoosePaymentMethod,
+      setConfirmPaymentMethod,
       setIsPaymentBeingProcessed,
+      setInitialState,
       setPaymentMethod,
       setShippingInfoFormSubmitted,
       setTransactionPassed,

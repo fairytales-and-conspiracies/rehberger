@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Image from 'next/image';
 import { forwardRef, useEffect, useState } from 'react';
 
@@ -40,7 +41,7 @@ function Home(_, ref) {
                   className="nfts__nft-thumbnail nfts__nft-1-thumbnail btn btn--no-style"
                   onClick={() =>
                     frameSelectionOpen(
-                      videos['HAVEYOUEVERTHOUGHTOFEMIGRATING?'].title
+                      videos.HAVEYOUEVERTHOUGHTOFEMIGRATING.cleanTitle
                     )
                   }
                   type="button"
@@ -56,10 +57,11 @@ function Home(_, ref) {
                 </div>
                 <div className="nfts__nft-text nfts__nft-1-text">
                   <h4 className="nfts__nft-title">
-                    HAVEYOUEVERTHOUGHTOFEMIGRATING?
+                    {videos.HAVEYOUEVERTHOUGHTOFEMIGRATING.title}
                   </h4>
                   <p className="nfts__nft-description">
-                    Liquid Poster No. 1<br />
+                    {videos.HAVEYOUEVERTHOUGHTOFEMIGRATING.subtitle}
+                    <br />
                   </p>
                 </div>
               </div>
@@ -67,7 +69,9 @@ function Home(_, ref) {
                 <button
                   className="nfts__nft-thumbnail nfts__nft-2-thumbnail btn btn--no-style"
                   onClick={() =>
-                    frameSelectionOpen(videos.IMAGINEYOURSELFWITHOUTAHOME.title)
+                    frameSelectionOpen(
+                      videos.IMAGINEYOURSELFWITHOUTAHOME.cleanTitle
+                    )
                   }
                   type="button"
                 >
@@ -82,10 +86,11 @@ function Home(_, ref) {
                 </div>
                 <div className="nfts__nft-text nfts__nft-2-text">
                   <h4 className="nfts__nft-title">
-                    IMAGINEYOURSELFWITHOUTAHOME
+                    {videos.IMAGINEYOURSELFWITHOUTAHOME.title}
                   </h4>
                   <p className="nfts__nft-description">
-                    Liquid Poster No. 2<br />
+                    {videos.IMAGINEYOURSELFWITHOUTAHOME.subtitle}
+                    <br />
                   </p>
                 </div>
               </div>
@@ -97,12 +102,15 @@ function Home(_, ref) {
               >
                 View on Etherscan
               </a>
-              <a
+              <button
                 className="nfts__btn btn btn--primary"
-                href="https://www.pinata.cloud"
+                onClick={() => {
+                  axios.get('/api/send-pdf');
+                }}
+                type="button"
               >
                 View on IPFS
-              </a>
+              </button>
               <IndividualPrice />
               <IndividualPricePurple />
             </div>
@@ -112,7 +120,7 @@ function Home(_, ref) {
               <button
                 className="nfts__nft-thumbnail nfts__nft-3-thumbnail"
                 onClick={() =>
-                  frameSelectionOpen(videos['HAVEYOUEVERSTOLENANIDEA?'].title)
+                  frameSelectionOpen(videos.HAVEYOUEVERSTOLENANIDEA.cleanTitle)
                 }
                 type="submit"
               >
@@ -126,9 +134,12 @@ function Home(_, ref) {
                 <Image alt="Number 3" layout="fill" src="/img/3.svg" />
               </div>
               <div className="nfts__nft-text nfts__nft-3-text">
-                <h4 className="nfts__nft-title">HAVEYOUEVERSTOLENANIDEA?</h4>
+                <h4 className="nfts__nft-title">
+                  {videos.HAVEYOUEVERSTOLENANIDEA.title}
+                </h4>
                 <p className="nfts__nft-description">
-                  Liquid Poster No. 3<br />
+                  {videos.HAVEYOUEVERSTOLENANIDEA.subtitle}
+                  <br />
                 </p>
               </div>
             </div>
@@ -136,7 +147,7 @@ function Home(_, ref) {
               <button
                 className="nfts__nft-thumbnail nfts__nft-4-thumbnail btn btn--no-style"
                 onClick={() =>
-                  frameSelectionOpen(videos['AREYOUAFRAIDOFTHEPOOR?'].title)
+                  frameSelectionOpen(videos.AREYOUAFRAIDOFTHEPOOR.cleanTitle)
                 }
                 type="button"
               >
@@ -150,9 +161,12 @@ function Home(_, ref) {
                 <Image alt="Number 4" layout="fill" src="/img/4.svg" />
               </div>
               <div className="nfts__nft-text nfts__nft-4-text">
-                <h4 className="nfts__nft-title">AREYOUAFRAIDOFTHEPOOR?</h4>
+                <h4 className="nfts__nft-title">
+                  {videos.AREYOUAFRAIDOFTHEPOOR.title}
+                </h4>
                 <p className="nfts__nft-description">
-                  Liquid Poster No. 4<br />
+                  {videos.AREYOUAFRAIDOFTHEPOOR.subtitle}
+                  <br />
                 </p>
               </div>
             </div>
@@ -162,7 +176,8 @@ function Home(_, ref) {
                   className="nfts__nft-thumbnail nfts__nft-5-thumbnail btn btn--no-style"
                   onClick={() =>
                     frameSelectionOpen(
-                      videos.ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR.title
+                      videos.ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR
+                        .cleanTitle
                     )
                   }
                   type="button"
@@ -178,10 +193,11 @@ function Home(_, ref) {
                 </div>
                 <div className="nfts__nft-text nfts__nft-5-text">
                   <h4 className="nfts__nft-title">
-                    ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR
+                    {videos.ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR.title}
                   </h4>
                   <p className="nfts__nft-description">
-                    Liquid Poster No. 5<br />
+                    {videos.ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR.subtitle}
+                    <br />
                   </p>
                 </div>
               </div>

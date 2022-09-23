@@ -30,8 +30,25 @@ export function ShoppingCartProvider({ children }) {
 
   const removeFromCart = (frame) => {
     const newSelectedFrames = selectedFrames.filter(
-      (frameInCart) => frameInCart.frame !== frame.frame
+      (frameInCart) =>
+        frameInCart.frame !== frame.frame || frameInCart.video !== frame.video
     );
+    setSelectedFrames(newSelectedFrames);
+    storeInSessionStorage(newSelectedFrames);
+  };
+
+  const removeManyFromCart = (frames) => {
+    const newSelectedFrames = selectedFrames.reduce((acc, frameInCart) => {
+      const isFrameToRemove = frames.find(
+        (frame) =>
+          frame.frame === frameInCart.frame && frame.video === frameInCart.video
+      );
+
+      if (!isFrameToRemove) {
+        acc.push(frameInCart);
+      }
+      return acc;
+    }, []);
     setSelectedFrames(newSelectedFrames);
     storeInSessionStorage(newSelectedFrames);
   };
@@ -46,9 +63,16 @@ export function ShoppingCartProvider({ children }) {
       addToCart,
       removeAllFromCart,
       removeFromCart,
+      removeManyFromCart,
       selectedFrames,
     }),
-    [addToCart, removeAllFromCart, removeFromCart, selectedFrames]
+    [
+      addToCart,
+      removeAllFromCart,
+      removeFromCart,
+      removeManyFromCart,
+      selectedFrames,
+    ]
   );
 
   return (

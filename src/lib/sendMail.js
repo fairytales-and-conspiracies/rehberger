@@ -1,3 +1,9 @@
+import emailTypes from '@/static-data/email-types';
+import {
+  nftsClaimedTemplate,
+  nftsPurchasedTemplate,
+} from '@/templates/nftsEmailTemplates';
+
 const nodemailer = require('nodemailer');
 
 const createMailBody = (data) => {
@@ -35,18 +41,38 @@ const createMailBody = (data) => {
   `;
 };
 
-const createMailObject = (data, subject) => {
-  const { customer } = data;
+const createMailObject = (emailType, data, attachments) => {
+  const { order } = data;
+  const { customer } = order;
+
+  if (emailType === emailTypes.NFTsPurchased) {
+    return {
+      from: 'bulatovic_nikola@yahoo.com', // sender address
+      to: customer.email, // list of receivers
+      subject: 'NFTs purchased!', // Subject line
+      html: nftsPurchasedTemplate(data),
+      attachments,
+    };
+  }
+
+  if (emailType === emailTypes.NFTsClaimed) {
+    return {
+      from: 'bulatovic_nikola@yahoo.com', // sender address
+      to: customer.email, // list of receivers
+      subject: 'NFTs claimed!', // Subject line
+      html: nftsClaimedTemplate(data),
+    };
+  }
 
   return {
     from: 'bulatovic_nikola@yahoo.com', // sender address
-    to: customer.email, // list of receivers
-    subject, // Subject line
+    to: 'bulatovic_nikola@yahoo.com', // list of receivers
+    subject: 'TEST', // Subject line
     html: createMailBody(data),
   };
 };
 
-async function main(success, data) {
+async function main(emailType, data, attachments) {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
   // const testAccount = await nodemailer.createTestAccount();
@@ -63,9 +89,12 @@ async function main(success, data) {
   });
 
   let info;
-  if (success) {
+  if (
+    emailType === emailTypes.NFTsPurchased ||
+    emailType === emailTypes.NFTsClaimed
+  ) {
     info = await transporter.sendMail(
-      createMailObject(data, !data.claimed ? 'NFT purchased!' : 'NFT claimed!')
+      createMailObject(emailType, data, attachments)
     );
   } else {
     info = await transporter.sendMail({

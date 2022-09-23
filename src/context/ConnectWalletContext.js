@@ -6,7 +6,7 @@ import Web3Context from '@/context/Web3Context';
 const ConnectWalletContext = createContext();
 
 export function ConnectWalletProvider({ children }) {
-  const { connectWallet } = useContext(Web3Context);
+  const { address, connectWallet } = useContext(Web3Context);
 
   const [isConnectWalletOpen, setIsConnectWalletOpen] = useState(false);
 
@@ -17,6 +17,12 @@ export function ConnectWalletProvider({ children }) {
       document.body.classList.remove('overflow-hidden');
     }
   }, [isConnectWalletOpen]);
+
+  useEffect(() => {
+    if (address) {
+      setIsConnectWalletOpen(false);
+    }
+  }, [address]);
 
   const selectWallet = (walletType) => {
     connectWallet(walletType);

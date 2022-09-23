@@ -3,7 +3,10 @@ import mongoose from 'mongoose';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
+import Frame from '@/models/Frame';
 import Order from '@/models/Order';
+import { orderFramesMongoFilter } from '@/pages/api/orders';
+import emailTypes from '@/static-data/email-types';
 import { ErrorTypes } from '@/static-data/errors';
 
 const updateOrderForClaimedNFTs = async (orderNumber) => {
@@ -21,23 +24,37 @@ const updateOrderForClaimedNFTs = async (orderNumber) => {
 };
 
 const forSecurityVerification = async (req, res, order) => {
-  const { answer, question } = req.body;
-  const { _id: orderBuffer } = order;
+  const { answer, question, walletAddress } = req.body;
+  const { _id: orderBuffer, frames: orderFrameRefs } = order;
 
   if (order.question === question && order.answer === answer) {
     const updatedOrder = await updateOrderForClaimedNFTs(
       orderBuffer.toString()
     );
-    sendMail(true, updatedOrder).catch(console.error);
+    const filter = orderFramesMongoFilter(orderFrameRefs);
+    const frames = await Frame.find(filter);
+    sendMail(emailTypes.NFTsClaimed, {
+      frames,
+      order: updatedOrder,
+      walletAddress,
+    }).catch(console.error);
+    res.status(201).json({ success: true, data: order });
   } else {
     sendError(res, ErrorTypes.INCORRECT_SECURITY_QUESTION_ANSWER);
   }
 };
 
-const forOrderVerificationNoSecurityQuestion = async (res, order) => {
-  const { _id: orderBuffer } = order;
+const forOrderVerificationNoSecurityQuestion = async (req, res, order) => {
+  const { walletAddress } = req.body;
+  const { _id: orderBuffer, frames: orderFrameRefs } = order;
   const updatedOrder = await updateOrderForClaimedNFTs(orderBuffer.toString());
-  sendMail(true, updatedOrder).catch(console.error);
+  const filter = orderFramesMongoFilter(orderFrameRefs);
+  const frames = await Frame.find(filter);
+  sendMail(emailTypes.NFTsClaimed, {
+    frames,
+    order: updatedOrder,
+    walletAddress,
+  }).catch(console.error);
   res.status(201).json({ success: true, data: order });
 };
 
@@ -85,7 +102,7 @@ const handler = async (req, res) => {
   // After submitting the order verificatio form,
   // before submitting the security question and answer form
   else if (order.noSecurityQuestion) {
-    forOrderVerificationNoSecurityQuestion(res, order);
+    forOrderVerificationNoSecurityQuestion(req, res, order);
   }
 
   // In case there is a security question, do not send the whole

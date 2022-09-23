@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema({
   customer: {
+    company: String,
+    vatNo: String,
     firstName: String,
     lastName: String,
     email: String,
@@ -15,11 +17,12 @@ const OrderSchema = new mongoose.Schema({
   frames: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Frame' }],
   quantity: Number,
   framePriceETH: Number,
-  framePriceUSD: Number,
+  framePriceEUR: Number,
   netPriceETH: Number,
-  netPriceUSD: Number,
+  netPriceEUR: Number,
   totalPriceETH: Number,
-  totalPriceUSD: Number,
+  totalPriceEUR: Number,
+  vat: Number,
   paymentMethod: String,
   transactionHash: String,
   noSecurityQuestion: Boolean,
@@ -29,9 +32,11 @@ const OrderSchema = new mongoose.Schema({
   confirmationKey: String,
   toBeClaimed: Boolean,
   claimed: Boolean,
-  orderCreatedTimestamp: String,
-  transactionSuccessfulTimestamp: String,
-  claimedTimestamp: String,
+  orderCreatedTimestamp: Number,
+  transactionSuccessfulTimestamp: Number,
+  claimedTimestamp: Number,
+  orderNumber: Number,
+  invoiceNumber: String,
 });
 
 const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);

@@ -19,7 +19,7 @@ export default function PaymentFormInputs() {
         <div className="form-container">
           <input
             className="input"
-            disabled={false}
+            disabled={!selectedFrames.length}
             id="company"
             name="company"
             onBlur={infoFormik.handleBlur}
@@ -33,7 +33,7 @@ export default function PaymentFormInputs() {
           ) : null}
           <input
             className="input"
-            disabled={false}
+            disabled={!selectedFrames.length}
             id="vatNo"
             name="vatNo"
             onBlur={infoFormik.handleBlur}
@@ -124,7 +124,10 @@ export default function PaymentFormInputs() {
             id="country"
             name="country"
             onBlur={() => infoFormik.setFieldTouched('country', true)}
-            onChange={(value) => infoFormik.setFieldValue('country', value)}
+            onChange={(value) => {
+              infoFormik.setFieldValue('country', value);
+              infoFormik.setFieldValue('region', null);
+            }}
             type="text"
             value={infoFormik.values.country}
           />

@@ -37,3 +37,11 @@ yarn-error.log*
 
 # VSCode
 .vscode
+
+# Uploads
+/public/uploads
+
+# Email template
+/src/pages/nfts-purchased-email-template.js
+/src/templates/nftsPurchased.html
+/src/templates/NFTsPurchased.js

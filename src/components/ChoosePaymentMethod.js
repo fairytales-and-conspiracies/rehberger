@@ -1,9 +1,12 @@
-import { useContext } from 'react';
+import Link from 'next/link';
+import { useContext, useState } from 'react';
 
 import PaymentContext from '@/context/PaymentContext';
 
 export default function ChoosePaymentMethod() {
   const { setPaymentMethod } = useContext(PaymentContext);
+
+  const [agree, setAgree] = useState(false);
 
   return (
     <>
@@ -20,8 +23,12 @@ export default function ChoosePaymentMethod() {
           Don’t have a wallet at the moment? No worries! By choosing Stripe, you
           will be able to buy NFTs using your debit/credit card.
         </p>
+        <p className="choose-payment-method__paragraph">
+          Please agree to the terms below to proceed.
+        </p>
         <button
           className="btn btn--primary"
+          disabled={!agree}
           onClick={() => {
             setPaymentMethod('WALLET');
           }}
@@ -31,6 +38,7 @@ export default function ChoosePaymentMethod() {
         </button>
         <button
           className="btn btn--primary"
+          disabled={!agree}
           onClick={() => {
             setPaymentMethod('CARD');
           }}
@@ -38,6 +46,26 @@ export default function ChoosePaymentMethod() {
         >
           Pay with card
         </button>
+        <div className="choose-payment-method__input">
+          <label
+            className="choose-payment-method__label"
+            htmlFor="agreeToTerms"
+          >
+            <input
+              id="agreeToTerms"
+              name="agreeToTerms"
+              onChange={(event) => setAgree(event.target.checked)}
+              type="checkbox"
+              value={agree}
+            />{' '}
+            I hereby agree to these legal{' '}
+            <Link href="/doc/terms.pdf">
+              <a className="link" target="_blank">
+                terms
+              </a>
+            </Link>
+          </label>
+        </div>
       </div>
     </>
   );

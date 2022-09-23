@@ -44,7 +44,12 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-4') {
-    margin-left: 5rem;
+    margin-left: 1rem;
+  }
+
+  @include e('nft-5') {
+    left: 1rem;
+    order: 1;
   }
 
   @include e('nft-thumbnail') {
@@ -108,10 +113,6 @@ $nfts-nft-thumbnail-width: 30rem;
 
   @include e('nft-4-text') {
     margin-top: -25rem;
-  }
-
-  @include e('nft-5') {
-    order: 1;
   }
 
   @include e('nft-5-text') {
@@ -265,7 +266,7 @@ $nfts-nft-thumbnail-width: 30rem;
     }
 
     @include e('nft-4') {
-      margin-left: 10rem;
+      margin-left: 4.5rem;
       margin-top: -5rem;
     }
 

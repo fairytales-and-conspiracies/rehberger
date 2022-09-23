@@ -6,16 +6,20 @@ import { address } from '@/contract/exampleContract';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
+import Frame from '@/models/Frame';
 import Order from '@/models/Order';
+import { checkout } from '@/pages/api/checkout';
+import emailTypes from '@/static-data/email-types';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
+import niceInvoice from '@/templates/niceInvoice';
 import { getEthToEurRate } from '@/utils/conversion';
-import { formatDateTime } from '@/utils/date';
+import { padZeroes } from '@/utils/string';
+import calculateVat from '@/utils/vat';
 
 const { INFURA_URL } = process.env;
 const { MNEMONIC } = process.env;
-const NFT_PRICE_ETH = parseFloat(process.env.NFT_PRICE_ETH);
-// const SALES_TAX = parseFloat(process.env.NEXT_PUBLIC_SALES_TAX);
+const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
 const getWeb3 = () => {
   const provider = new HDWalletProvider(MNEMONIC, INFURA_URL);
@@ -25,32 +29,63 @@ const getWeb3 = () => {
 
 let web3 = getWeb3();
 
-const fillOutRestOfOrderData = (frames) => {
-  const orderCreatedTimestamp = formatDateTime(Date.now());
+const fillOutRestOfOrderData = (customer, frames) => {
+  const orderCreatedTimestamp = Date.now();
   const quantity = frames.length;
+
   const framePriceETH = NFT_PRICE_ETH;
-  const netPriceETH = framePriceETH * quantity;
-  const totalPriceETH = netPriceETH;
-  const framePriceUSD = getEthToEurRate(NFT_PRICE_ETH);
-  const netPriceUSD = framePriceUSD * quantity;
-  const totalPriceUSD = netPriceUSD;
+  const framePriceEUR = getEthToEurRate(NFT_PRICE_ETH);
+
+  // Calculate the price so that if sales tax exists, it is
+  // subtracted from the total price. In other words, the buyer
+  // does not pay the tax, so the price per NFT is always the same,
+  // as defined.
+  const totalPriceETH = framePriceETH * quantity;
+  const totalPriceEUR = framePriceEUR * quantity;
+
+  const { country, vatNo } = customer;
+  const vat = calculateVat(country, vatNo);
+
+  const netPriceETH = parseFloat((totalPriceETH / (1.0 + vat)).toFixed(2));
+  const netPriceEUR = parseFloat((totalPriceEUR / (1.0 + vat)).toFixed(2));
   return {
     orderCreatedTimestamp,
     quantity,
     framePriceETH,
     netPriceETH,
     totalPriceETH,
-    framePriceUSD,
-    netPriceUSD,
-    totalPriceUSD,
+    framePriceEUR,
+    netPriceEUR,
+    totalPriceEUR,
+    vat,
   };
 };
 
+export const orderFramesMongoFilter = (frames) => {
+  const filter = { _id: { $in: [] } };
+  frames.forEach(async (frame) => {
+    // eslint-disable-next-line no-underscore-dangle
+    const id = frame._id.toString();
+    // eslint-disable-next-line no-underscore-dangle
+    filter._id.$in.push(id);
+  });
+  return filter;
+};
+
+export const getNextOrderNumber = async () => {
+  const order = await Order.find().sort({ orderNumber: -1 }).limit(1);
+  if (!order || !order.orderNumber) {
+    return 1;
+  }
+
+  return order.orderNumber + 1;
+};
+
 const createOrder = async (req) => {
-  const { frames, paymentMethod } = req.body;
+  const { customer, frames, paymentMethod } = req.body;
 
   const isWalletPayment = paymentMethod === 'WALLET';
-  const restOfOrderData = fillOutRestOfOrderData(frames);
+  const restOfOrderData = fillOutRestOfOrderData(customer, frames);
   const body = {
     ...req.body,
     frames,
@@ -61,6 +96,11 @@ const createOrder = async (req) => {
   if (isWalletPayment) {
     body.transactionStatus = TransactionStatus.SUCCESSFUL;
     body.transactionSuccessfulTimestamp = body.orderCreatedTimestamp;
+    body.orderNumber = await getNextOrderNumber();
+    body.invoiceNumber = `NFT${padZeroes(body.orderNumber, 6)}`;
+
+    const filter = orderFramesMongoFilter(frames);
+    await Frame.updateMany(filter, { sold: true });
   } else {
     body.claimed = false;
     body.confirmationKey = crypto.randomBytes(16).toString('hex');
@@ -85,7 +125,7 @@ const handler = async (req, res) => {
     case 'POST':
       try {
         let order;
-        const { paymentMethod, transactionHash } = req.body;
+        const { frames, paymentMethod, transactionHash } = req.body;
 
         // For wallet payments, we have to make sure that a valid
         // transaction has taken place. For Stripe payments, this
@@ -93,7 +133,21 @@ const handler = async (req, res) => {
         // receives the transactions after it has been confirmed.
         if (paymentMethod === 'CARD') {
           order = await createOrder(req);
-        } else if (transactionHash) {
+          try {
+            const url = await checkout(
+              order.confirmationKey,
+              frames,
+              order.framePriceEUR * 100
+            );
+            res.status(200).json({ success: true, url });
+          } catch (err) {
+            console.error('Error sending data to Stripe: ', err);
+            res.status(400).json({ success: false, error: err });
+          }
+          return;
+        }
+
+        if (transactionHash) {
           if (!web3) {
             web3 = getWeb3();
           }
@@ -109,7 +163,13 @@ const handler = async (req, res) => {
             if (!ordersWithTransaction || ordersWithTransaction.length === 0) {
               order = await createOrder(req);
               if (order) {
-                sendMail(true, order).catch(console.error);
+                const invoice = niceInvoice(order, frames);
+                const attachments = [
+                  { filename: 'Invoice.pdf', content: invoice },
+                ];
+                sendMail(emailTypes.NFTsPurchased, order, attachments).catch(
+                  console.error
+                );
               }
             }
           }

@@ -4,7 +4,19 @@ import NFTPrice from '@/components/NFTPrice';
 import VideoData from '@/static-data/videos';
 import { padZeroes } from '@/utils/string';
 
+const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
+
 export default function CurrentFrame({ selectedFrame, video }) {
+  let imageSrc;
+  if (selectedFrame) {
+    imageSrc =
+      NFT_IMAGE_URL === '/img/frames'
+        ? `${NFT_IMAGE_URL}/${video}/${selectedFrame.time}.png`
+        : `${NFT_IMAGE_URL}/${selectedFrame.video}_${padZeroes(
+            selectedFrame.frame
+          )}.png`;
+  }
+
   return (
     <div className="selected-frame__wrapper">
       <div className="selected-frame__image-with-timeframe-container">
@@ -25,9 +37,7 @@ export default function CurrentFrame({ selectedFrame, video }) {
               }`}
               height="100%"
               layout="responsive"
-              src={`/img/frames/${video}/${
-                selectedFrame ? selectedFrame.time : 0
-              }.png`}
+              src={imageSrc || '/img/frames/0'}
               width="75%"
             />
           </div>
@@ -36,7 +46,7 @@ export default function CurrentFrame({ selectedFrame, video }) {
           {!!selectedFrame && (
             <>
               <div className="selected-frame__timeframe-title">Frame</div>
-              {padZeroes(selectedFrame.frame)
+              {padZeroes(selectedFrame.frame, 4)
                 .split('')
                 .map((digit, index) => (
                   // eslint-disable-next-line react/no-array-index-key

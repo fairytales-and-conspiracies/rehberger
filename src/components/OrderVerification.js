@@ -38,7 +38,7 @@ export default function OrderVerification({ error, formik }) {
           name="confirmationKey"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-          placeholder="Order no. *"
+          placeholder="Confirmation key *"
           type="text"
           value={formik.values.confirmationKey}
         />
