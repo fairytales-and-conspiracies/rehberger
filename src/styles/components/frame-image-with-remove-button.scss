@@ -3,6 +3,11 @@
   overflow: hidden;
   position: relative;
 
+  @include m('in-shopping-cart') {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
   &:hover {
     .frame-image__remove-container {
       bottom: 0;

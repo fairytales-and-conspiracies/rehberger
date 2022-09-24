@@ -75,7 +75,10 @@ const customerInformation = (doc, invoice) => {
   doc.text(invoice.invoiceDate, 180, currentPosition, { align: 'right' });
 
   currentPosition += 15;
-  if (invoice.shipping.vatNo) {
+  if (
+    invoice.shipping.vatNo &&
+    countriesInEu.includes(invoice.shipping.country)
+  ) {
     doc
       .text('EU Customer VAT Number:', 330, currentPosition)
       .text(invoice.shipping.vatNo, 180, currentPosition, { align: 'right' });

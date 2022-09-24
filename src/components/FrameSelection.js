@@ -8,32 +8,31 @@ import SelectionPreview from '@/components/SelectionPreview';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
 
+const isFrameInCart = (frame, framesInCart) =>
+  framesInCart.find(
+    (frameInCart) =>
+      frameInCart.frame === frame.frame && frameInCart.video === frame.video
+  );
+
+const sortFrames = (frameA, frameB) => {
+  return frameA.frame - frameB.frame;
+};
+
 export default function FrameSelection({ onClose, video }) {
-  const { selectedFramesInShoppingCart } = useContext(ShoppingCartContext);
+  const { selectedFrames: selectedFramesInShoppingCart } =
+    useContext(ShoppingCartContext);
 
   const [loading, setLoading] = useState(true);
   const [frames, setFrames] = useState(null);
   const [selectedFrames, setSelectedFrames] = useState([]);
   const [currentSelectedFrame, setCurrentSelectedFrame] = useState(null);
+  const [noMoreAvailable, setNoMoreAvailable] = useState(false);
 
   useEffect(() => {
     axios
       .get(`/api/frames?video=${video}`)
       .then((response) => {
-        const responseFrames = response.data.data.map((frame) => {
-          // When checking for the closest available frame, we also want
-          // to check whether the frame is already in the shopping cart,
-          // and if so exclude it as well from the available frames
-          const frameInCart = (selectedFramesInShoppingCart || []).find(
-            (selectedFrameInCart) => selectedFrameInCart.frame === frame.frame
-          );
-
-          return {
-            ...frame,
-            isInShoppingCart: !!frameInCart,
-          };
-        });
-
+        const responseFrames = response.data.data.sort(sortFrames);
         setFrames(responseFrames);
       })
       .then(() => setLoading(false));
@@ -45,47 +44,38 @@ export default function FrameSelection({ onClose, video }) {
     const closerToUpper =
       approxFrameNumber - Math.floor(approxFrameNumber) >= 0.5;
 
-    const firstFrame = frames[0].frame;
-    const lastFrame = frames[frames.length - 1].frame;
-
     let closestAvailableFrame = null;
 
-    let frameNumber = Math.round(approxFrameNumber);
-    let reachedOneBound = false;
+    let frameRepresentationNumber = Math.round(approxFrameNumber);
     let step = closerToUpper ? -1 : 1;
 
     while (!closestAvailableFrame) {
-      if (frameNumber < firstFrame) {
-        if (reachedOneBound) {
-          break;
-        }
-        reachedOneBound = true;
-        frameNumber += step;
-        step = 1;
-      }
-
-      if (frameNumber > lastFrame) {
-        if (reachedOneBound) {
-          break;
-        }
-        reachedOneBound = true;
-        frameNumber += step;
-        step = -1;
+      let frameNumber;
+      if (frameRepresentationNumber >= frames.length) {
+        frameNumber = frameRepresentationNumber - frames.length;
+      } else if (frameRepresentationNumber < 0) {
+        frameNumber = frames.length + frameRepresentationNumber;
+      } else {
+        frameNumber = frameRepresentationNumber;
       }
 
       if (
-        !frames[frameNumber - 1].sold &&
-        !frames[frameNumber - 1].isInShoppingCart
+        !frames[frameNumber].sold &&
+        !isFrameInCart(frames[frameNumber], selectedFramesInShoppingCart) &&
+        !isFrameInCart(frames[frameNumber], selectedFrames)
       ) {
-        closestAvailableFrame = frames[frameNumber - 1];
+        closestAvailableFrame = frames[frameNumber];
         break;
       }
 
-      frameNumber += step;
-      if (!reachedOneBound) {
-        step *= -1;
-        step += step > 0 ? 1 : -1;
+      frameRepresentationNumber += step;
+
+      if (Math.abs(step) >= frames.length) {
+        break;
       }
+
+      step *= -1;
+      step += step > 0 ? 1 : -1;
     }
 
     return closestAvailableFrame;
@@ -95,19 +85,24 @@ export default function FrameSelection({ onClose, video }) {
     console.log('Time: ', event.target.currentTime);
 
     const { currentTime } = event.target;
-    const closestAvailableFrame = findClosestAvailableFrame(currentTime);
 
-    if (!closestAvailableFrame) {
-      // TODO: what to do when there are no more available frames
+    if (!noMoreAvailable) {
+      const closestAvailableFrame = findClosestAvailableFrame(currentTime);
+
+      if (!closestAvailableFrame) {
+        setCurrentSelectedFrame(null);
+        setNoMoreAvailable(true);
+        return;
+      }
+
+      const newSelectedFrames = selectedFrames.slice();
+      newSelectedFrames.push(closestAvailableFrame);
+      setSelectedFrames(newSelectedFrames);
+
+      setCurrentSelectedFrame(closestAvailableFrame);
+
+      console.log('Frame number: ', closestAvailableFrame);
     }
-
-    const newSelectedFrames = selectedFrames.slice();
-    newSelectedFrames.push(closestAvailableFrame);
-    setSelectedFrames(newSelectedFrames);
-
-    setCurrentSelectedFrame(closestAvailableFrame);
-
-    console.log('Frame number: ', closestAvailableFrame);
   };
 
   const removeSelectedFrame = (frameToRemove) => {
@@ -115,10 +110,12 @@ export default function FrameSelection({ onClose, video }) {
       (frame) => frame.frame !== frameToRemove.frame
     );
     setSelectedFrames(newSelectedFrames);
+    setNoMoreAvailable(false);
   };
 
   const removeAllFrames = () => {
     setSelectedFrames([]);
+    setNoMoreAvailable(false);
   };
 
   return (

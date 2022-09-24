@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import Web3Context from '@/context/Web3Context';
 import CountriesWithProvinces from '@/static-data/countries-with-provinces';
+import calculateVat from '@/utils/vat';
 
 const PaymentContext = createContext();
 
@@ -49,6 +50,7 @@ export const PaymentProvider = ({ children }) => {
     useState(false);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [transactionPassed, setTransactionPassed] = useState(false);
+  const [vat, setVat] = useState(0.0);
 
   useEffect(() => {
     if (selectedFrames) {
@@ -61,9 +63,13 @@ export const PaymentProvider = ({ children }) => {
     initialValues: BILLING_INFO_INITIAL_VALUES,
     validationSchema: Yup.object({
       company: Yup.string(),
-      vatNo: Yup.string(),
+      vatNo: Yup.string().matches(
+        /^[A-Z]{2}[A-Z0-9]{6,13}$/,
+        'Incorrect format'
+      ),
       firstName: Yup.string()
         .max(25, 'Must be 25 characters or less')
+        .trim()
         .required('Required'),
       lastName: Yup.string()
         .max(25, 'Must be 25 characters or less')
@@ -87,7 +93,10 @@ export const PaymentProvider = ({ children }) => {
         .max(12, 'Must be 12 characters or less')
         .required('Required'),
     }),
-    onSubmit: () => {
+    onSubmit: (values) => {
+      const { country, vatNo } = values;
+      const tax = calculateVat(country, vatNo);
+      setVat(tax);
       setShippingInfoFormSubmitted(true);
     },
   });
@@ -225,6 +234,7 @@ export const PaymentProvider = ({ children }) => {
       shippingInfoFormSubmitted,
       totalPrice,
       transactionPassed,
+      vat,
     }),
     [
       alreadySoldFrames,
@@ -246,6 +256,7 @@ export const PaymentProvider = ({ children }) => {
       shippingInfoFormSubmitted,
       totalPrice,
       transactionPassed,
+      vat,
     ]
   );
 

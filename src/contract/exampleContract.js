@@ -1,4 +1,4 @@
-export const address = '0xa0486ceff782Db72EC6E2A0f8008B42818FdED5c';
+export const address = '0xE79a137F9DC8ad70caE19dc96b6E9fb4a9295EaE';
 
 export const abi = [
   { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
@@ -151,6 +151,13 @@ export const abi = [
   },
   {
     inputs: [],
+    name: 'nftPrice',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'owner',
     outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
@@ -195,6 +202,13 @@ export const abi = [
       { internalType: 'bool', name: 'approved', type: 'bool' },
     ],
     name: 'setApprovalForAll',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: 'priceInWei', type: 'uint256' }],
+    name: 'setNFTPriceInWei',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',

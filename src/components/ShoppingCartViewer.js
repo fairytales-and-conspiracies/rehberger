@@ -67,6 +67,7 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
                 >
                   <FrameImageWithRemoveButton
                     frame={frame}
+                    isInShoppingCart
                     onRemoveClick={removeFrameFromShoppingCart}
                   />
                   <div className="cart-viewer__frame-image-description">

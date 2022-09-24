@@ -33,12 +33,17 @@
   }
 
   @include e('selected') {
-    margin: 5.2rem 8rem;
+    margin: 3.2rem 8rem;
+  }
+
+  @include e('frames-for-video') {
+    margin-bottom: 4rem;
+    word-break: break-all;
   }
 
   @include e('selected-title') {
     color: $color-text-red;
-    margin-bottom: 2.2rem;
+    margin-bottom: 1.5rem;
     font-size: 3.2rem;
   }
 

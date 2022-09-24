@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
@@ -119,10 +120,10 @@ export default function SelectionPreview({
               </>
             )}
             {!!selectedFrames.length &&
-              selectedFrames.map((frame) => (
+              selectedFrames.map((frame, index) => (
                 <FrameImageWithRemoveButton
                   frame={frame}
-                  key={frame.frame}
+                  key={index}
                   onRemoveClick={onSelectedFrameRemoveClick}
                 />
               ))}

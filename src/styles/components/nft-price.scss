@@ -25,6 +25,17 @@
     }
   }
 
+  @include e('tax-included') {
+    display: block;
+    font-size: 2.2rem;
+    text-align: right;
+    visibility: hidden;
+
+    @include m('visible') {
+      visibility: visible;
+    }
+  }
+
   @include max-screen-md {
     @include e('eth-icon') {
       @include m('total-price') {

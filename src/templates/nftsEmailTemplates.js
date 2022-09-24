@@ -2,6 +2,8 @@ import videoInfo from '@/static-data/videos';
 import { padZeroes } from '@/utils/string';
 
 const { SERVER_URL } = process.env;
+const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
+const NFT_IMAGE_EXTENSION = process.env.NEXT_PUBLIC_NFT_IMAGE_EXTENSION;
 
 const getEurPriceString = (price) => `€${price.toFixed(2).replace('.', ',')}`;
 
@@ -24,7 +26,9 @@ const frameTemplate = (frame, netFramePriceEUR) => {
               <td>
                 <img
                   alt="${frame.video}_${padZeroes(frame.frame)}"
-                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.fineartamerica.com%2Fimages%2Fartworkimages%2Fmediumlarge%2F1%2Ftrees-in-early-morning-mist-lenore-humes.jpg&amp;f=1&amp;nofb=1"
+                  src="${NFT_IMAGE_URL}/${frame.video}_${padZeroes(
+    frame.frame
+  )}.${NFT_IMAGE_EXTENSION}"
                   width="150"
                   style="
                     display: block;

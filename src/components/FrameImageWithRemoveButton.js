@@ -4,18 +4,29 @@ import VideoData from '@/static-data/videos';
 import { padZeroes } from '@/utils/string';
 
 const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
+const NFT_IMAGE_EXTENSION = process.env.NEXT_PUBLIC_NFT_IMAGE_EXTENSION;
 
-export default function FrameImageWithRemoveButton({ frame, onRemoveClick }) {
+export default function FrameImageWithRemoveButton({
+  frame,
+  isInShoppingCart,
+  onRemoveClick,
+}) {
   let imageSrc;
   if (frame) {
     imageSrc =
       NFT_IMAGE_URL === '/img/frames'
-        ? `${NFT_IMAGE_URL}/${frame.video}/${frame.time}.png`
-        : `${NFT_IMAGE_URL}/${frame.video}_${padZeroes(frame.frame)}.png`;
+        ? `${NFT_IMAGE_URL}/${frame.video}/${frame.time}.${NFT_IMAGE_EXTENSION}`
+        : `${NFT_IMAGE_URL}/${frame.video}_${padZeroes(
+            frame.frame
+          )}.${NFT_IMAGE_EXTENSION}`;
   }
 
   return (
-    <span className="frame-image">
+    <span
+      className={`frame-image ${
+        isInShoppingCart ? 'frame-image--in-shopping-cart' : ''
+      }`}
+    >
       <Image
         alt={`${VideoData[frame.video].title} frame ${frame.frame}`}
         height="100%"

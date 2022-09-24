@@ -6,6 +6,7 @@ import { createContext, useEffect, useMemo, useState } from 'react';
 
 import { address as contractAddress, abi } from '@/contract/exampleContract';
 import wallets from '@/static-data/wallets';
+import { getTokenId } from '@/utils/contract';
 
 const Web3Context = createContext();
 
@@ -76,11 +77,10 @@ export function Web3Provider({ children }) {
 
   const sendTransaction = async (selectedFrames) => {
     try {
-      let tokenIds = selectedFrames.map((frame) => frame.frame);
-      // TODO: Remove this next line which is only for testing purposes
-      // -77 -93 -245 333 548 570 -719
-      tokenIds = [548];
+      const tokenIds = selectedFrames.map((frame) => getTokenId(frame));
       const amounts = Array(tokenIds.length).fill(1);
+
+      console.log('Token Ids: ', tokenIds);
 
       const tx = await contract.methods
         .buyNFTs(ADDRESS_FROM, address, tokenIds, amounts, '0x00')

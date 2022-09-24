@@ -5,16 +5,17 @@ import VideoData from '@/static-data/videos';
 import { padZeroes } from '@/utils/string';
 
 const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
+const NFT_IMAGE_EXTENSION = process.env.NEXT_PUBLIC_NFT_IMAGE_EXTENSION;
 
 export default function CurrentFrame({ selectedFrame, video }) {
   let imageSrc;
   if (selectedFrame) {
     imageSrc =
       NFT_IMAGE_URL === '/img/frames'
-        ? `${NFT_IMAGE_URL}/${video}/${selectedFrame.time}.png`
+        ? `${NFT_IMAGE_URL}/${video}/${selectedFrame.time}.${NFT_IMAGE_EXTENSION}`
         : `${NFT_IMAGE_URL}/${selectedFrame.video}_${padZeroes(
             selectedFrame.frame
-          )}.png`;
+          )}.${NFT_IMAGE_EXTENSION}`;
   }
 
   return (
@@ -37,7 +38,10 @@ export default function CurrentFrame({ selectedFrame, video }) {
               }`}
               height="100%"
               layout="responsive"
-              src={imageSrc || '/img/frames/0'}
+              src={
+                imageSrc ||
+                'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='
+              }
               width="75%"
             />
           </div>

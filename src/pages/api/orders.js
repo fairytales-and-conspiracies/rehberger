@@ -17,8 +17,8 @@ import { getEthToEurRate } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
-const { INFURA_URL } = process.env;
 const { MNEMONIC } = process.env;
+const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
 const getWeb3 = () => {
@@ -73,7 +73,8 @@ export const orderFramesMongoFilter = (frames) => {
 };
 
 export const getNextOrderNumber = async () => {
-  const order = await Order.find().sort({ orderNumber: -1 }).limit(1);
+  const orderArr = await Order.find().sort('-orderNumber').limit(1);
+  const order = orderArr[0];
   if (!order || !order.orderNumber) {
     return 1;
   }
@@ -167,9 +168,11 @@ const handler = async (req, res) => {
                 const attachments = [
                   { filename: 'Invoice.pdf', content: invoice },
                 ];
-                sendMail(emailTypes.NFTsPurchased, order, attachments).catch(
-                  console.error
-                );
+                sendMail(
+                  emailTypes.NFTsPurchased,
+                  { order, frames },
+                  attachments
+                ).catch(console.error);
               }
             }
           }

@@ -16,7 +16,8 @@ const totalPriceInEurosString = (totalPrice) => {
 };
 
 const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
-  const { totalPrice } = useContext(PaymentContext);
+  const { shippingInfoFormSubmitted, totalPrice, vat } =
+    useContext(PaymentContext);
 
   return (
     <div className="nft-price">
@@ -53,6 +54,17 @@ const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
             ? `${nftPriceInEurosString}`
             : `/${nftPriceInEurosString}`)}
         {isTotalPrice && <>{totalPriceInEurosString(totalPrice)}</>}
+      </span>
+      <span
+        className={`nft-price__tax-included ${
+          isTotalPrice && shippingInfoFormSubmitted
+            ? 'nft-price__tax-included--visible'
+            : ''
+        }`}
+      >
+        {vat > 0
+          ? `${parseInt(vat * 100, 10)}% sales tax included`
+          : 'No sales tax'}
       </span>
     </div>
   );

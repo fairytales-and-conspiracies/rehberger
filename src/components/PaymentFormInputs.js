@@ -37,7 +37,12 @@ export default function PaymentFormInputs() {
             id="vatNo"
             name="vatNo"
             onBlur={infoFormik.handleBlur}
-            onChange={infoFormik.handleChange}
+            onChange={(event) => {
+              // eslint-disable-next-line no-param-reassign
+              event.currentTarget.value =
+                event.currentTarget.value.toUpperCase();
+              infoFormik.handleChange(event);
+            }}
             placeholder="VAT No."
             type="text"
             value={infoFormik.values.vatNo}
@@ -127,6 +132,7 @@ export default function PaymentFormInputs() {
             onChange={(value) => {
               infoFormik.setFieldValue('country', value);
               infoFormik.setFieldValue('region', null);
+              infoFormik.setFieldTouched('region', false);
             }}
             type="text"
             value={infoFormik.values.country}
