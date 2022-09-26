@@ -57,10 +57,15 @@ const frames = [
 const handler = async (req, res) => {
   await dbConnect();
 
-  const num = await getNextOrderNumber();
-  console.log('Loggy', num);
+  try {
+    sendMail(emailTypes.Test);
+  } catch (err) {
+    console.log('ERRO: ', err);
+  }
+  res.status(201).json({ success: true, data: true });
+  // const num = await getNextOrderNumber();
+  // console.log('Loggy', num);
 
-  res.status(201).json({ success: true, data: num });
   // try {
   //   const pdf = invoice(order, frames);
   //   sendMail(emailTypes.NFTsPurchased, { order, frames }, [

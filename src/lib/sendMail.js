@@ -96,6 +96,13 @@ async function main(emailType, data, attachments) {
     info = await transporter.sendMail(
       createMailObject(emailType, data, attachments)
     );
+  } else if (emailType === emailTypes.Test) {
+    return {
+      from: 'bulatovic_nikola@yahoo.com', // sender address
+      to: 'bulatovic_nikola@yahoo.com', // list of receivers
+      subject: 'TEST', // Subject line
+      text: 'hi',
+    };
   } else {
     info = await transporter.sendMail({
       from: 'Rehberger app',
