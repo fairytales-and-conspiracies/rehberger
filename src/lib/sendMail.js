@@ -79,12 +79,12 @@ async function main(emailType, data, attachments) {
 
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
-    host: 'smtp.mail.yahoo.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    host: process.env.SEND_EMAIL_SERVER,
+    port: process.env.SEND_EMAIL_PORT,
+    secure: process.env.SEND_EMAIL_SECURE,
     auth: {
-      user: 'bulatovic_nikola@yahoo.com', // generated ethereal user
-      pass: 'bgkjzuvodayxrqkb', // generated ethereal password
+      user: process.env.SEND_EMAIL_USER,
+      pass: process.env.SEND_EMAIL_PASSWORD,
     },
   });
 
@@ -97,12 +97,12 @@ async function main(emailType, data, attachments) {
       createMailObject(emailType, data, attachments)
     );
   } else if (emailType === emailTypes.Test) {
-    return {
-      from: 'bulatovic_nikola@yahoo.com', // sender address
-      to: 'bulatovic_nikola@yahoo.com', // list of receivers
+    info = await transporter.sendMail({
+      from: process.env.SEND_EMAIL_USER, // sender address
+      to: process.env.SEND_EMAIL_TEST_RECEIVER, // list of receivers
       subject: 'TEST', // Subject line
       text: 'hi',
-    };
+    });
   } else {
     info = await transporter.sendMail({
       from: 'Rehberger app',
