@@ -2,7 +2,7 @@ import HDWalletProvider from '@truffle/hdwallet-provider';
 import crypto from 'crypto';
 import Web3 from 'web3';
 
-import { address } from '@/contract/exampleContract';
+import { address } from '@/contract/fairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
@@ -44,7 +44,10 @@ export const getNextOrderNumber = async () => {
 
 export const sendMailForPurchasedOrder = (order, frames) => {
   const invoice = niceInvoice(order, frames);
-  const attachments = [{ filename: 'Invoice.pdf', content: invoice }];
+  const attachments = [
+    { filename: 'Invoice.pdf', content: invoice },
+    { filename: 'Terms.pdf', path: '/doc/terms.pdf' },
+  ];
   sendMail(emailTypes.NFTsPurchased, { order, frames }, attachments).catch(
     console.error
   );
