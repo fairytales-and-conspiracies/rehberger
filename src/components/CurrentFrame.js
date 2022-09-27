@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import NFTPrice from '@/components/NFTPrice';
 import VideoData from '@/static-data/videos';
+import { getFrameFileName } from '@/utils/frames';
 import { padZeroes } from '@/utils/string';
 
 const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
@@ -13,8 +14,8 @@ export default function CurrentFrame({ selectedFrame, video }) {
     imageSrc =
       NFT_IMAGE_URL === '/img/frames'
         ? `${NFT_IMAGE_URL}/${video}/${selectedFrame.time}.${NFT_IMAGE_EXTENSION}`
-        : `${NFT_IMAGE_URL}/${selectedFrame.video}_${padZeroes(
-            selectedFrame.frame
+        : `${NFT_IMAGE_URL}/${getFrameFileName(
+            selectedFrame
           )}.${NFT_IMAGE_EXTENSION}`;
   }
 
@@ -50,7 +51,10 @@ export default function CurrentFrame({ selectedFrame, video }) {
           {!!selectedFrame && (
             <>
               <div className="selected-frame__timeframe-title">Frame</div>
-              {padZeroes(selectedFrame.frame, 4)
+              {padZeroes(
+                selectedFrame.frame,
+                VideoData[video].frames > 999 ? 4 : 3
+              )
                 .split('')
                 .map((digit, index) => (
                   // eslint-disable-next-line react/no-array-index-key

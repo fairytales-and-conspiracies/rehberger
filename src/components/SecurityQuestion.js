@@ -55,7 +55,7 @@ export default function SecurityQuestion() {
           {formik.touched.answer && formik.errors.answer ? (
             <p className="error">{formik.errors.answer}</p>
           ) : null}
-          <div className="security-question__input">
+          <div className="security-question__checkbox-input">
             <label
               className="security-question__label"
               htmlFor="noSecurityQuestion"

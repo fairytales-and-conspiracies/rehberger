@@ -11,7 +11,7 @@ const createMailObject = (data, subject, template, attachments) => {
   const { customer } = order;
 
   return {
-    from: process.env.SEND_EMAIL_USER, // sender address
+    from: process.env.SEND_EMAIL_FROM, // sender address
     to: customer.email, // list of receivers
     subject, // Subject line
     html: template,

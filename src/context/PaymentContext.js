@@ -162,16 +162,17 @@ export const PaymentProvider = ({ children }) => {
     // };
     setIsPaymentBeingProcessed(true);
     const tx = await sendTransaction(selectedFrames);
-    setIsPaymentBeingProcessed(false);
 
     if (tx) {
       const order = createOrder();
       order.transactionHash = tx.transactionHash;
       await axios.post('/api/orders', order);
+      setIsPaymentBeingProcessed(false);
       setTransactionPassed(true);
       removeAllFromCart();
     } else {
       // TODO: LOG
+      setIsPaymentBeingProcessed(false);
       setTransactionPassed(false);
     }
   };
