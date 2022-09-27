@@ -125,14 +125,14 @@ export const PaymentProvider = ({ children }) => {
     },
   });
 
-  const { getEthToEurRate } = useContext(UniCryptContext);
+  const { fetchEthToEurRate } = useContext(UniCryptContext);
 
   const createOrder = () => {
     const order = {
       customer: { ...infoFormik.values },
       frames: selectedFrames,
       paymentMethod,
-      ethToEurRate: getEthToEurRate(true),
+      ethToEurRate: fetchEthToEurRate(),
     };
 
     if (paymentMethod === 'CARD') {

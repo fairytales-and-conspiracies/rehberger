@@ -6,37 +6,32 @@ const UniCryptContext = createContext();
 export function UniCryptProvider({ children }) {
   const [ethToEurRate, setEthToEurRate] = useState(undefined);
 
-  const updateEthToEurRate = useCallback(() => {
-    const { success, data } = axios.post('/api/unicrypt/conversion', {
+  const fetchEthToEurRate = useCallback(async () => {
+    const { data } = await axios.post('/api/unicrypt-rates', {
       source_currency: 'ETH',
       destination_currency: 'EUR',
       source_amount: 1,
     });
 
-    if (success && data.amount) {
-      setEthToEurRate(data.amount);
+    const { success, amount } = data;
+    if (success && amount) {
+      setEthToEurRate(amount);
     }
 
-    return data?.amount;
+    return amount;
   }, []);
 
-  const getEthToEurRate = useCallback(
-    (forceFetch = false) => {
-      if (ethToEurRate === undefined || forceFetch) {
-        const amount = updateEthToEurRate();
-
-        if (forceFetch) {
-          return amount;
-        }
-      }
-
-      return ethToEurRate;
-    },
-    [ethToEurRate]
-  );
+  const getEthToEurRate = useCallback(() => {
+    return ethToEurRate !== undefined ? ethToEurRate : fetchEthToEurRate();
+  }, [ethToEurRate, fetchEthToEurRate]);
 
   return (
-    <UniCryptContext.Provider value={{ getEthToEurRate }}>
+    <UniCryptContext.Provider
+      value={{
+        fetchEthToEurRate,
+        getEthToEurRate,
+      }}
+    >
       {children}
     </UniCryptContext.Provider>
   );

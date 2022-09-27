@@ -6,9 +6,9 @@ import Web3 from 'web3';
 import { ConnectWalletProvider } from '@/context/ConnectWalletContext';
 import { PaymentProvider } from '@/context/PaymentContext';
 import { ShoppingCartProvider } from '@/context/ShoppingCartContext';
+import { UniCryptProvider } from '@/context/UniCryptContext';
 import { Web3Provider } from '@/context/Web3Context';
 import '@/styles/globals.scss';
-import { UniCryptProvider } from '@/context/UniCryptContext';
 
 function getLibrary(provider) {
   return new Web3(provider);
