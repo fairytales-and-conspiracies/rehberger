@@ -127,12 +127,14 @@ export const PaymentProvider = ({ children }) => {
 
   const { fetchEthToEurRate } = useContext(UniCryptContext);
 
-  const createOrder = () => {
+  const createOrder = async () => {
+    const ethToEurRate = await fetchEthToEurRate();
+    
     const order = {
       customer: { ...infoFormik.values },
       frames: selectedFrames,
       paymentMethod,
-      ethToEurRate: fetchEthToEurRate(),
+      ethToEurRate,
     };
 
     if (paymentMethod === 'CARD') {
@@ -168,7 +170,7 @@ export const PaymentProvider = ({ children }) => {
     const tx = await sendTransaction(selectedFrames);
 
     if (tx) {
-      const order = createOrder();
+      const order = await createOrder();
       order.transactionHash = tx.transactionHash;
       await axios.post('/api/orders', order);
       setIsPaymentBeingProcessed(false);
@@ -182,7 +184,7 @@ export const PaymentProvider = ({ children }) => {
   };
 
   const payWithStripe = async () => {
-    const order = createOrder();
+    const order = await createOrder();
     // TODO: LOG
 
     try {
