@@ -1,6 +1,6 @@
 import stripe from '@/lib/stripe';
 import { getEthToEurRate } from '@/utils/conversion';
-import { padZeroes } from '@/utils/string';
+import { getFrameName } from '@/utils/frames';
 
 const { CURRENCY } = process.env;
 const { SERVER_URL } = process.env;
@@ -16,7 +16,7 @@ export const checkout = async (confirmationKey, items, priceInCents) => {
       price_data: {
         currency: CURRENCY,
         product_data: {
-          name: `${item.video}_${padZeroes(item.frame, 4)}`,
+          name: `${getFrameName(item)}`,
         },
         unit_amount: priceInCents,
       },
