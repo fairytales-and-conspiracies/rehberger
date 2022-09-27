@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { ethToEur } from '@/utils/conversion';
+import { formatPrice } from '@/utils/conversion';
 import UniCryptContext from '@/context/UniCryptContext';
 import { useContext } from 'react';
 
@@ -10,9 +10,7 @@ const NFT_PRICE_ETH_STRING = NFT_PRICE_ETH.replace('.', ',');
 export default function IndividualPricePurple() {
   const { getEthToEurRate } = useContext(UniCryptContext);
 
-  const nftPriceInEurosString = `${ethToEur(NFT_PRICE_ETH, getEthToEurRate())
-    .toString()
-    .replace('.', ',')} EUR`;
+  const nftPriceInEurosString = formatPrice(NFT_PRICE_ETH, getEthToEurRate());
 
   return (
     <div className="individual-price-purple">
