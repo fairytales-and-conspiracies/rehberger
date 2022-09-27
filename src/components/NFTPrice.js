@@ -2,22 +2,25 @@ import Image from 'next/image';
 import { useContext } from 'react';
 
 import PaymentContext from '@/context/PaymentContext';
-import { getEthToEurRate } from '@/utils/conversion';
+import { ethToEur } from '@/utils/conversion';
+import UniCryptContext from '@/context/UniCryptContext';
 
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 const NFT_PRICE_ETH_STRING = NFT_PRICE_ETH.replace('.', ',');
 
-const nftPriceInEurosString = `€${getEthToEurRate(NFT_PRICE_ETH)
-  .toString()
-  .replace('.', ',')}`;
-
-const totalPriceInEurosString = (totalPrice) => {
-  return `€${getEthToEurRate(totalPrice).toString().replace('.', ',')}`;
-};
-
 const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
   const { shippingInfoFormSubmitted, totalPrice, vat } =
     useContext(PaymentContext);
+
+  const { getEthToEurRate } = useContext(UniCryptContext);
+
+  const nftPriceInEurosString = `${ethToEur(NFT_PRICE_ETH, getEthToEurRate())
+    .toString()
+    .replace('.', ',')} EUR`;
+
+  const totalPriceInEurosString = (price) => {
+    return `€${ethToEur(NFT_PRICE_ETH, price).toString().replace('.', ',')}`;
+  };
 
   return (
     <div className="nft-price">

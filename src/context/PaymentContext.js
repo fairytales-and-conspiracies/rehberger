@@ -7,6 +7,7 @@ import ShoppingCartContext from '@/context/ShoppingCartContext';
 import Web3Context from '@/context/Web3Context';
 import CountriesWithProvinces from '@/static-data/countries-with-provinces';
 import calculateVat from '@/utils/vat';
+import UniCryptContext from './UniCryptContext';
 
 const PaymentContext = createContext();
 
@@ -124,11 +125,14 @@ export const PaymentProvider = ({ children }) => {
     },
   });
 
+  const { getEthToEurRate } = useContext(UniCryptContext);
+
   const createOrder = () => {
     const order = {
       customer: { ...infoFormik.values },
       frames: selectedFrames,
       paymentMethod,
+      ethToEurRate: getEthToEurRate(true),
     };
 
     if (paymentMethod === 'CARD') {

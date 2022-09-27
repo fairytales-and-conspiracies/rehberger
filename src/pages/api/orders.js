@@ -13,7 +13,7 @@ import emailTypes from '@/static-data/email-types';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import niceInvoice from '@/templates/niceInvoice';
-import { getEthToEurRate } from '@/utils/conversion';
+import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
@@ -61,12 +61,12 @@ const getWeb3 = () => {
 
 let web3 = getWeb3();
 
-const fillOutRestOfOrderData = (customer, frames) => {
+const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const orderCreatedTimestamp = Date.now();
   const quantity = frames.length;
 
   const framePriceETH = NFT_PRICE_ETH;
-  const framePriceEUR = getEthToEurRate(NFT_PRICE_ETH);
+  const framePriceEUR = ethToEur(NFT_PRICE_ETH, ethToEurRate);
 
   // Calculate the price so that if sales tax exists, it is
   // subtracted from the total price. In other words, the buyer
@@ -94,10 +94,14 @@ const fillOutRestOfOrderData = (customer, frames) => {
 };
 
 const createOrder = async (req) => {
-  const { customer, frames, paymentMethod } = req.body;
+  const { customer, frames, paymentMethod, ethToEurRate } = req.body;
 
   const isWalletPayment = paymentMethod === 'WALLET';
-  const restOfOrderData = fillOutRestOfOrderData(customer, frames);
+  const restOfOrderData = fillOutRestOfOrderData(
+    customer,
+    frames,
+    ethToEurRate
+  );
   const body = {
     ...req.body,
     frames,

@@ -1,12 +1,9 @@
 import stripe from '@/lib/stripe';
-import { getEthToEurRate } from '@/utils/conversion';
+import { ethToEur } from '@/utils/conversion';
 import { getFrameName } from '@/utils/frames';
 
 const { CURRENCY } = process.env;
 const { SERVER_URL } = process.env;
-
-const nftPriceInCents =
-  getEthToEurRate(process.env.NEXT_PUBLIC_NFT_PRICE_ETH) * 100;
 
 export const checkout = async (confirmationKey, items, priceInCents) => {
   const session = await stripe.checkout.sessions.create({
@@ -35,7 +32,8 @@ export default async function handler(req, res) {
   switch (method) {
     case 'POST':
       try {
-        const { confirmationKey, items } = req.body;
+        const { confirmationKey, items, ethToEurRate } = req.body;
+        const nftPriceInCents = ethToEur(process.env.NEXT_PUBLIC_NFT_PRICE_ETH, ethToEurRate) * 100;
         const url = checkout(confirmationKey, items, nftPriceInCents);
         res.status(200).json({ success: true, url });
       } catch (err) {

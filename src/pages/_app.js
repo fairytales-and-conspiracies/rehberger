@@ -8,6 +8,7 @@ import { PaymentProvider } from '@/context/PaymentContext';
 import { ShoppingCartProvider } from '@/context/ShoppingCartContext';
 import { Web3Provider } from '@/context/Web3Context';
 import '@/styles/globals.scss';
+import { UniCryptProvider } from '@/context/UniCryptContext';
 
 function getLibrary(provider) {
   return new Web3(provider);
@@ -24,9 +25,11 @@ function MyApp({ Component, pageProps }) {
           <Web3Provider>
             <ConnectWalletProvider>
               <ShoppingCartProvider>
-                <PaymentProvider>
-                  <Component />
-                </PaymentProvider>
+                <UniCryptProvider>
+                  <PaymentProvider>
+                    <Component />
+                  </PaymentProvider>
+                </UniCryptProvider>
               </ShoppingCartProvider>
             </ConnectWalletProvider>
           </Web3Provider>

@@ -1,16 +1,20 @@
 import Image from 'next/image';
 
-import { getEthToEurRate } from '@/utils/conversion';
+import { ethToEur } from '@/utils/conversion';
+import { useContext } from 'react';
+import UniCryptContext from '@/context/UniCryptContext';
 
 const INDIVIDUAL_PRICE_TEXT = 'Individual price';
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 const NFT_PRICE_ETH_STRING = NFT_PRICE_ETH.replace('.', ',');
 
-const nftPriceInEurosString = `${getEthToEurRate(NFT_PRICE_ETH)
-  .toString()
-  .replace('.', ',')} EUR`;
-
 export default function IndividualPrice() {
+  const { getEthToEurRate } = useContext(UniCryptContext);
+
+  const nftPriceInEurosString = `${ethToEur(NFT_PRICE_ETH, getEthToEurRate())
+    .toString()
+    .replace('.', ',')} EUR`;
+
   return (
     <div className="individual-price">
       <div className="individual-price__main">
