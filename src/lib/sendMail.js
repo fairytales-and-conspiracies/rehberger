@@ -6,69 +6,16 @@ import {
 
 const nodemailer = require('nodemailer');
 
-const createMailBody = (data) => {
-  const { claimed, customer, paymentMethod } = data;
-  const isWalletPayment = paymentMethod === 'WALLET';
-  const key = isWalletPayment ? data.transactionHash : data.confirmationKey;
-  return `
-    <p>${
-      !claimed
-        ? 'Here are the details of the purchase:'
-        : 'Your NFT has been claimed:'
-    }</p>
-
-    <ul>
-      <li>First name: ${customer.firstName}</li>
-      <li>Last name: ${customer.lastName}</li>
-      <li>Email: ${customer.email}</li>
-      <li>Address line 1: ${customer.addressLine1}</li>
-      <li>Address line 2: ${customer.addressLine2}</li>
-      <li>Country: ${customer.country}</li>
-      <li>Region: ${customer.region}</li>
-      <li>City: ${customer.city}</li>
-      <li>Postal code: ${customer.postalCode}</li>
-    </ul>
-
-    ${
-      !claimed
-        ? `<p>${
-            isWalletPayment
-              ? `<a href="https://rinkeby.etherscan.io/tx/${key}" target="_blank">Take a look at your transaction.</a>`
-              : `<a href="http://localhost:3000/claim-nfts?confirmation-key=${key}" target="_blank">Click here to claim your NFTs</a>`
-          }</p>`
-        : ''
-    }
-  `;
-};
-
-const createMailObject = (emailType, data, attachments) => {
+const createMailObject = (data, subject, template, attachments) => {
   const { order } = data;
   const { customer } = order;
 
-  if (emailType === emailTypes.NFTsPurchased) {
-    return {
-      from: 'bulatovic_nikola@yahoo.com', // sender address
-      to: customer.email, // list of receivers
-      subject: 'NFTs purchased!', // Subject line
-      html: nftsPurchasedTemplate(data),
-      attachments,
-    };
-  }
-
-  if (emailType === emailTypes.NFTsClaimed) {
-    return {
-      from: 'bulatovic_nikola@yahoo.com', // sender address
-      to: customer.email, // list of receivers
-      subject: 'NFTs claimed!', // Subject line
-      html: nftsClaimedTemplate(data),
-    };
-  }
-
   return {
-    from: 'bulatovic_nikola@yahoo.com', // sender address
-    to: 'bulatovic_nikola@yahoo.com', // list of receivers
-    subject: 'TEST', // Subject line
-    html: createMailBody(data),
+    from: process.env.SEND_EMAIL_USER, // sender address
+    to: customer.email, // list of receivers
+    subject, // Subject line
+    html: template,
+    attachments,
   };
 };
 
@@ -89,30 +36,37 @@ async function main(emailType, data, attachments) {
   });
 
   let info;
-  if (
-    emailType === emailTypes.NFTsPurchased ||
-    emailType === emailTypes.NFTsClaimed
-  ) {
+  if (emailType === emailTypes.NFTsPurchased) {
     info = await transporter.sendMail(
-      createMailObject(emailType, data, attachments)
+      createMailObject(
+        data,
+        'NFTs purchased!',
+        nftsPurchasedTemplate(data),
+        attachments
+      )
+    );
+  } else if (emailType === emailTypes.NFTsClaimed) {
+    info = await transporter.sendMail(
+      createMailObject(
+        data,
+        'NFTs claimed!',
+        nftsClaimedTemplate(data),
+        attachments
+      )
     );
   } else if (emailType === emailTypes.Test) {
     info = await transporter.sendMail({
-      from: process.env.SEND_EMAIL_USER, // sender address
+      from: process.env.SEND_EMAIL_FROM, // sender address
       to: process.env.SEND_EMAIL_TEST_RECEIVER, // list of receivers
       subject: 'TEST', // Subject line
       text: 'hi',
     });
   } else {
     info = await transporter.sendMail({
-      from: 'Rehberger app',
-      to: 'bulatovicnikola1990@gmail.com',
-      subject: 'Error with purchase',
-      text: `
-        For some reason, there was an error with the purchase:
-
-        ${data}
-      `,
+      from: process.env.SEND_EMAIL_FROM,
+      to: process.env.SEND_EMAIL_FROM,
+      subject: 'Generic email',
+      text: `This is a generic email`,
     });
   }
 

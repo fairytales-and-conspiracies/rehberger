@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import sendMail from '@/lib/sendMail';
 import emailTypes from '@/static-data/email-types';
 import invoice from '@/templates/niceInvoice';
@@ -55,7 +56,7 @@ const frames = [
 ];
 
 const handler = async (req, res) => {
-  await dbConnect();
+  // await dbConnect();
 
   try {
     sendMail(emailTypes.Test);

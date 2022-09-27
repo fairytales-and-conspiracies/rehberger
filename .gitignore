@@ -29,8 +29,9 @@ yarn-error.log*
 /public/img/frames
 /public/vid/IMAGINEYOURSELFWITHOUTAHOME.mov
 
-# local env files
+# env files
 .env*.local
+.env.prod
 
 # vercel
 .vercel
