@@ -6,9 +6,9 @@ import { address } from '@/contract/fairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
+import stripe from '@/lib/stripe';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
-import { checkout } from '@/pages/api/checkout';
 import emailTypes from '@/static-data/email-types';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
@@ -17,7 +17,8 @@ import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
-const { MNEMONIC } = process.env;
+const { MNEMONIC, CURRENCY, SERVER_URL } = process.env;
+
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
@@ -130,6 +131,27 @@ const createOrder = async (req) => {
     order = null;
   }
   return order;
+};
+
+const checkout = async (confirmationKey, items, priceInCents) => {
+  const session = await stripe.checkout.sessions.create({
+    cancel_url: `${SERVER_URL}/cancel`,
+    client_reference_id: confirmationKey,
+    line_items: items.map((item) => ({
+      price_data: {
+        currency: CURRENCY,
+        product_data: {
+          name: `${item.video}_${padZeroes(item.frame, 4)}`,
+        },
+        unit_amount: priceInCents,
+      },
+      quantity: 1,
+    })),
+    mode: 'payment',
+    payment_method_types: ['card'],
+    success_url: `${SERVER_URL}/shopping-cart?thank-you`,
+  });
+  return session.url;
 };
 
 const handler = async (req, res) => {
