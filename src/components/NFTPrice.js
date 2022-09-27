@@ -12,12 +12,12 @@ const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
   const { shippingInfoFormSubmitted, totalPrice, vat } =
     useContext(PaymentContext);
 
-  const { getEthToEurRate } = useContext(UniCryptContext);
+  const { ethToEurRate } = useContext(UniCryptContext);
 
-  const nftPriceInEurosString = formatPrice(NFT_PRICE_ETH, getEthToEurRate());
+  const nftPriceInEurosString = formatPrice(NFT_PRICE_ETH, ethToEurRate);
 
   const totalPriceInEurosString = (price) => {
-    return formatPrice(price, getEthToEurRate(), '€', false, 0);
+    return formatPrice(price, ethToEurRate, '€', false, 0);
   };
 
   return (

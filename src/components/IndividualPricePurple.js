@@ -8,9 +8,9 @@ const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 const NFT_PRICE_ETH_STRING = NFT_PRICE_ETH.replace('.', ',');
 
 export default function IndividualPricePurple() {
-  const { getEthToEurRate } = useContext(UniCryptContext);
+  const { ethToEurRate } = useContext(UniCryptContext);
 
-  const nftPriceInEurosString = formatPrice(NFT_PRICE_ETH, getEthToEurRate());
+  const nftPriceInEurosString = formatPrice(NFT_PRICE_ETH, ethToEurRate);
 
   return (
     <div className="individual-price-purple">
