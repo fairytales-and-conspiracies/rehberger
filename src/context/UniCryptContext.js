@@ -22,7 +22,11 @@ export function UniCryptProvider({ children }) {
   }, []);
 
   const getEthToEurRate = useCallback(() => {
-    return ethToEurRate !== undefined ? ethToEurRate : fetchEthToEurRate();
+    if (ethToEurRate === undefined) {
+      fetchEthToEurRate();
+    }
+
+    return ethToEurRate;
   }, [ethToEurRate, fetchEthToEurRate]);
 
   return (
