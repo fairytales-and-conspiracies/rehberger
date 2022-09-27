@@ -1,5 +1,4 @@
 import axios from 'axios';
-import crypto from 'crypto';
 
 const logError = (e) => {
   if (e.response) {
@@ -31,45 +30,6 @@ const logError = (e) => {
 const uniCryptApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_UNICRYPT_API,
 });
-
-async function getUniCryptSeed() {
-  const path = `/auth/seed?email=${process.env.UNICRYPT_EMAIL}`;
-  const ret = await uniCryptApi.get(path);
-  console.log('UNICRYPT SEED RET', ret.data.seed_key);
-  return ret.data;
-}
-
-function getRandomizedPassword(password, seedData) {
-  const hashedPassword = crypto
-    .createHash('sha256')
-    .update(password + seedData.seed_key)
-    .digest('hex');
-  return crypto
-    .createHash('sha256')
-    .update(hashedPassword + seedData.random_key)
-    .digest('hex'); //.split('0x')[1];
-}
-
-export async function uniCryptAuth() {
-  try {
-    const seedData = await getUniCryptSeed();
-    const path = `/auth/login`;
-    const password = getRandomizedPassword(
-      process.env.UNICRYPT_PASSWORD,
-      seedData
-    );
-    const ret = await uniCryptApi.post(path, {
-      email: process.env.UNICRYPT_EMAIL,
-      password,
-      randomkey: seedData.random_key,
-    });
-    console.log('UNICRYPT AUTH RET', ret.data.bearer_token);
-    return ret.data.bearer_token;
-  } catch (e) {
-    logError(e);
-    throw e;
-  }
-}
 
 export async function uniCryptConvert(req) {
   try {

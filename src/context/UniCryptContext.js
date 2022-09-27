@@ -1,13 +1,9 @@
-/* eslint-disable */
 import axios from 'axios';
-import { createContext, useCallback, useEffect, useState } from 'react';
-
-const UNICRYPT_SESSION_STORAGE_KEY = 'unicrypt';
+import { createContext, useCallback, useState } from 'react';
 
 const UniCryptContext = createContext();
 
 export function UniCryptProvider({ children }) {
-  const [token, setToken] = useState(undefined);
   const [ethToEurRate, setEthToEurRate] = useState(undefined);
 
   const updateEthToEurRate = useCallback(
@@ -27,44 +23,10 @@ export function UniCryptProvider({ children }) {
     []
   )
 
-  useEffect(() => {
-    let tokenInStorage =
-      sessionStorage.getItem(UNICRYPT_SESSION_STORAGE_KEY) ||
-      undefined;
-
-    console.log("TOKEN IN STORAGE", tokenInStorage, typeof tokenInStorage)
-
-    if (tokenInStorage === undefined) {
-      console.log("INIT AXIOS UNICRYTP REQ")
-
-      axios.post('/api/unicrypt/log-in')
-        .then((result) => {
-          const { data: { data: { token } } } = result;
-          console.log("SUCC DATA", token)
-          if (token) {
-            console.log("DONE", token)
-            tokenInStorage = token;
-            sessionStorage.setItem(UNICRYPT_SESSION_STORAGE_KEY, tokenInStorage);
-            setToken(tokenInStorage);
-            updateEthToEurRate(tokenInStorage)
-          } else {
-            console.log("ERROR token undefined")  
-          }
-        })
-        .catch((e) => {
-          console.log("ERROR", e)
-        });
-    } else {
-      console.log("JUST SET IT")
-
-      setToken(tokenInStorage);
-    }
-  }, [updateEthToEurRate]);
-
   const getEthToEurRate = useCallback(
     (forceFetch = false) => {
       if (ethToEurRate === undefined || forceFetch) {
-        const amount = updateEthToEurRate(token);
+        const amount = updateEthToEurRate();
 
         if (forceFetch) {
           return amount;
