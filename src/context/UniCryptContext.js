@@ -11,29 +11,15 @@ export function UniCryptProvider({ children }) {
   const [ethToEurRate, setEthToEurRate] = useState(undefined);
 
   const updateEthToEurRate = useCallback(
-    (token) => {
+    () => {
       const { success, data } = axios.post('/api/unicrypt/conversion', {
-        data: {
-          source_currency: "ETH",
-          destination_currency:"EUR",
-          source_amount: 1,
-        },
-        config: {
-          headers:{ 'Authorization': `Bearer ${token}` }
-        },
+        source_currency: "ETH",
+        destination_currency:"EUR",
+        source_amount: 1,
       });
 
-      if (success) {
-        console.log("SUCC conversion", data)
-
-        if (data.amount) {
-          console.log("RATE UPDATED", data.amount)
-          setEthToEurRate(data.amount);
-        } else {
-          console.log("ERROR amount undefined")    
-        }
-      } else {
-        console.log("ERROR conversion request failed")  
+      if (success && data.amount) {
+        setEthToEurRate(data.amount);
       }
 
       return data?.amount;
@@ -77,14 +63,7 @@ export function UniCryptProvider({ children }) {
 
   const getEthToEurRate = useCallback(
     (forceFetch = false) => {
-      if (token === undefined) {
-        console.log("TOKEN UNDEFINED")
-        return ethToEurRate;
-      }
-
       if (ethToEurRate === undefined || forceFetch) {
-        console.log("INIT CONVERSION UNICRYTP REQ", token, forceFetch)
-
         const amount = updateEthToEurRate(token);
 
         if (forceFetch) {
@@ -94,7 +73,7 @@ export function UniCryptProvider({ children }) {
 
       return ethToEurRate;
     },
-    [ethToEurRate, token]
+    [ethToEurRate]
   )
 
   return (

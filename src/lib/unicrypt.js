@@ -71,14 +71,19 @@ export async function uniCryptAuth() {
   }
 }
 
-export async function uniCryptConvert(req, config) {
-  console.log("INIT unic convert", req, config)
+export async function uniCryptConvert(req) {
   try {
-    const path = `/auth/wallet/swap`;
-    console.log("INIT unic convert", path, req, config)
-    const ret = await uniCryptApi.post(path, req, config);
-    console.log('UNICRYPT CONVERSION RET', JSON.parse(JSON.stringify(ret.data)));
-    return ret.data.data.dest_amount;
+    const {
+      source_currency,
+      destination_currency,
+    } = req;
+
+    const path = `/markets`;
+    const ret = await uniCryptApi.get(path);
+    const ethUsdPair = ret.data.find((pair) => pair.name === `${source_currency}/USD`);
+    const eurUsdPair = ret.data.find((pair) => pair.name === `${destination_currency}/USD`);
+    console.log('UNICRYPT MARKETS', { ethUsd: ethUsdPair.price, eurUsd: eurUsdPair.price });
+    return ethUsdPair.price / eurUsdPair.price;
   } catch (e) {
     logError(e);
     throw e;
