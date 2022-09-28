@@ -1,12 +1,12 @@
 import HDWalletProvider from '@truffle/hdwallet-provider';
 import crypto from 'crypto';
+import Stripe from 'stripe';
 import Web3 from 'web3';
 
 import { address } from '@/contract/fairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
-import stripe from '@/lib/stripe';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
 import emailTypes from '@/static-data/email-types';
@@ -17,7 +17,7 @@ import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
-const { MNEMONIC, CURRENCY, SERVER_URL } = process.env;
+const { MNEMONIC, CURRENCY, SERVER_URL, STRIPE_SECRET_KEY } = process.env;
 
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
@@ -134,7 +134,7 @@ const createOrder = async (req) => {
 };
 
 const checkout = async (confirmationKey, items, priceInCents) => {
-  const session = await stripe.checkout.sessions.create({
+  const session = await Stripe(STRIPE_SECRET_KEY).checkout.sessions.create({
     cancel_url: `${SERVER_URL}/shopping-cart`,
     client_reference_id: confirmationKey,
     line_items: items.map((item) => ({
