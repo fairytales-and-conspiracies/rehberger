@@ -1,14 +1,16 @@
 import nextConnect from 'next-connect';
 import multer from 'multer';
 
-import dbConnect from '@/lib/dbConnect'
-import sendMail from '@/lib/sendMail';;
+import dbConnect from '@/lib/dbConnect';
+import sendMail from '@/lib/sendMail';
 import IdentityVerification from '@/models/IdentityVerification';
 import emailTypes from '@/static-data/email-types';
 
+const { UPLOADED_FILES_DIRECTORY } = process.env;
+
 const upload = multer({
   storage: multer.diskStorage({
-    destination: './public/uploads',
+    destination: `.${UPLOADED_FILES_DIRECTORY}`,
     filename: (req, file, cb) => cb(null, file.originalname),
   }),
 });
@@ -36,16 +38,35 @@ handler.post(async (req, res) => {
   const { confirmationKey, walletAddress } = req.body;
 
   try {
+    const {
+      path: file1Url,
+      name: file1Name,
+      type: file1Extension,
+    } = req.files[0];
+
+    const {
+      path: file2Url,
+      name: file2Name,
+      type: file2Extension,
+    } = req.files[1];
+
     const data = {
-      file1Url: req.files[0].path,
-      file2Url: req.files[1].path,
+      file1Url,
+      file2Url,
       confirmationKey,
       walletAddress,
     };
 
     await IdentityVerification.create(data);
 
-    sendMail(emailTypes.SecurityQuestionForgotten, data);
+    sendMail(emailTypes.SecurityQuestionForgotten, data, [
+      {
+        path: `${UPLOADED_FILES_DIRECTORY}/${file1Name}.${file1Extension}`,
+      },
+      {
+        path: `${UPLOADED_FILES_DIRECTORY}/${file2Name}.${file2Extension}`,
+      },
+    ]);
 
     res.status(200).json({ success: true });
   } catch (err) {

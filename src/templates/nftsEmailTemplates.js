@@ -681,9 +681,11 @@ export const securityQuestionForgottenTemplate = (data) => {
                     </tr>
                     <tr>
                       <td style="text-align: center">
-                        Information provided:
+                        <b>Information provided:</b>
                         <br />confirmationKey: ${confirmationKey}
                         <br />walletAddress: ${walletAddress}
+                        <br />
+                        <br /><b>In this email you can find the following files attached:</b>
                         <br />file1Url: ${file1Url}
                         <br />file2Url: ${file2Url}
                       </td>
