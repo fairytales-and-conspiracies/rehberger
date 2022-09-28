@@ -105,23 +105,11 @@ const createOrder = async (req) => {
 const handler = async (req, res) => {
   console.log('SIGURICA', req);
 
-  const { method } = req;
-
   await dbConnect();
 
-  switch (method) {
-    case 'POST': {
-      // const { frames, paymentMethod, transactionHash } = req.body;
-      const order = await createOrder(req);
-      console.log('ORDER', order);
-
-      res.status(201).json({ success: true, data: 'lala' });
-      break;
-    }
-    default:
-      res.status(400).json({ success: false, err: `Error 3` });
-      break;
-  }
+  // const { frames, paymentMethod, transactionHash } = req.body;
+  const order = await createOrder(req);
+  res.status(201).json({ success: true, data: order });
 };
 
 export default handler;
