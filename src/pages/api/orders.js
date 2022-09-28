@@ -188,7 +188,7 @@ const handler = async (req, res) => {
             res.status(200).json({ success: true, url });
           } catch (err) {
             console.error('Error sending data to Stripe: ', err);
-            res.status(400).json({ success: false, error: err });
+            res.status(400).json({ success: false, err: `Error 1-${err}` });
           }
           return;
         }
@@ -222,11 +222,11 @@ const handler = async (req, res) => {
         }
       } catch (err) {
         // sendMail(false, err).catch(console.error);
-        res.status(400).json({ success: false, err });
+        res.status(400).json({ success: false, err: `Error 2-${err}` });
       }
       break;
     default:
-      res.status(400).json({ success: false });
+      res.status(400).json({ success: false, err: `Error 3` });
       break;
   }
 };
