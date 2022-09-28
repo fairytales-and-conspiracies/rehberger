@@ -123,7 +123,7 @@ const checkout = async (confirmationKey, items, priceInCents) => {
     payment_method_types: ['card'],
     success_url: `${SERVER_URL}/shopping-cart?thank-you`,
   });
-  return session.url;
+  return session;
 };
 
 const handler = async (req, res) => {
@@ -136,13 +136,13 @@ const handler = async (req, res) => {
 
   const { frames } = req.body;
 
-  const url = await checkout(
+  const session = await checkout(
     order.confirmationKey,
     frames,
     order.framePriceEUR * 100
   );
 
-  res.status(201).json({ success: true, data: url });
+  res.status(201).json({ success: true, data: session });
 };
 
 export default handler;
