@@ -157,7 +157,7 @@ const checkout = async (confirmationKey, items, priceInCents) => {
     success_url: `${SERVER_URL}/shopping-cart?thank-you`,
     expires_at:
       Math.round(Date.now() / 1000) +
-      parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS), // Minimum 30m
+      parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m
   });
   return session.url;
 };

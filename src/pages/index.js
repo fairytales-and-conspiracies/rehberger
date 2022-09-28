@@ -15,14 +15,11 @@ const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 export default function Home() {
   const { requestfetchRatePeriodically } = useContext(UniCryptContext);
 
-  useEffect(
-    () => {
-      requestfetchRatePeriodically(true);
-      return () => requestfetchRatePeriodically(false);
-    },
-    []
-  )
-  
+  useEffect(() => {
+    requestfetchRatePeriodically(true);
+    return () => requestfetchRatePeriodically(false);
+  }, []);
+
   return (
     <>
       <Header />

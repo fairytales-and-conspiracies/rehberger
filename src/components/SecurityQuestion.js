@@ -23,7 +23,7 @@ export default function SecurityQuestion() {
   }, [isSubmitting]);
 
   const buttonTextSufix =
-    nbSufixDots > 0 ? 'ting' + new Array(nbSufixDots + 1).join('.') : '';
+    nbSufixDots > 0 ? `ting${new Array(nbSufixDots + 1).join('.')}` : '';
 
   return (
     <>
@@ -91,7 +91,7 @@ export default function SecurityQuestion() {
             </label>
           </div>
           <button className="btn btn--primary" type="submit">
-            {'Submit' + buttonTextSufix}
+            {`Submit${buttonTextSufix}`}
           </button>
         </form>
       </div>

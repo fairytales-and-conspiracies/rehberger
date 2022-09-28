@@ -20,13 +20,10 @@ export default function ShoppingCart() {
     };
   }, []);
 
-  useEffect(
-    () => {
-      requestfetchRatePeriodically(true);
-      return () => requestfetchRatePeriodically(false);
-    },
-    []
-  )
+  useEffect(() => {
+    requestfetchRatePeriodically(true);
+    return () => requestfetchRatePeriodically(false);
+  }, []);
 
   return (
     <div className="bg-primary shopping-cart">

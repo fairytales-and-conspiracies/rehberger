@@ -5,25 +5,36 @@ const uniCryptApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_UNICRYPT_API,
 });
 
-export async function uniCryptConvert(req) {
+async function uniCryptConvert(req) {
   try {
     const {
-      source_currency,
-      destination_currency,
+      source_currency: sourceCurrency,
+      destination_currency: destinationCurrency,
     } = req;
 
     const path = `/markets`;
     const ret = await uniCryptApi.get(path);
 
-    const firstPairName = `${source_currency}/USD`;
-    const secondPairName = `${destination_currency}/USD`;
-    const resultPairName = `${source_currency}/${destination_currency}`;
+    const firstPairName = `${sourceCurrency}/USD`;
+    const secondPairName = `${destinationCurrency}/USD`;
+    const resultPairName = `${sourceCurrency}/${destinationCurrency}`;
 
-    const firstPairPrice = ret.data.find((pair) => pair.name === firstPairName)?.price;
-    const secondPairPrice = ret.data.find((pair) => pair.name === secondPairName)?.price;
-    const resultPairPrice = firstPairPrice && secondPairPrice ? firstPairPrice / secondPairPrice : undefined;
+    const firstPairPrice = ret.data.find(
+      (pair) => pair.name === firstPairName
+    )?.price;
+    const secondPairPrice = ret.data.find(
+      (pair) => pair.name === secondPairName
+    )?.price;
+    const resultPairPrice =
+      firstPairPrice && secondPairPrice
+        ? firstPairPrice / secondPairPrice
+        : undefined;
 
-    console.log('PRICES', { [firstPairName]: firstPairPrice, [secondPairName]: secondPairPrice, [resultPairName]: resultPairPrice });
+    console.log('PRICES', {
+      [firstPairName]: firstPairPrice,
+      [secondPairName]: secondPairPrice,
+      [resultPairName]: resultPairPrice,
+    });
 
     return resultPairPrice;
   } catch (e) {
@@ -31,3 +42,5 @@ export async function uniCryptConvert(req) {
     throw e;
   }
 }
+
+export default uniCryptConvert;

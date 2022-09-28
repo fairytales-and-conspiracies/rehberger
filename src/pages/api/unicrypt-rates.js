@@ -1,5 +1,5 @@
 import sendError from '@/lib/errorHandling';
-import { uniCryptConvert } from '@/lib/unicrypt';
+import uniCryptConvert from '@/lib/unicrypt';
 import { ErrorTypes } from '@/static-data/errors';
 
 const handler = async (req, res) => {
