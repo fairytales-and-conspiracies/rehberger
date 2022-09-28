@@ -5,8 +5,15 @@
   @include e('main') {
     justify-content: space-between;
     margin: 0 auto;
-    max-width: 165rem;
+    max-width: 110rem;
     padding-bottom: 2rem;
+
+    @include flex;
+    @include flex-direction(column);
+  }
+
+  @include e('container') {
+    justify-content: space-between;
 
     @include flex;
   }
@@ -14,8 +21,12 @@
   @include max-screen-xl {
     @include e('main') {
       justify-content: space-around;
-      margin: unset;
-      max-width: unset;
+    }
+  }
+
+  @include max-screen-lg {
+    @include e('main') {
+      max-width: 95rem;
     }
   }
 }

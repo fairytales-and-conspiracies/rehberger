@@ -11,7 +11,7 @@ export default function SubmittedFormInfo() {
       <h2 className="payment-form__heading">Confirmation</h2>
       <p className="payment-form__text">
         Your personal information will be stored and used solely for shipping
-        and delivery purposes
+        and accounting purposes
       </p>
       <div className="payment-form__info-row">
         <span className="payment-form__info-label">Name:</span>
