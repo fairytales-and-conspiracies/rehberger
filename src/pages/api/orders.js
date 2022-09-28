@@ -17,12 +17,7 @@ import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
-const {
-  MNEMONIC,
-  CURRENCY,
-  SERVER_URL,
-  STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
-} = process.env;
+const { MNEMONIC, CURRENCY, SERVER_URL } = process.env;
 
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
@@ -155,9 +150,6 @@ const checkout = async (confirmationKey, items, priceInCents) => {
     mode: 'payment',
     payment_method_types: ['card'],
     success_url: `${SERVER_URL}/shopping-cart?thank-you`,
-    expires_at:
-      Math.round(Date.now() / 1000) +
-      parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m
   });
   return session.url;
 };
