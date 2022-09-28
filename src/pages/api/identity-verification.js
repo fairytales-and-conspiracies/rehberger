@@ -10,7 +10,7 @@ const { UPLOADED_FILES_DIRECTORY } = process.env;
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination: `.${UPLOADED_FILES_DIRECTORY}`,
+    destination: `${UPLOADED_FILES_DIRECTORY}`,
     filename: (req, file, cb) => cb(null, file.originalname),
   }),
 });
@@ -38,17 +38,8 @@ handler.post(async (req, res) => {
   const { confirmationKey, walletAddress } = req.body;
 
   try {
-    const {
-      path: file1Url,
-      name: file1Name,
-      type: file1Extension,
-    } = req.files[0];
-
-    const {
-      path: file2Url,
-      name: file2Name,
-      type: file2Extension,
-    } = req.files[1];
+    const { path: file1Url } = req.files[0];
+    const { path: file2Url } = req.files[1];
 
     const data = {
       file1Url,
@@ -61,10 +52,10 @@ handler.post(async (req, res) => {
 
     sendMail(emailTypes.SecurityQuestionForgotten, data, [
       {
-        path: `${UPLOADED_FILES_DIRECTORY}/${file1Name}.${file1Extension}`,
+        path: file1Url,
       },
       {
-        path: `${UPLOADED_FILES_DIRECTORY}/${file2Name}.${file2Extension}`,
+        path: file2Url,
       },
     ]);
 

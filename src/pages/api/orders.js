@@ -46,7 +46,7 @@ export const sendMailForPurchasedOrder = (order, frames) => {
   const invoice = niceInvoice(order, frames);
   const attachments = [
     { filename: 'Invoice.pdf', content: invoice },
-    { filename: 'Terms.pdf', path: '/doc/terms.pdf' },
+    { filename: 'Terms.pdf', path: './public/doc/terms.pdf' },
   ];
   sendMail(emailTypes.NFTsPurchased, { order, frames }, attachments).catch(
     console.error

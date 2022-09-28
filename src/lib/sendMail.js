@@ -31,12 +31,12 @@ async function main(emailType, data, attachments) {
     },
   });
 
-  const {
-    order: { customer },
-  } = data;
-
   let info;
   if (emailType === emailTypes.NFTsPurchased) {
+    const {
+      order: { customer },
+    } = data;
+
     info = await transporter.sendMail(
       createMailObject(
         customer.email,
@@ -46,6 +46,10 @@ async function main(emailType, data, attachments) {
       )
     );
   } else if (emailType === emailTypes.NFTsClaimed) {
+    const {
+      order: { customer },
+    } = data;
+
     info = await transporter.sendMail(
       createMailObject(
         customer.email,
