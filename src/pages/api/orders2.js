@@ -7,6 +7,9 @@ import TransactionStatus from '@/static-data/transaction-status';
 import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
+import Stripe from 'stripe';
+
+const { CURRENCY, SERVER_URL, STRIPE_SECRET_KEY } = process.env;
 
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
@@ -102,6 +105,27 @@ const createOrder = async (req) => {
   return order;
 };
 
+const checkout = async (confirmationKey, items, priceInCents) => {
+  const session = await Stripe(STRIPE_SECRET_KEY).checkout.sessions.create({
+    cancel_url: `${SERVER_URL}/shopping-cart`,
+    client_reference_id: confirmationKey,
+    line_items: items.map((item) => ({
+      price_data: {
+        currency: CURRENCY,
+        product_data: {
+          name: `${item.video}_${padZeroes(item.frame, 4)}`,
+        },
+        unit_amount: priceInCents,
+      },
+      quantity: 1,
+    })),
+    mode: 'payment',
+    payment_method_types: ['card'],
+    success_url: `${SERVER_URL}/shopping-cart?thank-you`,
+  });
+  return session.url;
+};
+
 const handler = async (req, res) => {
   console.log('SIGURICA', req);
 
@@ -109,7 +133,16 @@ const handler = async (req, res) => {
 
   // const { frames, paymentMethod, transactionHash } = req.body;
   const order = await createOrder(req);
-  res.status(201).json({ success: true, data: order });
+
+  const { frames } = req.body;
+
+  const url = await checkout(
+    order.confirmationKey,
+    frames,
+    order.framePriceEUR * 100
+  );
+
+  res.status(201).json({ success: true, data: url });
 };
 
 export default handler;
