@@ -144,6 +144,8 @@ export const PaymentProvider = ({ children }) => {
     return order;
   };
 
+  console.log("SERVER_URL", process.env.SERVER_URL)
+
   const haveSomeFramesHaveBeenSold = async () => {
     const requestBody = selectedFrames.reduce((acc, frame) => {
       if (!acc[frame.video]) {
