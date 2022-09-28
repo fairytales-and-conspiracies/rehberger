@@ -172,6 +172,7 @@ const handler = async (req, res) => {
         if (paymentMethod === 'CARD') {
           order = await createOrder(req);
           try {
+            console.error('Error premature: ', order);
             const url = await checkout(
               order.confirmationKey,
               frames,
