@@ -5,9 +5,9 @@ import FrameImageWithRemoveButton from '@/components/FrameImageWithRemoveButton'
 import NFTPrice from '@/components/NFTPrice';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
-import { padZeroes } from '@/utils/string';
+import { getFrameName } from '@/utils/frames';
 
-export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
+export default function ShoppingCartViewer({ isCheckout }) {
   const { removeFromCart, selectedFrames } = useContext(ShoppingCartContext);
 
   const selectedFramesByVideoMap = selectedFrames.reduce(
@@ -32,21 +32,6 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
         isCheckout ? ' cart-viewer--hidden-small-devices' : ''
       }`}
     >
-      <div className="cart-viewer__top-section">
-        <h1 className="cart-viewer__heading">Shopping cart</h1>
-        <div className="cart-viewer__total-and-proceed-wrapper">
-          <div className="cart-viewer__total">
-            <NFTPrice isTotalPrice />
-          </div>
-          <button
-            className="cart-viewer__proceed-small-devices btn btn--primary"
-            onClick={() => setIsCheckout(true)}
-            type="button"
-          >
-            Proceed to checkout
-          </button>
-        </div>
-      </div>
       <div className="cart-viewer__selected">
         {!!videos.length &&
           videos.map((video) => (
@@ -72,10 +57,7 @@ export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
                   />
                   <div className="cart-viewer__frame-image-description">
                     <div className="cart-viewer__frame-image-title">
-                      {`${VideoData[video].cleanTitle}_${padZeroes(
-                        frame.frame,
-                        4
-                      )}`}
+                      {`${getFrameName(frame)}`}
                     </div>
                     <div className="cart-viewer__frame-image-price euro-price">
                       <NFTPrice inShoppingCart />

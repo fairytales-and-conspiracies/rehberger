@@ -1,3 +1,8 @@
+%security-question-input {
+  margin: 1rem 0;
+  width: 100%;
+}
+
 .security-question {
   margin-top: 7rem;
 
@@ -11,13 +16,14 @@
   }
 
   @include e('input') {
-    margin: 1rem 0;
-    width: 100%;
+    @extend %security-question-input;
+  }
 
-    &:nth-child(3) {
-      margin-bottom: 2rem;
-      text-align: center;
-    }
+  @include e('checkbox-input') {
+    @extend %security-question-input;
+
+    margin-bottom: 2rem;
+    text-align: center;
   }
 
   @include e('label') {

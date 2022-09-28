@@ -24,7 +24,10 @@ export default function FrameSelection({ onClose, video }) {
 
   const [loading, setLoading] = useState(true);
   const [frames, setFrames] = useState(null);
+  const [isSelectionPreviewVisible, setIsSelectionPreviewVisible] =
+    useState(false);
   const [selectedFrames, setSelectedFrames] = useState([]);
+
   const [currentSelectedFrame, setCurrentSelectedFrame] = useState(null);
   const [noMoreAvailable, setNoMoreAvailable] = useState(false);
 
@@ -82,7 +85,7 @@ export default function FrameSelection({ onClose, video }) {
   };
 
   const onVideoClick = (event) => {
-    console.log('Time: ', event.target.currentTime);
+    setIsSelectionPreviewVisible(true);
 
     const { currentTime } = event.target;
 
@@ -100,8 +103,6 @@ export default function FrameSelection({ onClose, video }) {
       setSelectedFrames(newSelectedFrames);
 
       setCurrentSelectedFrame(closestAvailableFrame);
-
-      console.log('Frame number: ', closestAvailableFrame);
     }
   };
 
@@ -159,7 +160,7 @@ export default function FrameSelection({ onClose, video }) {
               muted
               onClick={onVideoClick}
             >
-              <source src={`/vid/${VideoData[video].cleanTitle}.mov`} />
+              <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />
             </video>
 
             <div className="frame-selection__instructions-wrapper">
@@ -219,9 +220,11 @@ export default function FrameSelection({ onClose, video }) {
           </div>
         </div>
         <SelectionPreview
+          isSelectionPreviewVisible={isSelectionPreviewVisible}
           removeAllFrames={removeAllFrames}
           removeSelectedFrame={removeSelectedFrame}
           selectedFrames={selectedFrames}
+          setIsSelectionPreviewVisible={setIsSelectionPreviewVisible}
         />
       </div>
     </div>

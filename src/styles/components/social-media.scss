@@ -2,7 +2,7 @@
   flex-shrink: 1;
 
   @include m('large') {
-    margin-top: 3rem;
+    margin-top: 6rem;
   }
 
   @include e('text') {

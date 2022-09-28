@@ -62,8 +62,14 @@ const SignUp = ({ className, isJoinCommunity, signUpText }) => {
     !(formik.touched.email && formik.errors.email);
 
   return (
-    <div className="sign-up">
-      <p className="sign-up__text">{signUpText}</p>
+    <div className={`sign-up ${className ? `${className}__sign-up` : ''}`}>
+      <p
+        className={`sign-up__text ${
+          className ? `${className}__sign-up-text` : ''
+        }`}
+      >
+        {signUpText}
+      </p>
       <form
         className={`sign-up__form ${
           isJoinCommunity ? 'sign-up__form--flex-column' : ''
@@ -71,7 +77,7 @@ const SignUp = ({ className, isJoinCommunity, signUpText }) => {
         onSubmit={formik.handleSubmit}
       >
         <div
-          className={`sign-up__input-and-error  ${
+          className={`sign-up__input-and-error ${
             className ? `${className}__sign-up-input-and-error` : ''
           }`}
         >

@@ -1,10 +1,29 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import PaymentContext from '@/context/PaymentContext';
 import securityQuestionOptions from '@/static-data/security-question-options';
 
 export default function SecurityQuestion() {
   const { securityQuestionFormik: formik } = useContext(PaymentContext);
+
+  const [nbSufixDots, setNbSufixDots] = useState(0);
+  const { isSubmitting } = formik;
+  useEffect(() => {
+    let handle;
+    if (isSubmitting) {
+      handle = setInterval(() => {
+        setNbSufixDots((nbDots) => (nbDots % 3) + 1);
+      }, 500);
+    }
+
+    return () => {
+      clearInterval(handle);
+      setNbSufixDots(0);
+    };
+  }, [isSubmitting]);
+
+  const buttonTextSufix =
+    nbSufixDots > 0 ? `ting${new Array(nbSufixDots + 1).join('.')}` : '';
 
   return (
     <>
@@ -55,7 +74,7 @@ export default function SecurityQuestion() {
           {formik.touched.answer && formik.errors.answer ? (
             <p className="error">{formik.errors.answer}</p>
           ) : null}
-          <div className="security-question__input">
+          <div className="security-question__checkbox-input">
             <label
               className="security-question__label"
               htmlFor="noSecurityQuestion"
@@ -72,7 +91,7 @@ export default function SecurityQuestion() {
             </label>
           </div>
           <button className="btn btn--primary" type="submit">
-            Submit
+            {`Submit${buttonTextSufix}`}
           </button>
         </form>
       </div>

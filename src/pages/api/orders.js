@@ -6,18 +6,24 @@ import { address } from '@/contract/fairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
+import stripe from '@/lib/stripe';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
-import { checkout } from '@/pages/api/checkout';
 import emailTypes from '@/static-data/email-types';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import niceInvoice from '@/templates/niceInvoice';
-import { getEthToEurRate } from '@/utils/conversion';
+import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
-const { MNEMONIC } = process.env;
+const {
+  MNEMONIC,
+  CURRENCY,
+  SERVER_URL,
+  STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
+} = process.env;
+
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
@@ -46,7 +52,7 @@ export const sendMailForPurchasedOrder = (order, frames) => {
   const invoice = niceInvoice(order, frames);
   const attachments = [
     { filename: 'Invoice.pdf', content: invoice },
-    { filename: 'Terms.pdf', path: '/doc/terms.pdf' },
+    { filename: 'Terms.pdf', path: './public/doc/terms.pdf' },
   ];
   sendMail(emailTypes.NFTsPurchased, { order, frames }, attachments).catch(
     console.error
@@ -61,12 +67,12 @@ const getWeb3 = () => {
 
 let web3 = getWeb3();
 
-const fillOutRestOfOrderData = (customer, frames) => {
+const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const orderCreatedTimestamp = Date.now();
   const quantity = frames.length;
 
   const framePriceETH = NFT_PRICE_ETH;
-  const framePriceEUR = getEthToEurRate(NFT_PRICE_ETH);
+  const framePriceEUR = ethToEur(NFT_PRICE_ETH, ethToEurRate);
 
   // Calculate the price so that if sales tax exists, it is
   // subtracted from the total price. In other words, the buyer
@@ -94,10 +100,14 @@ const fillOutRestOfOrderData = (customer, frames) => {
 };
 
 const createOrder = async (req) => {
-  const { customer, frames, paymentMethod } = req.body;
+  const { customer, frames, paymentMethod, ethToEurRate } = req.body;
 
   const isWalletPayment = paymentMethod === 'WALLET';
-  const restOfOrderData = fillOutRestOfOrderData(customer, frames);
+  const restOfOrderData = fillOutRestOfOrderData(
+    customer,
+    frames,
+    ethToEurRate
+  );
   const body = {
     ...req.body,
     frames,
@@ -126,6 +136,30 @@ const createOrder = async (req) => {
     order = null;
   }
   return order;
+};
+
+const checkout = async (confirmationKey, items, priceInCents) => {
+  const session = await stripe.checkout.sessions.create({
+    cancel_url: `${SERVER_URL}/shopping-cart`,
+    client_reference_id: confirmationKey,
+    line_items: items.map((item) => ({
+      price_data: {
+        currency: CURRENCY,
+        product_data: {
+          name: `${item.video}_${padZeroes(item.frame, 4)}`,
+        },
+        unit_amount: priceInCents,
+      },
+      quantity: 1,
+    })),
+    mode: 'payment',
+    payment_method_types: ['card'],
+    success_url: `${SERVER_URL}/shopping-cart?thank-you`,
+    expires_at:
+      Math.round(Date.now() / 1000) +
+      parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m
+  });
+  return session.url;
 };
 
 const handler = async (req, res) => {

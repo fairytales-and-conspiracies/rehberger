@@ -12,6 +12,7 @@ import SecurityVerification from '@/components/SecurityVerification';
 export default function ClaimNFTs() {
   const [address, setAddress] = useState('');
   const [key, setKey] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
   const [verificationAccepted, setVerificationAccepted] = useState(false);
   const [securityVerification, setSecurityVerification] = useState(false);
   const [
@@ -126,7 +127,7 @@ export default function ClaimNFTs() {
 
   return (
     <div className="bg-primary claim-nfts">
-      <Header logoOnly />
+      <Header logoOnly modalOpen={modalOpen} />
       <main className="claim-nfts__main">
         <h1 className="claim-nfts__heading">
           {securityVerification && !verificationAccepted
@@ -144,6 +145,7 @@ export default function ClaimNFTs() {
             confirmationKey={key}
             error={securityVerificationSubmissionError}
             formik={securityFormik}
+            setModalOpen={setModalOpen}
             walletAddress={address}
           />
         )}

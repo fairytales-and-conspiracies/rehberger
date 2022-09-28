@@ -1,16 +1,18 @@
 .faq {
   margin: 0 auto;
   max-width: 120rem;
+  padding: 6rem 0 5rem;
 
   @include e('heading') {
     color: $color-text-red;
     font-size: 20rem;
     font-weight: 400;
+    padding-left: 3rem;
   }
 
   @include e('content') {
     color: $color-text-dark;
-    padding: 1.5rem 3rem;
+    padding: 1.5rem 6rem;
   }
 
   @include e('question') {
@@ -19,15 +21,16 @@
 
   @include e('question-btn') {
     cursor: pointer;
-    font-size: 4rem;
+    font-size: 3rem;
     text-align: left;
+    text-transform: uppercase;
     width: 100%;
   }
 
   @include e('answer') {
     border-bottom: 0.5rem solid $color-red;
     font-family: $font-secondary;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 600;
     margin: 1.5rem auto;
     max-height: 0;
@@ -36,10 +39,32 @@
     transition: 0.3s ease-out;
 
     @include m('visible') {
-      max-height: 15rem;
-      padding-bottom: 1.5rem;
+      max-height: 150rem;
+      padding-bottom: 3rem;
       transition: 0.3s ease-in;
     }
+  }
+
+  @include e('answer-paragraph') {
+    margin: 1.5rem 0;
+
+    @include m('no-margin-b0ttom') {
+      margin-bottom: 0;
+    }
+  }
+
+  @include e('answer-fixed-width-info') {
+    display: inline-block;
+    width: 32rem;
+  }
+
+  @include e('answer-link') {
+    text-decoration: underline;
+  }
+
+  @include e('answer-list') {
+    list-style-type: disc;
+    padding-left: 3rem;
   }
 
   @include max-screen-md {

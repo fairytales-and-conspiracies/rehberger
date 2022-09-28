@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import VideoData from '@/static-data/videos';
-import { padZeroes } from '@/utils/string';
+import { getFrameFileName } from '@/utils/frames';
 
 const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
 const NFT_IMAGE_EXTENSION = process.env.NEXT_PUBLIC_NFT_IMAGE_EXTENSION;
@@ -16,9 +16,7 @@ export default function FrameImageWithRemoveButton({
     imageSrc =
       NFT_IMAGE_URL === '/img/frames'
         ? `${NFT_IMAGE_URL}/${frame.video}/${frame.time}.${NFT_IMAGE_EXTENSION}`
-        : `${NFT_IMAGE_URL}/${frame.video}_${padZeroes(
-            frame.frame
-          )}.${NFT_IMAGE_EXTENSION}`;
+        : `${NFT_IMAGE_URL}/${getFrameFileName(frame)}.${NFT_IMAGE_EXTENSION}`;
   }
 
   return (

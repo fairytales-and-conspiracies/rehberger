@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Image from 'next/image';
 import { forwardRef, useEffect, useState } from 'react';
 
@@ -102,15 +101,14 @@ function Home(_, ref) {
               >
                 View on Etherscan
               </a>
-              <button
+              <a
                 className="nfts__btn btn btn--primary"
-                onClick={() => {
-                  axios.get('/api/send-pdf');
-                }}
-                type="button"
+                target="_blank"
+                href="https://ipfs.io/ipfs/QmT515cSE6HDE3pnwAv8aChkj64xDEKjnz8ZSPf5B7WrRB"
+                rel="noopener noreferrer"
               >
                 View on IPFS
-              </button>
+              </a>
               <IndividualPrice />
               <IndividualPricePurple />
             </div>
@@ -215,7 +213,7 @@ function Home(_, ref) {
                   available.
                 </p>
                 <p className="nfts__how-it-works-step">
-                  You will be taken to an external platform OpenSea.
+                  You will be taken to an external payment platform Stripe.
                 </p>
                 <p className="nfts__how-it-works-step">
                   Complete purchasing your NFT.

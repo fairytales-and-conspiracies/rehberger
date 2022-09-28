@@ -8,7 +8,7 @@ import ConnectWalletButton from '@/components/ConnectWalletButton';
 
 const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
-export default function Header({ logoOnly }) {
+export default function Header({ logoOnly, modalOpen }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const onMenuClick = () => {
@@ -36,7 +36,7 @@ export default function Header({ logoOnly }) {
   }
 
   return (
-    <header className="header">
+    <header className={`header ${modalOpen ? 'header--modal-open' : ''}`}>
       <Link href="/" passHref>
         <a
           className="header__logo"
@@ -56,6 +56,35 @@ export default function Header({ logoOnly }) {
           INTERIM || logoOnly ? 'header__nav--hidden' : ''
         } ${isMenuOpen ? 'header__nav--open' : ''}`}
       >
+        <div className="header__mobile-button-area">
+          {!INTERIM && <ConnectWalletButton />}
+          {INTERIM && (
+            <button
+              className="btn btn--primary btn--small header__mobile-button"
+              disabled
+              type="button"
+            >
+              <Image
+                alt="Shopping cart"
+                height="20"
+                src="/img/icons/shopping-cart-disabled.svg"
+                width="20"
+              />
+            </button>
+          )}
+          {!INTERIM && (
+            <Link href="/shopping-cart">
+              <a className="btn btn--primary btn--small header__mobile-button">
+                <Image
+                  alt="Shopping cart"
+                  height="20"
+                  src="/img/icons/shopping-cart.svg"
+                  width="20"
+                />
+              </a>
+            </Link>
+          )}
+        </div>
         <ul>
           <li>
             <Link href="/#nfts">
