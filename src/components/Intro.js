@@ -58,12 +58,9 @@ export default function Home() {
 
       <div className="connect-wallet-modal connect-wallet-modal--visible">
         <div className="connect-wallet-modal__backdrop">
-          <div
-            className="connect-wallet-modal__main"
-            style={{ height: '37rem' }}
-          >
+          <div className="connect-wallet-modal__main home__note home__note--important">
             <div className="connect-wallet-modal__top-section">
-              <p style={{ fontSize: '3.2rem' }}>
+              <p style={{ fontSize: '2.8rem' }}>
                 Once upon a time… there was an NFT project that dropped a little
                 later than expected. We are currently working on final tweaks
                 and as of now expect ETA tonight between 21:00 and 23:00 CET.

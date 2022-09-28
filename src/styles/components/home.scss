@@ -181,4 +181,23 @@
       font-size: 1.4rem;
     }
   }
+
+  // TODO: REMOVE afterwards
+  @include e('note') {
+    @include m('important') {
+      position: relative;
+      margin: 15rem auto;
+      width: 90%;
+      padding: 5rem;
+      font-size: 3rem;
+      left: unset;
+      top: unset;
+      height: unset;
+      max-width: 55rem;
+
+      @include max-screen-xs {
+        margin-top: 10rem;
+      }
+    }
+  }
 }
