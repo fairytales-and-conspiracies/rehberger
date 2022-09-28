@@ -4,7 +4,7 @@ export default {
     frames: 720,
     previousVideoTokenEndingPoint: 0,
     sortOrder: 1,
-    subtitle: 'Liquid poster No.1',
+    subtitle: 'Liquid Poster No.1',
     title: 'HAVEYOUEVERTHOUGHTOFEMIGRATING?',
   },
   IMAGINEYOURSELFWITHOUTAHOME: {
@@ -12,7 +12,7 @@ export default {
     frames: 1080,
     previousVideoTokenEndingPoint: 720,
     sortOrder: 2,
-    subtitle: 'Liquid poster No.2',
+    subtitle: 'Liquid Poster No.2',
     title: 'IMAGINEYOURSELFWITHOUTAHOME',
   },
   HAVEYOUEVERSTOLENANIDEA: {
@@ -20,7 +20,7 @@ export default {
     frames: 540,
     previousVideoTokenEndingPoint: 1800,
     sortOrder: 3,
-    subtitle: 'Liquid poster No.3',
+    subtitle: 'Liquid Poster No.3',
     title: 'HAVEYOUEVERSTOLENANIDEA?',
   },
   AREYOUAFRAIDOFTHEPOOR: {
@@ -28,7 +28,7 @@ export default {
     frames: 720,
     previousVideoTokenEndingPoint: 2340,
     sortOrder: 4,
-    subtitle: 'Liquid poster No.4',
+    subtitle: 'Liquid Poster No.4',
     title: 'AREYOUAFRAIDOFTHEPOOR?',
   },
   ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR: {
@@ -36,7 +36,7 @@ export default {
     frames: 720,
     previousVideoTokenEndingPoint: 3060,
     sortOrder: 5,
-    subtitle: 'Liquid poster No.5',
+    subtitle: 'Liquid Poster No.5',
     title: 'ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR',
   },
 };

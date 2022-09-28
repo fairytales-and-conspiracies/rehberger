@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import IdentityVerification from '@/components/IdentityVerification';
 
@@ -6,10 +6,15 @@ export default function SecurityVerification({
   confirmationKey,
   error,
   formik,
+  setModalOpen,
   walletAddress,
 }) {
   const [isIdentityVerificationVisible, setIsIdentityVerificationVisible] =
     useState(false);
+
+  useEffect(() => {
+    setModalOpen(isIdentityVerificationVisible);
+  }, [isIdentityVerificationVisible]);
 
   return (
     <>

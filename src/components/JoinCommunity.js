@@ -12,7 +12,7 @@ const JoinCommunity = () => {
             isJoinCommunity
             signUpText={
               <>
-                Want an in on all the latest news regarding Fairytales &
+                Want in on all the latest news regarding Fairytales &
                 Conspiracies? Sign up for our newsletter to receive new
                 information first hand.
               </>
