@@ -159,7 +159,7 @@ const checkout = async (confirmationKey, items, priceInCents) => {
       Math.round(Date.now() / 1000) +
       parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m
   });
-  return session.url;
+  return session;
 };
 
 const handler = async (req, res) => {
@@ -180,12 +180,12 @@ const handler = async (req, res) => {
         if (paymentMethod === 'CARD') {
           order = await createOrder(req);
           try {
-            const url = await checkout(
+            const session = await checkout(
               order.confirmationKey,
               frames,
               order.framePriceEUR * 100
             );
-            res.status(200).json({ success: true, url });
+            res.status(200).json({ success: true, data: session });
           } catch (err) {
             console.error('Error sending data to Stripe: ', err);
             res.status(400).json({ success: false, error: err });
