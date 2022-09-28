@@ -63,7 +63,7 @@ export default function Home() {
               <p style={{ fontSize: '2.8rem' }}>
                 Once upon a time… there was an NFT project that dropped a little
                 later than expected. We are currently working on final tweaks
-                and as of now expect ETA tonight between 21:00 and 23:00 CET.
+                and as of now expect ETA between 23:00 and 01:00 CET.
                 <br />
                 <br />
                 <span style={{ display: 'block', textAlign: 'center' }}>
