@@ -10,7 +10,7 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ['f004.backblazeb2.com'],
+    domains: ['f003.backblazeb2.com'],
   },
 };
 
