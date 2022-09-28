@@ -11,7 +11,7 @@ const TEASER_VIDEO_YOUTUBE = 'https://www.youtube.com/embed/eZ0ydV252ZI';
 const TEASER_VIDEO_YOUTUBE_LINK = 'https://youtu.be/eZ0ydV252ZI';
 
 const LIQUID_POSTER_1 = 'HAVEYOUEVERTHOUGHTOFEMIGRATING?';
-const LIQUID_POSTER_1_LINK = '/vid/HAVEYOUEVERTHOUGHTOFEMIGRATING.mov';
+const LIQUID_POSTER_1_LINK = '/vid/HAVEYOUEVERTHOUGHTOFEMIGRATING.mp4';
 const LIQUID_POSTER_1_YOUTUBE = 'https://www.youtube.com/embed/3DvckB6LKNs';
 const LIQUID_POSTER_1_YOUTUBE_LINK = 'https://youtu.be/3DvckB6LKNs';
 
