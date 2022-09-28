@@ -5,6 +5,7 @@ const UniCryptContext = createContext();
 
 export function UniCryptProvider({ children }) {
   const [ethToEurRate, setEthToEurRate] = useState(undefined);
+  const [fetchRatePeriodically, requestfetchRatePeriodically] = useState(false);
 
   const fetchEthToEurRate = useCallback(async () => {
     const { data } = await axios.post('/api/unicrypt-rates', {
@@ -22,14 +23,24 @@ export function UniCryptProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    fetchEthToEurRate();
-  }, [fetchEthToEurRate]);
+    let handle;
+    if (fetchRatePeriodically) {
+      fetchEthToEurRate();
+      
+      handle = setInterval(() => {
+        fetchEthToEurRate();
+      }, 10000);
+    }
+
+    return () => clearInterval(handle);
+  }, [fetchEthToEurRate, fetchRatePeriodically]);
 
   return (
     <UniCryptContext.Provider
       value={{
         fetchEthToEurRate,
         ethToEurRate,
+        requestfetchRatePeriodically,
       }}
     >
       {children}

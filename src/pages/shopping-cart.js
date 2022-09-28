@@ -4,9 +4,11 @@ import Header from '@/components/Header';
 import PaymentFormWrapper from '@/components/PaymentFormWrapper';
 import ShoppingCartViewer from '@/components/ShoppingCartViewer';
 import PaymentContext from '@/context/PaymentContext';
+import UniCryptContext from '@/context/UniCryptContext';
 
 export default function ShoppingCart() {
   const { setInitialState } = useContext(PaymentContext);
+  const { requestfetchRatePeriodically } = useContext(UniCryptContext);
 
   const [isCheckout, setIsCheckout] = useState();
 
@@ -17,6 +19,14 @@ export default function ShoppingCart() {
       setInitialState();
     };
   }, []);
+
+  useEffect(
+    () => {
+      requestfetchRatePeriodically(true);
+      return () => requestfetchRatePeriodically(false);
+    },
+    []
+  )
 
   return (
     <div className="bg-primary shopping-cart">
