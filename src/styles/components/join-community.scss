@@ -1,7 +1,7 @@
 .join-community {
   margin: 0 auto;
   max-width: 120rem;
-  padding: 12rem 1.5rem;
+  padding: 19rem 1.5rem;
 
   @include flex;
 
@@ -9,6 +9,8 @@
     color: $color-text-red;
     font-size: 16rem;
     font-weight: 400;
+    margin-top: 1rem;
+    text-align: center;
     text-transform: uppercase;
   }
 
@@ -19,6 +21,14 @@
       right: 1rem;
     }
     text-align: center;
+  }
+
+  @include e('sign-up') {
+    margin-top: -2rem;
+  }
+
+  @include e('sign-up-text') {
+    margin-bottom: 3rem;
   }
 
   @include e('sign-up-input-and-error') {

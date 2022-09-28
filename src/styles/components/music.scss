@@ -8,6 +8,7 @@
   margin: 0 auto;
   max-width: 120rem;
   min-height: calc(100vh - $header-height);
+  position: relative;
 
   @include e('heading') {
     color: $color-text-blue;
@@ -19,9 +20,12 @@
 
   @include e('content') {
     background: rgba($background-dark, 0.5);
+    bottom: 0;
     color: $color-text-light;
     font-family: $font-secondary;
+    font-size: 1.4rem;
     padding: 2.5rem;
+    position: absolute;
 
     @include align-items(flex-end);
   }

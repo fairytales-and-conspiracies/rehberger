@@ -5,13 +5,15 @@
 
   @include e('heading') {
     color: $color-text-red;
-    font-size: 16rem;
+    font-size: 22rem;
     font-weight: 400;
+    margin: 5rem 0 2rem;
     text-transform: uppercase;
   }
 
   @include e('content') {
     font-family: $font-secondary;
+    font-size: 1.4rem;
   }
 
   @include e('content-group') {
@@ -20,7 +22,7 @@
 
   @include e('content-heading-with-bottom-margin') {
     display: inline-block;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
   }
 
   @include e('title-for-size') {
@@ -41,6 +43,12 @@
     margin-bottom: 0.8rem;
   }
 
+  @include e('title-for-details') {
+    display: inline-block;
+    width: 25rem;
+    word-break: break-word;
+  }
+
   @include max-screen-lg {
     margin-top: -15rem;
     max-width: 100rem;
@@ -48,6 +56,10 @@
 
   @include max-screen-md {
     margin-top: unset;
+
+    @include e('heading') {
+      font-size: 19rem;
+    }
   }
 
   @include max-screen-sm {

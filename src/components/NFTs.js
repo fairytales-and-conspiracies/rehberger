@@ -215,7 +215,7 @@ function Home(_, ref) {
                   available.
                 </p>
                 <p className="nfts__how-it-works-step">
-                  You will be taken to an external platform OpenSea.
+                  You will be taken to an external payment platform Stripe.
                 </p>
                 <p className="nfts__how-it-works-step">
                   Complete purchasing your NFT.

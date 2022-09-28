@@ -1,13 +1,13 @@
 .selected-frame {
   @include e('wrapper') {
-    justify-content: space-between;
+    justify-content: flex-start;
 
     @include flex;
     @include flex-direction(column);
   }
 
   @include e('image-with-timeframe-container') {
-    margin-bottom: 2rem;
+    margin-bottom: 5rem;
     max-width: 39rem;
     width: 20vw;
 
@@ -48,7 +48,7 @@
 
   @include e('title') {
     color: $color-text-red;
-    font-size: 4.5rem;
+    font-size: 3.5rem;
     font-weight: 400;
     line-height: 0.8;
     max-width: 40rem;
@@ -58,7 +58,7 @@
 
   @include e('subtitle') {
     color: $color-text-red;
-    font-size: 3.2rem;
+    font-size: 2.7rem;
     font-weight: 400;
     margin: {
       bottom: 0.2rem;
@@ -74,6 +74,8 @@
 
   @include e('price') {
     font-size: 4rem;
+    position: relative;
+    top: 3rem;
   }
 
   @include max-screen-xl {

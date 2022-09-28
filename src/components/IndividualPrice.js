@@ -15,12 +15,7 @@ export default function IndividualPrice() {
     <div className="individual-price">
       <div className="individual-price__main">
         {INDIVIDUAL_PRICE_TEXT.split('').map((char, index) => (
-          <span
-            className={`individual-price__step-${index}`}
-            key={INDIVIDUAL_PRICE_TEXT.substring(index)}
-          >
-            {char}
-          </span>
+          <span key={INDIVIDUAL_PRICE_TEXT.substring(index)}>{char}</span>
         ))}
         <br />
         <div className="individual-price__price">
@@ -28,23 +23,13 @@ export default function IndividualPrice() {
             <Image alt="Ether" height="45px" src="/img/eth.svg" width="27px" />{' '}
           </span>
           {NFT_PRICE_ETH_STRING.split('').map((char, index) => (
-            <span
-              className={`individual-price__price-step-${index}`}
-              key={NFT_PRICE_ETH_STRING.substring(index)}
-            >
-              {char}
-            </span>
+            <span key={NFT_PRICE_ETH_STRING.substring(index)}>{char}</span>
           ))}
         </div>
       </div>
       <p className="individual-price__euro-price">
         {nftPriceInEurosString.split('').map((char, index) => (
-          <span
-            className={`individual-price__euro-price-step-${index}`}
-            key={nftPriceInEurosString.substring(index)}
-          >
-            {char}
-          </span>
+          <span key={nftPriceInEurosString.substring(index)}>{char}</span>
         ))}
       </p>
     </div>
