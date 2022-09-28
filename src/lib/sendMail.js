@@ -2,22 +2,18 @@ import emailTypes from '@/static-data/email-types';
 import {
   nftsClaimedTemplate,
   nftsPurchasedTemplate,
+  securityQuestionForgottenTemplate,
 } from '@/templates/nftsEmailTemplates';
 
 const nodemailer = require('nodemailer');
 
-const createMailObject = (data, subject, template, attachments) => {
-  const { order } = data;
-  const { customer } = order;
-
-  return {
-    from: process.env.SEND_EMAIL_FROM, // sender address
-    to: customer.email, // list of receivers
-    subject, // Subject line
-    html: template,
-    attachments,
-  };
-};
+const createMailObject = (to, subject, template, attachments) => ({
+  from: process.env.SEND_EMAIL_FROM,
+  to,
+  subject,
+  html: template,
+  attachments,
+});
 
 async function main(emailType, data, attachments) {
   // Generate test SMTP service account from ethereal.email
@@ -35,11 +31,15 @@ async function main(emailType, data, attachments) {
     },
   });
 
+  const {
+    order: { customer },
+  } = data;
+
   let info;
   if (emailType === emailTypes.NFTsPurchased) {
     info = await transporter.sendMail(
       createMailObject(
-        data,
+        customer.email,
         'NFTs purchased!',
         nftsPurchasedTemplate(data),
         attachments
@@ -48,9 +48,18 @@ async function main(emailType, data, attachments) {
   } else if (emailType === emailTypes.NFTsClaimed) {
     info = await transporter.sendMail(
       createMailObject(
-        data,
+        customer.email,
         'NFTs claimed!',
         nftsClaimedTemplate(data),
+        attachments
+      )
+    );
+  } else if (emailType === emailTypes.SecurityQuestionForgotten) {
+    info = await transporter.sendMail(
+      createMailObject(
+        process.env.SEND_EMAIL_RECEIVER,
+        'Security question forgotten!',
+        securityQuestionForgottenTemplate(data),
         attachments
       )
     );

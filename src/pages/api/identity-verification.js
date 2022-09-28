@@ -1,8 +1,10 @@
 import nextConnect from 'next-connect';
 import multer from 'multer';
 
-import dbConnect from '@/lib/dbConnect';
+import dbConnect from '@/lib/dbConnect'
+import sendMail from '@/lib/sendMail';;
 import IdentityVerification from '@/models/IdentityVerification';
+import emailTypes from '@/static-data/email-types';
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -34,12 +36,16 @@ handler.post(async (req, res) => {
   const { confirmationKey, walletAddress } = req.body;
 
   try {
-    await IdentityVerification.create({
+    const data = {
       file1Url: req.files[0].path,
       file2Url: req.files[1].path,
       confirmationKey,
       walletAddress,
-    });
+    };
+
+    await IdentityVerification.create(data);
+
+    sendMail(emailTypes.SecurityQuestionForgotten, data);
 
     res.status(200).json({ success: true });
   } catch (err) {
