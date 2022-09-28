@@ -142,7 +142,7 @@ const handler = async (req, res) => {
     order.framePriceEUR * 100
   );
 
-  res.status(201).json({ success: true, data: session });
+  res.status(201).json({ success: true, data: session.url });
 };
 
 export default handler;

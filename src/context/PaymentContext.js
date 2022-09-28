@@ -192,8 +192,8 @@ export const PaymentProvider = ({ children }) => {
     try {
       console.log("HOCU DA LOGUJEM")
       const result = await axios.post('/api/orders2', order);
-      console.log("HOCU - ZAVRSIO POZIV USPESNO", result)
-      //window.location = url;
+      //console.log("HOCU - ZAVRSIO POZIV USPESNO", result)
+      window.location = result;
     } catch (err) {
       console.error('HOCU - MA TO JE Error: ', err);
     }
