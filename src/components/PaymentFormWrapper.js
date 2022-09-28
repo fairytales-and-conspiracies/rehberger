@@ -32,7 +32,9 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
     setTransactionPassed,
     shippingInfoFormSubmitted,
     transactionPassed,
+    securityQuestionFormik,
   } = useContext(PaymentContext);
+
   const { removeAllFromCart, selectedFrames } = useContext(ShoppingCartContext);
 
   useEffect(() => {
@@ -106,6 +108,7 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
               className="btn btn--tertiary"
               onClick={goBack}
               type="button"
+              disabled={securityQuestionFormik.isSubmitting}
             >
               Back
             </button>
@@ -115,6 +118,7 @@ export default function PaymentFormWrapper({ isCheckout, setIsCheckout }) {
               className="btn btn--tertiary payment-form__back-btn-small-devices"
               onClick={() => setIsCheckout(false)}
               type="button"
+              disabled={securityQuestionFormik.isSubmitting}
             >
               Back
             </button>
