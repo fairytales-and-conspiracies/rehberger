@@ -7,7 +7,7 @@ import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
 import { getFrameName } from '@/utils/frames';
 
-export default function ShoppingCartViewer({ isCheckout, setIsCheckout }) {
+export default function ShoppingCartViewer({ isCheckout }) {
   const { removeFromCart, selectedFrames } = useContext(ShoppingCartContext);
 
   const selectedFramesByVideoMap = selectedFrames.reduce(
