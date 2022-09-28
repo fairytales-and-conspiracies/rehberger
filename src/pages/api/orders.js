@@ -2,7 +2,7 @@ import HDWalletProvider from '@truffle/hdwallet-provider';
 import crypto from 'crypto';
 import Web3 from 'web3';
 
-import { address } from '@/contract/exampleContract';
+import { address } from '@/contract/fairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
@@ -20,6 +20,38 @@ import calculateVat from '@/utils/vat';
 const { MNEMONIC } = process.env;
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
+
+export const orderFramesMongoFilter = (frames) => {
+  const filter = { _id: { $in: [] } };
+  frames.forEach(async (frame) => {
+    // eslint-disable-next-line no-underscore-dangle
+    const id = frame._id.toString();
+    // eslint-disable-next-line no-underscore-dangle
+    filter._id.$in.push(id);
+  });
+  return filter;
+};
+
+export const getNextOrderNumber = async () => {
+  const orderArr = await Order.find().sort('-orderNumber').limit(1);
+  const order = orderArr[0];
+  if (!order || !order.orderNumber) {
+    return 1;
+  }
+
+  return order.orderNumber + 1;
+};
+
+export const sendMailForPurchasedOrder = (order, frames) => {
+  const invoice = niceInvoice(order, frames);
+  const attachments = [
+    { filename: 'Invoice.pdf', content: invoice },
+    { filename: 'Terms.pdf', path: '/doc/terms.pdf' },
+  ];
+  sendMail(emailTypes.NFTsPurchased, { order, frames }, attachments).catch(
+    console.error
+  );
+};
 
 const getWeb3 = () => {
   const provider = new HDWalletProvider(MNEMONIC, INFURA_URL);
@@ -59,27 +91,6 @@ const fillOutRestOfOrderData = (customer, frames) => {
     totalPriceEUR,
     vat,
   };
-};
-
-export const orderFramesMongoFilter = (frames) => {
-  const filter = { _id: { $in: [] } };
-  frames.forEach(async (frame) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = frame._id.toString();
-    // eslint-disable-next-line no-underscore-dangle
-    filter._id.$in.push(id);
-  });
-  return filter;
-};
-
-export const getNextOrderNumber = async () => {
-  const orderArr = await Order.find().sort('-orderNumber').limit(1);
-  const order = orderArr[0];
-  if (!order || !order.orderNumber) {
-    return 1;
-  }
-
-  return order.orderNumber + 1;
 };
 
 const createOrder = async (req) => {
@@ -164,15 +175,7 @@ const handler = async (req, res) => {
             if (!ordersWithTransaction || ordersWithTransaction.length === 0) {
               order = await createOrder(req);
               if (order) {
-                const invoice = niceInvoice(order, frames);
-                const attachments = [
-                  { filename: 'Invoice.pdf', content: invoice },
-                ];
-                sendMail(
-                  emailTypes.NFTsPurchased,
-                  { order, frames },
-                  attachments
-                ).catch(console.error);
+                sendMailForPurchasedOrder(order, frames);
               }
             }
           }

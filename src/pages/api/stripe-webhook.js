@@ -2,15 +2,16 @@ import { buffer } from 'micro';
 
 import dbConnect from '@/lib/dbConnect';
 import sendError, { sendErrorWithMessage } from '@/lib/errorHandling';
-import sendMail from '@/lib/sendMail';
 import stripe from '@/lib/stripe';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
-import { getNextOrderNumber, orderFramesMongoFilter } from '@/pages/api/orders';
-import emailTypes from '@/static-data/email-types';
+import {
+  getNextOrderNumber,
+  orderFramesMongoFilter,
+  sendMailForPurchasedOrder,
+} from '@/pages/api/orders';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
-import niceInvoice from '@/templates/niceInvoice';
 import { padZeroes } from '@/utils/string';
 
 const { STRIPE_WEBHOOK_SECRET } = process.env;
@@ -70,13 +71,7 @@ const handler = async (req, res) => {
       const frames = await Frame.find(filter);
 
       if (order) {
-        const invoice = niceInvoice(order, frames);
-        const attachments = [{ filename: 'Invoice.pdf', content: invoice }];
-        sendMail(
-          emailTypes.NFTsPurchased,
-          { order, frames },
-          attachments
-        ).catch(console.error);
+        sendMailForPurchasedOrder(order, frames);
         res.status(201).json({ success: true, data: order });
       } else {
         sendError(res, ErrorTypes.TRANSACTION_CREATION_UNSUCCESSFUL);

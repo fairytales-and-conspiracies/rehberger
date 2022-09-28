@@ -4,7 +4,10 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { createContext, useEffect, useMemo, useState } from 'react';
 
-import { address as contractAddress, abi } from '@/contract/exampleContract';
+import {
+  address as contractAddress,
+  abi,
+} from '@/contract/fairytalesAndConspiracies';
 import wallets from '@/static-data/wallets';
 import { getTokenId } from '@/utils/contract';
 
