@@ -3,7 +3,7 @@
   width: 32rem;
 
   .btn {
-    font-size: 3.2rem;
+    font-size: 2.2rem;
     margin-top: 2rem;
     padding: 1rem;
     width: 100%;
@@ -11,7 +11,7 @@
 
   @include e('heading') {
     color: $color-text-grey;
-    font-size: 3rem;
+    font-size: 3.2rem;
     font-weight: 400;
   }
 
@@ -69,6 +69,7 @@
 
   @include max-screen-sm {
     margin-bottom: 2rem;
+    max-width: unset;
 
     @include m('hidden-small-devices') {
       display: none;

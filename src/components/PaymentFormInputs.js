@@ -13,7 +13,7 @@ export default function PaymentFormInputs() {
       <h2 className="payment-form__heading">Shipping information</h2>
       <p className="payment-form__text">
         Your personal information will be stored and used solely for shipping
-        and delivery purposes
+        and accounting purposes
       </p>
       <form onSubmit={infoFormik.handleSubmit}>
         <div className="form-container">

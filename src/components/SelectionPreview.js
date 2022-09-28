@@ -7,14 +7,14 @@ import FrameImageWithRemoveButton from '@/components/FrameImageWithRemoveButton'
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 
 export default function SelectionPreview({
+  isSelectionPreviewVisible,
   removeAllFrames,
   removeSelectedFrame,
   selectedFrames,
+  setIsSelectionPreviewVisible,
 }) {
   const { addToCart } = useContext(ShoppingCartContext);
 
-  const [isSelectionPreviewVisible, setIsSelectionPreviewVisible] =
-    useState(false);
   const [
     haveFramesJustBeenAddedToShoppingCart,
     setHaveFramesJustBeenAddedToShoppingCart,
@@ -107,11 +107,8 @@ export default function SelectionPreview({
               <>
                 {haveFramesJustBeenAddedToShoppingCart && (
                   <span>
-                    You have added the selected frames to your shopping cart.{' '}
-                    <Link href="/shopping-cart">
-                      <a className="link">Check it out</a>
-                    </Link>{' '}
-                    or keep selecting more frames!
+                    You have added the selected frames to your shopping cart.
+                    Check it out or keep selecting more frames!
                   </span>
                 )}
                 {!haveFramesJustBeenAddedToShoppingCart &&
@@ -128,20 +125,31 @@ export default function SelectionPreview({
                 />
               ))}
           </div>
-          <button
-            className="btn btn--primary"
-            onClick={onAddToCartClick}
-            type="button"
-          >
-            Add to cart
-          </button>
-          <button
-            className="btn btn--secondary"
-            onClick={onClearAllClick}
-            type="button"
-          >
-            Clear all
-          </button>
+          {selectedFrames && selectedFrames.length > 0 && (
+            <>
+              <button
+                className="btn btn--primary"
+                onClick={onAddToCartClick}
+                type="button"
+              >
+                Add to cart
+              </button>
+              <button
+                className="btn btn--secondary"
+                onClick={onClearAllClick}
+                type="button"
+              >
+                Clear all
+              </button>
+            </>
+          )}
+          {!selectedFrames.length && haveFramesJustBeenAddedToShoppingCart && (
+            <Link href="/shopping-cart" passHref>
+              <button className="btn btn--primary" type="button">
+                Checkout
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

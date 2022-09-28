@@ -87,7 +87,7 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('nft-4-number') {
-    left: 57rem;
+    left: 62rem;
     margin-top: -30rem;
   }
 
@@ -97,6 +97,7 @@ $nfts-nft-thumbnail-width: 30rem;
 
   @include e('nft-text') {
     margin-left: 3rem;
+    margin-top: -7rem;
     z-index: 1;
   }
 
@@ -143,8 +144,10 @@ $nfts-nft-thumbnail-width: 30rem;
   }
 
   @include e('btn') {
+    font-size: 2.2rem;
+    height: 3.6rem;
     margin-bottom: 4rem;
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 1rem;
     text-align: center;
     width: 22rem;
   }
@@ -158,7 +161,7 @@ $nfts-nft-thumbnail-width: 30rem;
 
   @include e('how-it-works') {
     box-shadow: 0.4rem 0.4rem 0 1rem #f00;
-    height: 35rem;
+    height: 38rem;
     width: 27rem;
 
     @include border-radius(2rem);
@@ -207,7 +210,7 @@ $nfts-nft-thumbnail-width: 30rem;
 
     &:nth-of-type(4) {
       &::before {
-        background-image: url('/img/icons/opensea.svg');
+        background-image: url('/img/icons/external-payment.svg');
       }
     }
 
@@ -271,7 +274,7 @@ $nfts-nft-thumbnail-width: 30rem;
     }
 
     @include e('nft-4-number') {
-      left: 46rem;
+      left: 52rem;
     }
 
     @include e('nft-5-number') {
@@ -283,13 +286,13 @@ $nfts-nft-thumbnail-width: 30rem;
     }
 
     @include e('how-it-works') {
-      height: 36rem;
+      height: 39rem;
       width: 24rem;
     }
 
     @include e('how-it-works-title') {
       font-size: 3.5rem;
-      margin: 1rem 2.5rem 0;
+      margin: 2rem 2.5rem 0;
     }
   }
 

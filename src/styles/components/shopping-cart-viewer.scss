@@ -4,6 +4,7 @@
 
   @include e('top-section') {
     justify-content: space-between;
+    margin-top: 4rem;
 
     @include align-items(baseline);
     @include flex;
@@ -33,7 +34,7 @@
   }
 
   @include e('selected') {
-    margin: 3.2rem 8rem;
+    // margin: 0 8rem 3.2rem;
   }
 
   @include e('frames-for-video') {
@@ -88,7 +89,7 @@
 
   @include max-screen-lg {
     @include e('selected') {
-      margin: 4.5rem 5rem;
+      // margin: 4.5rem 5rem;
     }
   }
 
@@ -96,16 +97,23 @@
     flex: 1 1;
     margin-left: 2rem;
 
+    @include e('main') {
+      min-width: 75rem;
+    }
+
+    @include e('top-section') {
+      padding: 0 1.5rem;
+    }
+
     @include e('heading') {
       font-size: 4rem;
     }
 
     @include e('total') {
-      font-size: 3.2rem;
+      text-align: right;
     }
 
     @include e('selected') {
-      margin: 3rem 2rem;
       width: 52vw;
     }
 
