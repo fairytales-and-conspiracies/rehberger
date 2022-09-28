@@ -1,6 +1,6 @@
 import HDWalletProvider from '@truffle/hdwallet-provider';
 import crypto from 'crypto';
-import Stripe from 'stripe';
+// import Stripe from 'stripe';
 import Web3 from 'web3';
 
 import { address } from '@/contract/fairytalesAndConspiracies';
@@ -17,7 +17,8 @@ import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
-const { MNEMONIC, CURRENCY, SERVER_URL, STRIPE_SECRET_KEY } = process.env;
+const { MNEMONIC /* , CURRENCY, SERVER_URL, STRIPE_SECRET_KEY */ } =
+  process.env;
 
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
@@ -133,6 +134,7 @@ const createOrder = async (req) => {
   return order;
 };
 
+/*
 const checkout = async (confirmationKey, items, priceInCents) => {
   const session = await Stripe(STRIPE_SECRET_KEY).checkout.sessions.create({
     cancel_url: `${SERVER_URL}/shopping-cart`,
@@ -153,6 +155,7 @@ const checkout = async (confirmationKey, items, priceInCents) => {
   });
   return session.url;
 };
+*/
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -173,12 +176,18 @@ const handler = async (req, res) => {
           order = await createOrder(req);
           try {
             console.error('Error premature: ', order);
+            res
+              .status(400)
+              .json({ success: false, err: `Error premature: ${order}` });
+            return;
+            /*
             const url = await checkout(
               order.confirmationKey,
               frames,
               order.framePriceEUR * 100
             );
             res.status(200).json({ success: true, url });
+            */
           } catch (err) {
             console.error('Error sending data to Stripe: ', err);
             res.status(400).json({ success: false, err: `Error 1-${err}` });
