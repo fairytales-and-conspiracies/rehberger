@@ -19,7 +19,7 @@ const createOrder = (req) => {
 
   const quantity = frames.length;
   const framePriceETH = NFT_PRICE_ETH;
-  const framePriceEUR = parseFloat(ethToEur(NFT_PRICE_ETH, ethToEurRate));
+  const framePriceEUR = ethToEur(NFT_PRICE_ETH, ethToEurRate);
   const totalPriceETH = framePriceETH * quantity;
   const totalPriceEUR = framePriceEUR * quantity;
   const vat = calculateVat(country, vatNo);
@@ -51,7 +51,7 @@ const createOrder = (req) => {
 };
 
 const stripeCheckout = async (order) => {
-  const session = await stripe.checkout.sessions.create({
+  const data = {
     cancel_url: `${SERVER_URL}/shopping-cart`,
     client_reference_id: order.confirmationKey,
     line_items: order.frames.map((item) => ({
@@ -70,9 +70,14 @@ const stripeCheckout = async (order) => {
     expires_at:
       Math.round(Date.now() / 1000) +
       parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m.
-  });
+  };
 
-  return session.url;
+  try {
+    const session = await stripe.checkout.sessions.create();
+    return session.url;
+  } catch (e) {
+    return { e, stripeData: data }
+  }
 };
 
 const handler = async (req, res) => {
