@@ -119,9 +119,10 @@ export const PaymentProvider = ({ children }) => {
         then: Yup.string().required('Required if you want a security question'),
       }),
     }),
-    onSubmit: () => {
+    onSubmit: async (_, { setSubmitting }) => {
       // eslint-disable-next-line no-use-before-define
-      pay();
+      await pay();
+      setSubmitting(false);
     },
   });
 
