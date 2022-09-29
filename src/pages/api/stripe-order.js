@@ -73,7 +73,7 @@ const stripeCheckout = async (order) => {
   };
 
   try {
-    const session = await stripe.checkout.sessions.create();
+    const session = await stripe.checkout.sessions.create(data);
     return session.url;
   } catch (e) {
     return { e, stripeData: data };
