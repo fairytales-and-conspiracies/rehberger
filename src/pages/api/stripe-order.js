@@ -55,7 +55,7 @@ const createOrder = (req) => {
 };
 
 const stripeCheckout = async (order) => {
-  const data = {
+  const session = await new Stripe(STRIPE_SECRET_KEY).checkout.sessions.create({
     cancel_url: `${SERVER_URL}/shopping-cart`,
     client_reference_id: order.confirmationKey,
     line_items: order.frames.map((item) => ({
@@ -74,16 +74,9 @@ const stripeCheckout = async (order) => {
     expires_at:
       Math.round(Date.now() / 1000) +
       parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m.
-  };
+  });
 
-  try {
-    const session = await new Stripe(
-      STRIPE_SECRET_KEY
-    ).checkout.sessions.create(data);
-    return session.url;
-  } catch (e) {
-    return { srtipeError: e, checkoutData: data };
-  }
+  return session.url;
 };
 
 const handler = async (req, res) => {
@@ -91,8 +84,8 @@ const handler = async (req, res) => {
 
   try {
     const order = await createOrder(req);
-    const checkoutData = await stripeCheckout(order);
-    res.status(200).json({ success: true, checkoutData });
+    const url = await stripeCheckout(order);
+    res.status(200).json({ success: true, url });
   } catch (err) {
     res.status(400).json({ success: false, error: err });
   }
