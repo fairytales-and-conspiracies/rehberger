@@ -65,8 +65,6 @@ const getWeb3 = () => {
   return web3;
 };
 
-let web3 = getWeb3();
-
 const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const orderCreatedTimestamp = Date.now();
   const quantity = frames.length;
@@ -194,9 +192,7 @@ const handler = async (req, res) => {
         }
 
         if (transactionHash) {
-          if (!web3) {
-            web3 = getWeb3();
-          }
+          const web3 = getWeb3();
           const transactionReceipt = await web3.eth.getTransactionReceipt(
             transactionHash
           );
