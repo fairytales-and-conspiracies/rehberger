@@ -1,11 +1,11 @@
 import crypto from 'crypto';
-//import Stripe from 'stripe';
+// import Stripe from 'stripe';
 
 import dbConnect from '@/lib/dbConnect';
 import Order from '@/models/Order';
 import TransactionStatus from '@/static-data/transaction-status';
 import { ethToEur } from '@/utils/conversion';
-//import { padZeroes } from '@/utils/string';
+// import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
 /*
@@ -87,7 +87,7 @@ const handler = async (req, res) => {
 
   try {
     const order = await createOrder(req);
-    //const url = await stripeCheckout(order);
+    // const url = await stripeCheckout(order);
     res.status(200).json({ success: true, order });
   } catch (err) {
     res.status(400).json({ success: false, error: err });
