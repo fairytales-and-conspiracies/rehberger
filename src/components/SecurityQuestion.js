@@ -14,6 +14,8 @@ export default function SecurityQuestion() {
       handle = setInterval(() => {
         setNbSufixDots((nbDots) => (nbDots % 3) + 1);
       }, 500);
+    } else {
+      setNbSufixDots(0);
     }
 
     return () => {
