@@ -1,19 +1,21 @@
 import crypto from 'crypto';
-import Stripe from 'stripe';
+//import Stripe from 'stripe';
 
 import dbConnect from '@/lib/dbConnect';
 import Order from '@/models/Order';
 import TransactionStatus from '@/static-data/transaction-status';
 import { ethToEur } from '@/utils/conversion';
-import { padZeroes } from '@/utils/string';
+//import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 
+/*
 const {
   CURRENCY,
   SERVER_URL,
   STRIPE_SECRET_KEY,
   STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
 } = process.env;
+*/
 
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
@@ -54,6 +56,7 @@ const createOrder = (req) => {
   return body;
 };
 
+/*
 const stripeCheckout = async (order) => {
   const session = await new Stripe(STRIPE_SECRET_KEY).checkout.sessions.create({
     cancel_url: `${SERVER_URL}/shopping-cart`,
@@ -77,6 +80,7 @@ const stripeCheckout = async (order) => {
   });
   return session.url;
 };
+*/
 
 const handler = async (req, res) => {
   await dbConnect();
