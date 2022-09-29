@@ -2,7 +2,7 @@
 export const ethToEur = (eth, rate) => {
   const parsedEth = parseFloat(eth);
 
-  return rate !== undefined ? parsedEth * rate : undefined;
+  return rate !== undefined ? (parsedEth * rate).toFixed() : undefined;
 };
 
 export const formatPrice = (
