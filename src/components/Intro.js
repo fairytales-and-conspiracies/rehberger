@@ -63,7 +63,7 @@ export default function Home() {
               <p style={{ fontSize: '2.8rem' }}>
                 Once upon a time… there was an NFT project that dropped a little
                 later than expected. We are currently working on final tweaks
-                and as of now expect to launch today.
+                and as of now expect to launch soon.
                 <br />
                 <br />
                 <span style={{ display: 'block', textAlign: 'center' }}>
