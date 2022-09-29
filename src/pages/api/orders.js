@@ -176,7 +176,7 @@ const handler = async (req, res) => {
         // For wallet payments, we have to make sure that a valid
         // transaction has taken place. For Stripe payments, this
         // is before the transaction is confirmed - the Stripe webhook
-        // receives the transactions after it has been confirmed.
+        // receives the transactions after it has been confirmed
         if (paymentMethod === 'CARD') {
           order = await createOrder(req);
           try {
