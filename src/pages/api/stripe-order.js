@@ -60,7 +60,7 @@ const stripeCheckout = async (order) => {
         product_data: {
           name: `${item.video}_${padZeroes(item.frame, 4)}`,
         },
-        unit_amount: order.framePriceEUR * 100,
+        unit_amount: Math.round(order.framePriceEUR * 100),
       },
       quantity: 1,
     })),
