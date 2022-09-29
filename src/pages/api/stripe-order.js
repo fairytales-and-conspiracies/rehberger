@@ -76,7 +76,7 @@ const stripeCheckout = async (order) => {
     const session = await stripe.checkout.sessions.create();
     return session.url;
   } catch (e) {
-    return { e, stripeData: data }
+    return { e, stripeData: data };
   }
 };
 
