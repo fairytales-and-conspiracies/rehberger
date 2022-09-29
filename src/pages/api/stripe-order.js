@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import Stripe from 'stripe';
+// import Stripe from 'stripe';
 
 import dbConnect from '@/lib/dbConnect';
 import Order from '@/models/Order';
@@ -11,7 +11,7 @@ import calculateVat from '@/utils/vat';
 const {
   CURRENCY,
   SERVER_URL,
-  STRIPE_SECRET_KEY,
+  // STRIPE_SECRET_KEY,
   STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
 } = process.env;
 
