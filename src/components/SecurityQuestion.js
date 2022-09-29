@@ -15,6 +15,7 @@ export default function SecurityQuestion() {
         setNbSufixDots((nbDots) => (nbDots % 3) + 1);
       }, 500);
     } else {
+      clearInterval(handle);
       setNbSufixDots(0);
     }
 
