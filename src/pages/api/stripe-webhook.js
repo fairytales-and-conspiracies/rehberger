@@ -2,7 +2,6 @@ import { buffer } from 'micro';
 
 import dbConnect from '@/lib/dbConnect';
 import sendError, { sendErrorWithMessage } from '@/lib/errorHandling';
-import stripe from '@/lib/stripe';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
 import {
@@ -13,8 +12,9 @@ import {
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import { padZeroes } from '@/utils/string';
+import Stripe from 'stripe';
 
-const { STRIPE_WEBHOOK_SECRET } = process.env;
+const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 
 const updateOrder = async (confirmationKey) => {
   let order;
@@ -54,7 +54,7 @@ const handler = async (req, res) => {
     try {
       const rawBody = await buffer(req);
       const signature = req.headers['stripe-signature'];
-      event = stripe.webhooks.constructEvent(
+      event = new Stripe(STRIPE_SECRET_KEY).webhooks.constructEvent(
         rawBody.toString(),
         signature,
         STRIPE_WEBHOOK_SECRET
