@@ -83,8 +83,8 @@ const handler = async (req, res) => {
 
   try {
     const order = await createOrder(req);
-    const url = await stripeCheckout(order);
-    res.status(200).json({ success: true, url });
+    //const url = await stripeCheckout(order);
+    res.status(200).json({ success: true, order });
   } catch (err) {
     res.status(400).json({ success: false, error: err });
   }
