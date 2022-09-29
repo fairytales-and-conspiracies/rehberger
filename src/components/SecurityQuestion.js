@@ -14,6 +14,9 @@ export default function SecurityQuestion() {
       handle = setInterval(() => {
         setNbSufixDots((nbDots) => (nbDots % 3) + 1);
       }, 500);
+    } else {
+      clearInterval(handle);
+      setNbSufixDots(0);
     }
 
     return () => {
@@ -90,7 +93,11 @@ export default function SecurityQuestion() {
               I don’t want a security question
             </label>
           </div>
-          <button className="btn btn--primary" type="submit">
+          <button
+            className="btn btn--primary"
+            type="submit"
+            disabled={formik.isSubmitting}
+          >
             {`Submit${buttonTextSufix}`}
           </button>
         </form>
