@@ -90,7 +90,11 @@ export default function SecurityQuestion() {
               I don’t want a security question
             </label>
           </div>
-          <button className="btn btn--primary" type="submit">
+          <button
+            className="btn btn--primary"
+            type="submit"
+            disabled={formik.isSubmitting}
+          >
             {`Submit${buttonTextSufix}`}
           </button>
         </form>
