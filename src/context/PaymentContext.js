@@ -205,9 +205,9 @@ export const PaymentProvider = ({ children }) => {
     }
 
     if (paymentMethod === 'WALLET') {
-      payWithWallet();
+      await payWithWallet();
     } else {
-      payWithStripe();
+      await payWithStripe();
     }
   };
 
