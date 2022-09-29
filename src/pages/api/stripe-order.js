@@ -51,7 +51,7 @@ const createOrder = (req) => {
 };
 
 const stripeCheckout = async (order) => {
-  const data = {
+  const session = await stripe.checkout.sessions.create({
     cancel_url: `${SERVER_URL}/shopping-cart`,
     client_reference_id: order.confirmationKey,
     line_items: order.frames.map((item) => ({
@@ -70,14 +70,9 @@ const stripeCheckout = async (order) => {
     expires_at:
       Math.round(Date.now() / 1000) +
       parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m.
-  };
+  });
 
-  try {
-    const session = await stripe.checkout.sessions.create(data);
-    return session.url;
-  } catch (e) {
-    return { e, stripeData: data };
-  }
+  return session.url;
 };
 
 const handler = async (req, res) => {
