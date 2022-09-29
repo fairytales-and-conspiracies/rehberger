@@ -19,7 +19,7 @@ const createOrder = (req) => {
 
   const quantity = frames.length;
   const framePriceETH = NFT_PRICE_ETH;
-  const framePriceEUR = ethToEur(NFT_PRICE_ETH, ethToEurRate);
+  const framePriceEUR = parseFloat(ethToEur(NFT_PRICE_ETH, ethToEurRate));
   const totalPriceETH = framePriceETH * quantity;
   const totalPriceEUR = framePriceEUR * quantity;
   const vat = calculateVat(country, vatNo);
