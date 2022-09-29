@@ -190,7 +190,7 @@ export const PaymentProvider = ({ children }) => {
 
     try {
       const checkoutData = await axios.post('/api/stripe-order', order);
-      constole.log('checkoutData', checkoutData);
+      console.log('checkoutData', checkoutData);
       //window.location = url;
     } catch (err) {
       console.error('Error: ', err);
