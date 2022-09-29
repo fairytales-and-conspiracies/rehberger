@@ -65,6 +65,8 @@ const getWeb3 = () => {
   return web3;
 };
 
+let web3 = getWeb3();
+
 const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const orderCreatedTimestamp = Date.now();
   const quantity = frames.length;
@@ -174,7 +176,7 @@ const handler = async (req, res) => {
         // For wallet payments, we have to make sure that a valid
         // transaction has taken place. For Stripe payments, this
         // is before the transaction is confirmed - the Stripe webhook
-        // receives the transactions after it has been confirmed
+        // receives the transactions after it has been confirmed.
         if (paymentMethod === 'CARD') {
           order = await createOrder(req);
           try {
@@ -192,7 +194,9 @@ const handler = async (req, res) => {
         }
 
         if (transactionHash) {
-          const web3 = getWeb3();
+          if (!web3) {
+            web3 = getWeb3();
+          }
           const transactionReceipt = await web3.eth.getTransactionReceipt(
             transactionHash
           );
