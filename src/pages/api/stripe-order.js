@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-// import Stripe from 'stripe';
+import Stripe from 'stripe';
 
 import dbConnect from '@/lib/dbConnect';
 import Order from '@/models/Order';
@@ -11,7 +11,7 @@ import calculateVat from '@/utils/vat';
 const {
   CURRENCY,
   SERVER_URL,
-  // STRIPE_SECRET_KEY,
+  STRIPE_SECRET_KEY,
   STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
 } = process.env;
 
@@ -55,7 +55,7 @@ const createOrder = (req) => {
 };
 
 const stripeCheckout = async (order) => {
-  const data = {
+  const session = await new Stripe(STRIPE_SECRET_KEY).checkout.sessions.create({
     cancel_url: `${SERVER_URL}/shopping-cart`,
     client_reference_id: order.confirmationKey,
     line_items: order.frames.map((item) => ({
@@ -74,14 +74,9 @@ const stripeCheckout = async (order) => {
     expires_at:
       Math.round(Date.now() / 1000) +
       parseInt(STRIPE_SESSION_EXPIRATION_TIME_SECONDS, 10), // Minimum 30m.
-  };
+  });
 
-  return data;
-
-  /*
-  const session = await new Stripe(STRIPE_SECRET_KEY).checkout.sessions.create(data);
   return session.url;
-  */
 };
 
 const handler = async (req, res) => {
