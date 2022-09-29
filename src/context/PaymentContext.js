@@ -188,9 +188,10 @@ export const PaymentProvider = ({ children }) => {
     // TODO: LOG
 
     try {
-      await axios.post('/api/stripe-order', order);
-      //window.location = url;
-      console.log("SUCC")
+      const {
+        data: { url },
+      } = await axios.post('/api/stripe-order', order);
+      window.location = url;
     } catch (err) {
       console.error('Error: ', err);
     }
