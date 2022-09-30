@@ -1,7 +1,8 @@
 import videoInfo from '@/static-data/videos';
-import { padZeroes } from '@/utils/string';
+import { getFrameFileName, getFrameName } from '@/utils/frames';
 
 const { SERVER_URL } = process.env;
+const NETWORK = process.env.NEXT_PUBLIC_NETWORK;
 const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
 const NFT_IMAGE_EXTENSION = process.env.NEXT_PUBLIC_NFT_IMAGE_EXTENSION;
 
@@ -25,9 +26,9 @@ const frameTemplate = (frame, netFramePriceEUR) => {
             <tr style="word-break: break-all">
               <td>
                 <img
-                  alt="${frame.video}_${padZeroes(frame.frame)}"
-                  src="${NFT_IMAGE_URL}/${frame.video}_${padZeroes(
-    frame.frame
+                  alt="${getFrameName(frame)}"
+                  src="${NFT_IMAGE_URL}/${getFrameFileName(
+    frame
   )}.${NFT_IMAGE_EXTENSION}"
                   width="150"
                   style="
@@ -52,7 +53,7 @@ const frameTemplate = (frame, netFramePriceEUR) => {
                     </tr>
                     <tr>
                       <td style="padding-left: 15px">
-                        ${frame.video}_${padZeroes(frame.frame)}
+                        ${getFrameName(frame)}
                       </td>
                     </tr>
                     <tr>
@@ -137,6 +138,7 @@ export const nftsPurchasedTemplate = (data) => {
     netPriceEUR,
     paymentMethod,
     totalPriceEUR,
+    transactionHash,
     vat,
   } = order;
   const {
@@ -160,6 +162,11 @@ export const nftsPurchasedTemplate = (data) => {
   }, {});
 
   const netFramePriceEUR = parseFloat((framePriceEUR / (1.0 + vat)).toFixed(2));
+  const link = isWalletPayment
+    ? `https://${
+        NETWORK !== 'mainnet' ? `${NETWORK}.` : ''
+      }etherscan.io/tx/${transactionHash}`
+    : `${SERVER_URL}/claim-nfts?confirmation-key=${confirmationKey}`;
 
   return `
       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -242,7 +249,30 @@ export const nftsPurchasedTemplate = (data) => {
                       </tr>
                       ${
                         isWalletPayment
-                          ? ''
+                          ? `
+                      <tr>
+                        <td style="height: 35px"></td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center">Your transaction link</td>
+                      </tr>
+                      <tr>
+                        <td style="height: 15px"></td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center">
+                          <a
+                            href="${link}"
+                            target="_blank"
+                            style="
+                              color: rgb(0, 104, 255);
+                              text-decoration: underline;
+                              word-break: break-word;
+                            "
+                            >${link}</a
+                          >
+                        </td>
+                      </tr>`
                           : `<tr>
                         <td style="height: 15px"></td>
                       </tr>
@@ -264,14 +294,14 @@ export const nftsPurchasedTemplate = (data) => {
                       <tr>
                         <td style="text-align: center">
                           <a
-                            href="${SERVER_URL}/claim-nfts?confirmation-key=${confirmationKey}"
+                            href="${link}"
                             target="_blank"
                             style="
                               color: rgb(0, 104, 255);
                               text-decoration: underline;
                               word-break: break-word;
                             "
-                            >${SERVER_URL}/claim-nfts?confirmation-key=${confirmationKey}</a
+                            >${link}</a
                           >
                         </td>
                       </tr>`
@@ -344,31 +374,31 @@ export const nftsPurchasedTemplate = (data) => {
                           >
                             <tbody>
                               <tr>
-                                <td>PAYMENT METHOD</td>
+                                <td style="color: #e5e5e5">PAYMENT METHOD</td>
                               </tr>
                               <tr>
                                 <td style="height: 10px"></td>
                               </tr>
                               <tr>
-                                <td>NFT TOTAL</td>
+                                <td style="color: #e5e5e5">NFT TOTAL</td>
                               </tr>
                               <tr>
                                 <td style="height: 10px"></td>
                               </tr>
                               <tr>
-                                <td>SUBTOTAL</td>
+                                <td style="color: #e5e5e5">SUBTOTAL</td>
                               </tr>
                               <tr>
                                 <td style="height: 10px"></td>
                               </tr>
                               <tr>
-                                <td>SHIPPING</td>
+                                <td style="color: #e5e5e5">SHIPPING</td>
                               </tr>
                               <tr>
                                 <td style="height: 10px"></td>
                               </tr>
                               <tr>
-                                <td>TOTAL incl. VAT</td>
+                                <td style="color: #e5e5e5">TOTAL incl. VAT</td>
                               </tr>
                             </tbody>
                           </table>
@@ -570,4 +600,109 @@ export const nftsClaimedTemplate = (data) => {
         </body>
       </html>
 `;
+};
+
+export const securityQuestionForgottenTemplate = (data) => {
+  const { confirmationKey, walletAddress, file1Url, file2Url } = data;
+
+  return `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Security question forgotten</title>
+        <style type="text/css">
+          body {
+            background-color: #1d1d1d;
+          }
+        </style>
+      </head>
+      <body style="background-color: #1d1d1d; font-family: 'Arial, sans-serif'; margin: 0px; padding: 0px; text-size-adjust: 100%; width: 100%;">
+        <table
+          width="100%"
+          height="100%"
+          cellpadding="0"
+          cellspacing="0"
+          border="0"
+          align="left"
+          valign="top"
+          style="background-color: #1d1d1d; color: #e5e5e5;"
+        >
+          <tbody>
+            <tr>
+              <td align="center" valign="top">
+                <table
+                  width="auto"
+                  align="center"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  valign="top"
+                  style="padding: 15px"
+                >
+                  <tbody>
+                    <tr>
+                      <td style="height: 45px"></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: center">
+                        <span
+                          style="
+                            font-family: monospace;
+                            font-size: 24px;
+                            line-height: 14px;
+                            color: rgb(255, 255, 255);
+                          "
+                          >Fairytales &amp; Conspiracies</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height: 50px"></td>
+                    </tr>
+                    <tr>
+                      <td style="font-family: inherit; text-align: center">
+                        <span
+                          style="
+                            font-family: monospace;
+                            font-size: 24px;
+                            font-weight: bold;
+                            line-height: 1.1;
+                            color: rgb(217, 1, 254);
+                          "
+                          >SOMEONE SAYS<br />THEY FORGOTTEN THE ANSWER TO THEIR SECURITY QUESTION!</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height: 35px"></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: center">
+                        <b>Information provided:</b>
+                        <br />confirmationKey: ${confirmationKey}
+                        <br />walletAddress: ${walletAddress}
+                        <br />
+                        <br /><b>In this email you can find the following files attached:</b>
+                        <br />file1Url: ${file1Url}
+                        <br />file2Url: ${file2Url}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height: 50px"></td>
+                    </tr>
+                    <tr>
+                      <td style="height: 35px"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `;
 };

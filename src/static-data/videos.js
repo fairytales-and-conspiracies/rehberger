@@ -10,7 +10,7 @@ export default {
   IMAGINEYOURSELFWITHOUTAHOME: {
     cleanTitle: 'IMAGINEYOURSELFWITHOUTAHOME',
     frames: 1080,
-    previousVideoTokenEndingPoint: 12,
+    previousVideoTokenEndingPoint: 720,
     sortOrder: 2,
     subtitle: 'Liquid Poster No.2',
     title: 'IMAGINEYOURSELFWITHOUTAHOME',
@@ -18,7 +18,7 @@ export default {
   HAVEYOUEVERSTOLENANIDEA: {
     cleanTitle: 'HAVEYOUEVERSTOLENANIDEA',
     frames: 540,
-    previousVideoTokenEndingPoint: 30,
+    previousVideoTokenEndingPoint: 1800,
     sortOrder: 3,
     subtitle: 'Liquid Poster No.3',
     title: 'HAVEYOUEVERSTOLENANIDEA?',
@@ -26,7 +26,7 @@ export default {
   AREYOUAFRAIDOFTHEPOOR: {
     cleanTitle: 'AREYOUAFRAIDOFTHEPOOR',
     frames: 720,
-    previousVideoTokenEndingPoint: 49,
+    previousVideoTokenEndingPoint: 2340,
     sortOrder: 4,
     subtitle: 'Liquid Poster No.4',
     title: 'AREYOUAFRAIDOFTHEPOOR?',
@@ -34,7 +34,7 @@ export default {
   ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR: {
     cleanTitle: 'ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR',
     frames: 720,
-    previousVideoTokenEndingPoint: 51,
+    previousVideoTokenEndingPoint: 3060,
     sortOrder: 5,
     subtitle: 'Liquid Poster No.5',
     title: 'ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR',

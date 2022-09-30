@@ -55,6 +55,25 @@ export default function Home() {
           </div>
         </section>
       </div>
+
+      <div className="connect-wallet-modal connect-wallet-modal--visible">
+        <div className="connect-wallet-modal__backdrop">
+          <div className="connect-wallet-modal__main home__note home__note--important">
+            <div className="connect-wallet-modal__top-section">
+              <p style={{ fontSize: '2.8rem' }}>
+                Once upon a time… there was an NFT project that dropped a little
+                later than expected. We are currently working on final tweaks
+                and as of now expect to launch soon.
+                <br />
+                <br />
+                <span style={{ display: 'block', textAlign: 'center' }}>
+                  Thank you for your patience!
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

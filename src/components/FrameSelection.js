@@ -160,7 +160,7 @@ export default function FrameSelection({ onClose, video }) {
               muted
               onClick={onVideoClick}
             >
-              <source src={`/vid/${VideoData[video].cleanTitle}.mov`} />
+              <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />
             </video>
 
             <div className="frame-selection__instructions-wrapper">

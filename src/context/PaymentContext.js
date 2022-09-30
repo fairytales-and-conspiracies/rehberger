@@ -7,6 +7,7 @@ import ShoppingCartContext from '@/context/ShoppingCartContext';
 import Web3Context from '@/context/Web3Context';
 import CountriesWithProvinces from '@/static-data/countries-with-provinces';
 import calculateVat from '@/utils/vat';
+import UniCryptContext from './UniCryptContext';
 
 const PaymentContext = createContext();
 
@@ -118,17 +119,23 @@ export const PaymentProvider = ({ children }) => {
         then: Yup.string().required('Required if you want a security question'),
       }),
     }),
-    onSubmit: () => {
+    onSubmit: async (_, { setSubmitting }) => {
       // eslint-disable-next-line no-use-before-define
-      pay();
+      await pay();
+      setSubmitting(false);
     },
   });
 
-  const createOrder = () => {
+  const { fetchEthToEurRate } = useContext(UniCryptContext);
+
+  const createOrder = async () => {
+    const ethToEurRate = await fetchEthToEurRate();
+    
     const order = {
       customer: { ...infoFormik.values },
       frames: selectedFrames,
       paymentMethod,
+      ethToEurRate,
     };
 
     if (paymentMethod === 'CARD') {
@@ -162,28 +169,29 @@ export const PaymentProvider = ({ children }) => {
     // };
     setIsPaymentBeingProcessed(true);
     const tx = await sendTransaction(selectedFrames);
-    setIsPaymentBeingProcessed(false);
 
     if (tx) {
-      const order = createOrder();
+      const order = await createOrder();
       order.transactionHash = tx.transactionHash;
       await axios.post('/api/orders', order);
+      setIsPaymentBeingProcessed(false);
       setTransactionPassed(true);
       removeAllFromCart();
     } else {
       // TODO: LOG
+      setIsPaymentBeingProcessed(false);
       setTransactionPassed(false);
     }
   };
 
   const payWithStripe = async () => {
-    const order = createOrder();
+    const order = await createOrder();
     // TODO: LOG
 
     try {
       const {
         data: { url },
-      } = await axios.post('/api/orders', order);
+      } = await axios.post('/api/stripe-order', order);
       window.location = url;
     } catch (err) {
       console.error('Error: ', err);
@@ -197,9 +205,9 @@ export const PaymentProvider = ({ children }) => {
     }
 
     if (paymentMethod === 'WALLET') {
-      payWithWallet();
+      await payWithWallet();
     } else {
-      payWithStripe();
+      await payWithStripe();
     }
   };
 

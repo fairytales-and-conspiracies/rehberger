@@ -1,4 +1,4 @@
-export const address = '0xE79a137F9DC8ad70caE19dc96b6E9fb4a9295EaE';
+export const address = '0x4d951582856028215e3c9E584b1aE385CedD6240';
 
 export const abi = [
   { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
@@ -134,12 +134,32 @@ export const abi = [
   },
   {
     inputs: [
+      { internalType: 'address', name: 'claimer', type: 'address' },
+      { internalType: 'uint16[]', name: 'ids', type: 'uint16[]' },
+    ],
+    name: 'claimNFTs',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
       { internalType: 'address', name: 'account', type: 'address' },
       { internalType: 'address', name: 'operator', type: 'address' },
     ],
     name: 'isApprovedForAll',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'buyer', type: 'address' },
+      { internalType: 'uint16[]', name: 'ids', type: 'uint16[]' },
+    ],
+    name: 'mintNFTs',
+    outputs: [],
+    stateMutability: 'payable',
     type: 'function',
   },
   {
@@ -224,6 +244,13 @@ export const abi = [
     inputs: [],
     name: 'symbol',
     outputs: [{ internalType: 'string', name: '', type: 'string' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint16', name: '', type: 'uint16' }],
+    name: 'tokensMinted',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'view',
     type: 'function',
   },

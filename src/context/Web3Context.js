@@ -14,25 +14,26 @@ import { getTokenId } from '@/utils/contract';
 const Web3Context = createContext();
 
 const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const INFURA_KEY = INFURA_URL.split('/')[INFURA_URL.split('/').length - 1];
 
 const CoinbaseWallet = new WalletLinkConnector({
   appName: 'Web3-react Demo',
-  supportedChainIds: [1, 4],
+  supportedChainIds: [1, 4, 5],
   url: INFURA_URL,
 });
 
 const WalletConnect = new WalletConnectConnector({
   bridge: 'https://bridge.walletconnect.org',
-  chainId: 4,
+  chainId: CHAIN_ID,
   infuraId: INFURA_KEY,
   qrcode: true,
-  supportedChainIds: [1, 4],
+  supportedChainIds: [1, 4, 5],
 });
 
 const Injected = new InjectedConnector({
-  supportedChainIds: [1, 4],
+  supportedChainIds: [1, 4, 5],
 });
 
 export function Web3Provider({ children }) {
@@ -81,19 +82,13 @@ export function Web3Provider({ children }) {
   const sendTransaction = async (selectedFrames) => {
     try {
       const tokenIds = selectedFrames.map((frame) => getTokenId(frame));
-      const amounts = Array(tokenIds.length).fill(1);
 
       console.log('Token Ids: ', tokenIds);
 
-      const tx = await contract.methods
-        .buyNFTs(ADDRESS_FROM, address, tokenIds, amounts, '0x00')
-        .send({
-          from: address,
-          value: web3.utils.toWei(
-            (tokenIds.length * 0.001).toString(),
-            'ether'
-          ),
-        });
+      const tx = await contract.methods.mintNFTs(address, tokenIds).send({
+        from: address,
+        value: web3.utils.toWei((tokenIds.length * 0.001).toString(), 'ether'),
+      });
 
       console.log('Transaction: ', tx);
       return tx;

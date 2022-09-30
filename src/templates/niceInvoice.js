@@ -1,6 +1,7 @@
 import PDFDocument from 'pdfkit';
 
 import countriesInEu from '@/static-data/countries-in-eu';
+import { getFrameName } from '@/utils/frames';
 import { padZeroes } from '@/utils/string';
 
 let addPage;
@@ -262,7 +263,7 @@ const invoice = (order, frames) => {
     items: frames.map((frame, index) => ({
       item: index + 1,
       description: `Tobias Rehberger "Fairytales & Conspiracies" Edition NFT
-      ${frame.video}_${padZeroes(frame.frame, 4)}`,
+      ${getFrameName(frame)}`,
     })),
     itemPrice,
     subtotal,
