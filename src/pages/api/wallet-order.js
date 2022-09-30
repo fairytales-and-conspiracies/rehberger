@@ -14,6 +14,7 @@ import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 import mongoose from 'mongoose';
 import { ErrorTypes } from '@/static-data/errors';
+import uniCryptConvert from '@/lib/unicrypt';
 
 const { MNEMONIC } = process.env;
 
@@ -38,8 +39,13 @@ const getWeb3 = () => {
 };
 
 const createOrder = async (req) => {
-  const { customer, ethToEurRate, frames, transactionHash } = req.body;
+  const { customer, frames, transactionHash } = req.body;
   const { country, vatNo } = customer;
+
+  const ethToEurRate = await uniCryptConvert({
+    source_currency: 'ETH',
+    destination_currency: 'EUR',
+  });
 
   const quantity = frames.length;
   const filter = orderFramesMongoFilter(frames);

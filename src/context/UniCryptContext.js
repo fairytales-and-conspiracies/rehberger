@@ -38,7 +38,6 @@ export function UniCryptProvider({ children }) {
   return (
     <UniCryptContext.Provider
       value={{
-        fetchEthToEurRate,
         ethToEurRate,
         requestfetchRatePeriodically,
       }}

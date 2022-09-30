@@ -10,6 +10,7 @@ import stripe from '@/lib/stripe';
 import mongoose from 'mongoose';
 import Frame from '@/models/Frame';
 import { ErrorTypes } from '@/static-data/errors';
+import uniCryptConvert from '@/lib/unicrypt';
 
 const { CURRENCY, SERVER_URL, STRIPE_SESSION_EXPIRATION_TIME_SECONDS } =
   process.env;
@@ -28,8 +29,13 @@ export const orderFramesMongoFilter = (frames) => {
 };
 
 const createOrder = async (req) => {
-  const { customer, frames, ethToEurRate } = req.body;
+  const { customer, frames } = req.body;
   const { country, vatNo } = customer;
+
+  const ethToEurRate = await uniCryptConvert({
+    source_currency: 'ETH',
+    destination_currency: 'EUR',
+  });
 
   const quantity = frames.length;
   const filter = orderFramesMongoFilter(frames);

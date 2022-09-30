@@ -16,6 +16,7 @@ import niceInvoice from '@/templates/niceInvoice';
 import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
+import uniCryptConvert from '@/lib/unicrypt';
 
 const {
   MNEMONIC,
@@ -101,7 +102,12 @@ const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
 };
 
 const createOrder = async (req) => {
-  const { customer, frames, paymentMethod, ethToEurRate } = req.body;
+  const { customer, frames, paymentMethod } = req.body;
+
+  const ethToEurRate = await uniCryptConvert({
+    source_currency: 'ETH',
+    destination_currency: 'EUR',
+  });
 
   const isWalletPayment = paymentMethod === 'WALLET';
   const restOfOrderData = fillOutRestOfOrderData(
