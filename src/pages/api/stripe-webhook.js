@@ -118,6 +118,7 @@ const handler = async (req, res) => {
     res
       .status(400)
       .json({ success: false, error: ErrorTypes.METHOD_NOT_ALLOWED });
+    return;
   }
 
   let event;
@@ -131,6 +132,7 @@ const handler = async (req, res) => {
     );
   } catch (err) {
     sendErrorWithMessage(res, `Webhook error: ${err.message}`);
+    return;
   }
 
   await dbConnect();
@@ -140,6 +142,7 @@ const handler = async (req, res) => {
       success: false,
       error: `Stripe checkout session not completed!`,
     });
+    return;
   }
 
   // From this moment we consider that they successfully payed

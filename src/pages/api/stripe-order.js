@@ -121,6 +121,7 @@ const handler = async (req, res) => {
     res
       .status(400)
       .json({ success: false, error: ErrorTypes.METHOD_NOT_ALLOWED });
+    return;
   }
 
   await dbConnect();
