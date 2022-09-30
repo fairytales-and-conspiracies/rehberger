@@ -98,7 +98,9 @@ function Home(_, ref) {
             <div className="nfts__upper-half-right-section">
               <a
                 className="nfts__btn btn btn--primary"
+                target="_blank"
                 href={`https://etherscan.io/address/${address}`}
+                rel="noopener noreferrer"
               >
                 View on Etherscan
               </a>
