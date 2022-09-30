@@ -15,6 +15,7 @@ const Web3Context = createContext();
 
 const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
+const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const INFURA_KEY = INFURA_URL.split('/')[INFURA_URL.split('/').length - 1];
 
@@ -87,7 +88,7 @@ export function Web3Provider({ children }) {
 
       const tx = await contract.methods.mintNFTs(address, tokenIds).send({
         from: address,
-        value: web3.utils.toWei((tokenIds.length * 0.001).toString(), 'ether'),
+        value: web3.utils.toWei((tokenIds.length * NFT_PRICE_ETH).toString(), 'ether'),
       });
 
       console.log('Transaction: ', tx);
