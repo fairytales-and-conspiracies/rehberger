@@ -85,7 +85,7 @@ const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const { country, vatNo } = customer;
   const vat = calculateVat(country, vatNo);
 
-  const netPriceETH = parseFloat((totalPriceETH / (1.0 + vat)).toFixed(2));
+  const netPriceETH = totalPriceETH / (1.0 + vat);
   const netPriceEUR = parseFloat((totalPriceEUR / (1.0 + vat)).toFixed(2));
   return {
     orderCreatedTimestamp,

@@ -48,7 +48,7 @@ const createOrder = async (req) => {
   const totalPriceETH = framePriceETH * quantity;
   const totalPriceEUR = framePriceEUR * quantity;
   const vat = calculateVat(country, vatNo);
-  const netPriceETH = parseFloat((totalPriceETH / (1.0 + vat)).toFixed(2));
+  const netPriceETH = totalPriceETH / (1.0 + vat);
   const netPriceEUR = parseFloat((totalPriceEUR / (1.0 + vat)).toFixed(2));
   const orderCreatedTimestamp = Date.now();
 
