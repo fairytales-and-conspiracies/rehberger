@@ -11,7 +11,6 @@ export function UniCryptProvider({ children }) {
     const { data } = await axios.post('/api/unicrypt-rates', {
       source_currency: 'ETH',
       destination_currency: 'EUR',
-      source_amount: 1,
     });
 
     const { success, amount } = data;
