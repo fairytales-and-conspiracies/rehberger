@@ -7,17 +7,31 @@ import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 import stripe from '@/lib/stripe';
+import mongoose from 'mongoose';
+import Frame from '@/models/Frame';
 
 const { CURRENCY, SERVER_URL, STRIPE_SESSION_EXPIRATION_TIME_SECONDS } =
   process.env;
 
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
-const createOrder = (req) => {
+export const orderFramesMongoFilter = (frames) => {
+  const filter = { _id: { $in: [] } };
+  frames.forEach(async (frame) => {
+    // eslint-disable-next-line no-underscore-dangle
+    const id = frame._id.toString();
+    // eslint-disable-next-line no-underscore-dangle
+    filter._id.$in.push(id);
+  });
+  return filter;
+};
+
+const createOrder = async (req) => {
   const { customer, frames, ethToEurRate } = req.body;
   const { country, vatNo } = customer;
 
   const quantity = frames.length;
+  const filter = orderFramesMongoFilter(frames);
   const framePriceETH = NFT_PRICE_ETH;
   const framePriceEUR = ethToEur(NFT_PRICE_ETH, ethToEurRate);
   const totalPriceETH = framePriceETH * quantity;
@@ -45,9 +59,28 @@ const createOrder = (req) => {
     vat,
   };
 
-  Order.create(body);
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const nbAlreadySoldFrames = await Frame.find({
+      ...filter,
+      sold: true,
+    }).session(session);
 
-  return body;
+    if (nbAlreadySoldFrames > 0) {
+      throw Error('Some of the selected frames for checkout are already sold');
+    }
+
+    await Order.create(body, { session });
+
+    await session.commitTransaction();
+    return body;
+  } catch (e) {
+    await session.abortTransaction();
+    throw e;
+  } finally {
+    await session.endSession();
+  }
 };
 
 const stripeCheckout = async (order) => {
