@@ -9,6 +9,7 @@ import calculateVat from '@/utils/vat';
 import stripe from '@/lib/stripe';
 import mongoose from 'mongoose';
 import Frame from '@/models/Frame';
+import { ErrorTypes } from '@/static-data/errors';
 
 const { CURRENCY, SERVER_URL, STRIPE_SESSION_EXPIRATION_TIME_SECONDS } =
   process.env;
@@ -109,6 +110,13 @@ const stripeCheckout = async (order) => {
 };
 
 const handler = async (req, res) => {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    res
+      .status(400)
+      .json({ success: false, error: ErrorTypes.METHOD_NOT_ALLOWED });
+  }
+
   await dbConnect();
 
   try {

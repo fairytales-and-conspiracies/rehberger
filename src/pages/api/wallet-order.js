@@ -13,6 +13,7 @@ import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 import mongoose from 'mongoose';
+import { ErrorTypes } from '@/static-data/errors';
 
 const { MNEMONIC } = process.env;
 
@@ -144,6 +145,13 @@ export const sendMailForPurchasedOrder = (order) => {
 };
 
 const handler = async (req, res) => {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    res
+      .status(400)
+      .json({ success: false, error: ErrorTypes.METHOD_NOT_ALLOWED });
+  }
+
   await dbConnect();
 
   try {
