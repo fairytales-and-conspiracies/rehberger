@@ -22,19 +22,23 @@ const lockFrames = async (lockableFrames) => {
 };
 
 const updateOrder = async (confirmationKey) => {
+  let allFramesFilter;
   let order;
   let lockableFrames;
+  let update;
 
   const preLockSession = await mongoose.startSession();
   preLockSession.startTransaction();
   try {
     order = await Order.findOne({ confirmationKey }).session(preLockSession);
 
-    const allFramesFilter = orderFramesMongoFilter(order.frames);
+    allFramesFilter = orderFramesMongoFilter(order.frames);
     lockableFrames = await Frame.find({
       ...allFramesFilter,
       sold: false,
     }).session(preLockSession);
+
+    await preLockSession.commitTransaction();
   } catch (e) {
     await preLockSession.abortTransaction();
     // TODO: sendMailForFailedToReadOrderData(order);
@@ -46,7 +50,7 @@ const updateOrder = async (confirmationKey) => {
   const { frames } = order;
 
   const lockedFrames =
-    lockableFrames.length > 0 ? lockFrames(lockableFrames) : [];
+    lockableFrames.length > 0 ? await lockFrames(lockableFrames) : [];
 
   const updateOrderSession = await mongoose.startSession();
   updateOrderSession.startTransaction();
@@ -57,6 +61,7 @@ const updateOrder = async (confirmationKey) => {
     const orderNumber = lastOrderNumber + 1;
 
     const lockedFramesFilter = orderFramesMongoFilter(lockedFrames);
+
     const alreadySoldFrames = await Frame.find({
       ...lockedFramesFilter,
       sold: true,
@@ -70,7 +75,7 @@ const updateOrder = async (confirmationKey) => {
         ? TransactionStatus.PARTIALLY_SUCCESSFUL
         : TransactionStatus.FAILED;
 
-    const update = {
+    update = {
       invoiceNumber: `NFT${padZeroes(orderNumber, 6)}`,
       orderNumber,
       transactionStatus,
@@ -86,8 +91,7 @@ const updateOrder = async (confirmationKey) => {
       { updateOrderSession }
     );
 
-    Object.assign(order, update);
-    sendMailForPurchasedOrder(order);
+    await updateOrderSession.commitTransaction();
   } catch (e) {
     await updateOrderSession.abortTransaction();
     // TODO: sendMailForFailedToUpdateOrder(order); - For us
@@ -95,6 +99,11 @@ const updateOrder = async (confirmationKey) => {
   } finally {
     await updateOrderSession.endSession();
   }
+
+  const updatedFrames = await Frame.find(allFramesFilter);
+
+  Object.assign(order, update);
+  sendMailForPurchasedOrder(order, updatedFrames); // TODO: Alter this email template to distinguish between failed and sold frames
 };
 
 export const config = {
