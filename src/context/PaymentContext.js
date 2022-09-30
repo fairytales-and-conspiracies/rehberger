@@ -170,10 +170,10 @@ export const PaymentProvider = ({ children }) => {
     setIsPaymentBeingProcessed(true);
     const tx = await sendTransaction(selectedFrames);
 
-    if (tx) {
+    if (tx?.transactionHash) {
       const order = await createOrder();
       order.transactionHash = tx.transactionHash;
-      await axios.post('/api/orders', order);
+      await axios.post('/api/wallet-orders', order);
       setIsPaymentBeingProcessed(false);
       setTransactionPassed(true);
       removeAllFromCart();

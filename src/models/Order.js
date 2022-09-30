@@ -15,6 +15,7 @@ const OrderSchema = new mongoose.Schema({
     postalCode: String,
   },
   frames: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Frame' }],
+  failedFrames: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Frame' }],
   quantity: Number,
   framePriceETH: Number,
   framePriceEUR: Number,
