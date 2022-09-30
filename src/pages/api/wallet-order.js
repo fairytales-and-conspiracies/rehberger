@@ -91,10 +91,10 @@ const createOrder = async (req) => {
     const transactionStatus =
       // eslint-disable-next-line no-nested-ternary
       alreadySoldFrames.length === 0
-        ? TransactionStatus.FAILED
+        ? TransactionStatus.SUCCESSFUL
         : alreadySoldFrames.length !== frames.length
         ? TransactionStatus.PARTIALLY_SUCCESSFUL
-        : TransactionStatus.SUCCESSFUL;
+        : TransactionStatus.FAILED;
 
     const body = {
       customer,
