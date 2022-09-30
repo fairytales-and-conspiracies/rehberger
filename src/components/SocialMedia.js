@@ -48,7 +48,11 @@ const SocialMedia = ({ large }) => {
             large ? 'social-media__social-link--large' : ''
           }`}
         >
-          <a href="https://t.co/QI165OgqjF" rel="noreferrer" target="_blank">
+          <a
+            href="https://discord.gg/KwjtZfJMBX"
+            rel="noreferrer"
+            target="_blank"
+          >
             <Image
               alt="Rehberger Discord"
               height="100%"
