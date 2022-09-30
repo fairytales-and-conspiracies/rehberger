@@ -204,7 +204,7 @@ const handler = async (req, res) => {
 
           if (
             transactionReceipt &&
-            transactionReceipt.to === address.toLowerCase()
+            transactionReceipt.to.toLowerCase() === address.toLowerCase()
           ) {
             const ordersWithTransaction = await Order.find({ transactionHash });
             if (!ordersWithTransaction || ordersWithTransaction.length === 0) {
