@@ -6,6 +6,7 @@ import IndividualPrice from '@/components/IndividualPrice';
 import IndividualPricePurple from '@/components/IndividualPricePurple';
 import NFTFactsheet from '@/components/NFTFactsheet';
 import videos from '@/static-data/videos';
+import { address } from '@/contract/fairytalesAndConspiracies';
 
 function Home(_, ref) {
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -97,7 +98,7 @@ function Home(_, ref) {
             <div className="nfts__upper-half-right-section">
               <a
                 className="nfts__btn btn btn--primary"
-                href="https://etherscan.io"
+                href={`https://etherscan.io/address/${address}`}
               >
                 View on Etherscan
               </a>
