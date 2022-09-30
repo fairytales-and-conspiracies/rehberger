@@ -48,8 +48,9 @@ export const getNextOrderNumber = async () => {
   return order.orderNumber + 1;
 };
 
-export const sendMailForPurchasedOrder = (order, frames) => {
-  const invoice = niceInvoice(order, frames);
+export const sendMailForPurchasedOrder = (order) => {
+  const { frames } = order;
+  const invoice = niceInvoice(order);
   const attachments = [
     { filename: 'Invoice.pdf', content: invoice },
     { filename: 'Terms.pdf', path: './public/doc/terms.pdf' },
