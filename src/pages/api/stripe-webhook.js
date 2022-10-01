@@ -186,7 +186,7 @@ const handler = async (req, res) => {
   if (order && allFrames) {
     sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
   } else {
-    // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case 
+    // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
   }
 
   res.status(201).json({ success: true });
