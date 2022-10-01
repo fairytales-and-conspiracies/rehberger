@@ -13,7 +13,7 @@ import { getTokenIdFromFrame } from '@/utils/contract';
 
 const Web3Context = createContext();
 
-const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
+// const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
