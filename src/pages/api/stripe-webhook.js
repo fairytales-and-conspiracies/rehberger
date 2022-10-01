@@ -71,7 +71,7 @@ const updateOrder = async (confirmationKey) => {
   } catch (e) {
     await preLockSession.abortTransaction();
     // TODO: sendMailForFailedToReadOrderData(order);
-    return;
+    // return;
   } finally {
     await preLockSession.endSession();
   }
