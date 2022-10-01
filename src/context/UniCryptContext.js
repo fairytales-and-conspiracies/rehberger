@@ -25,10 +25,10 @@ export function UniCryptProvider({ children }) {
     let handle;
     if (fetchRatePeriodically) {
       fetchEthToEurRate();
-      
+
       handle = setInterval(() => {
         fetchEthToEurRate();
-      }, 10000);
+      }, 1000000);
     }
 
     return () => clearInterval(handle);
