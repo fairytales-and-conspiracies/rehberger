@@ -55,6 +55,7 @@ const updateOrder = async (confirmationKey) => {
   let order;
   let lockableFrames;
   let update;
+  let allFrames;
 
   const preLockSession = await mongoose.startSession();
   preLockSession.startTransaction();
@@ -62,6 +63,9 @@ const updateOrder = async (confirmationKey) => {
     order = await Order.findOne({ confirmationKey }).session(preLockSession);
 
     allFramesFilter = orderFramesMongoFilter(order.frames);
+
+    allFrames = await Frame.find(allFramesFilter);
+
     lockableFrames = await Frame.find({
       ...allFramesFilter,
       sold: false,
@@ -71,7 +75,8 @@ const updateOrder = async (confirmationKey) => {
   } catch (e) {
     await preLockSession.abortTransaction();
     // TODO: sendMailForFailedToReadOrderData(order);
-    // return;
+    sendMailForPurchasedOrder(order, allFrames);
+    return;
   } finally {
     await preLockSession.endSession();
   }
