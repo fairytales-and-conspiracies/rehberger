@@ -10,7 +10,10 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ['f003.backblazeb2.com'],
+    domains: [
+      'f003.backblazeb2.com',
+      'fairytales-and-conspiracies-nfts.s3.eu-central-003.backblazeb2.com',
+    ],
   },
 };
 

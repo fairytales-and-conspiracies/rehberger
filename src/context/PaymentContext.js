@@ -130,7 +130,7 @@ export const PaymentProvider = ({ children }) => {
 
   const createOrder = async () => {
     const ethToEurRate = await fetchEthToEurRate();
-    
+
     const order = {
       customer: { ...infoFormik.values },
       frames: selectedFrames,

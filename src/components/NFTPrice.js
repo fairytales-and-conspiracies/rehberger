@@ -53,7 +53,7 @@ const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
         {!isTotalPrice &&
           (inShoppingCart
             ? `${nftPriceInEurosString}`
-            : `/ ${nftPriceInEurosString}`)}
+            : `${nftPriceInEurosString ? `/ ${nftPriceInEurosString}` : ''}`)}
         {isTotalPrice && <>{totalPriceInEurosString(totalPrice)}</>}
       </span>
       <span

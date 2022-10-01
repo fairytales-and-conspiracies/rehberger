@@ -15,6 +15,26 @@
     }
   }
 
+  @include e('loading') {
+    color: $color-text-dark;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+
+    @include align-items(center);
+    @include flex;
+
+    @include m('in-shopping-cart') {
+      color: $color-text-light;
+    }
+  }
+
+  @include e('loading-dots') {
+    font-size: 3.4rem;
+    margin: 0 auto;
+    width: 4rem;
+  }
+
   @include e('remove-container') {
     background-color: $background-red;
     bottom: -$selection-preview-frame-remove-wrapper-height;

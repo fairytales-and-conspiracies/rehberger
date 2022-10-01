@@ -86,6 +86,7 @@ module.exports = {
           ['@/components', './src/components'],
           ['@/context', './src/context'],
           ['@/contract', './src/contract'],
+          ['@/hooks', './src/hooks'],
           ['@/lib', './src/lib'],
           ['@/models', './src/models'],
           ['@/pages', './src/pages'],

@@ -1,5 +1,7 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
+import useThreeDots from '@/hooks/ThreeDots';
 import VideoData from '@/static-data/videos';
 import { getFrameFileName } from '@/utils/frames';
 
@@ -11,6 +13,14 @@ export default function FrameImageWithRemoveButton({
   isInShoppingCart,
   onRemoveClick,
 }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const { dots, setDotsState } = useThreeDots();
+
+  useEffect(() => {
+    setDotsState(!imageLoaded);
+  }, [imageLoaded]);
+
   let imageSrc;
   if (frame) {
     imageSrc =
@@ -25,10 +35,20 @@ export default function FrameImageWithRemoveButton({
         isInShoppingCart ? 'frame-image--in-shopping-cart' : ''
       }`}
     >
+      {dots && (
+        <div
+          className={`frame-image__loading frame-image__loading ${
+            isInShoppingCart ? 'frame-image__loading--in-shopping-cart' : ''
+          }`}
+        >
+          <span className="frame-image__loading-dots">{dots}</span>
+        </div>
+      )}
       <Image
         alt={`${VideoData[frame.video].title} frame ${frame.frame}`}
         height="100%"
         layout="responsive"
+        onLoadingComplete={() => setImageLoaded(true)}
         src={imageSrc || '/img/frames/0'}
         width="75%"
       />

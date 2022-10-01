@@ -19,6 +19,25 @@
     position: relative;
   }
 
+  @include e('loading') {
+    bottom: 0;
+    display: flex;
+    font-size: 5rem;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    @include align-items(center);
+    @include flex;
+  }
+
+  @include e('loading-dots') {
+    margin: 0 auto;
+    width: 6rem;
+  }
+
   @include e('image') {
     margin: 2rem 3rem;
 

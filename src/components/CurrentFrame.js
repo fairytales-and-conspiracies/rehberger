@@ -1,6 +1,8 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 import NFTPrice from '@/components/NFTPrice';
+import useThreeDots from '@/hooks/ThreeDots';
 import VideoData from '@/static-data/videos';
 import { getFrameFileName } from '@/utils/frames';
 import { padZeroes } from '@/utils/string';
@@ -9,6 +11,18 @@ const NFT_IMAGE_URL = process.env.NEXT_PUBLIC_NFT_IMAGE_URL;
 const NFT_IMAGE_EXTENSION = process.env.NEXT_PUBLIC_NFT_IMAGE_EXTENSION;
 
 export default function CurrentFrame({ selectedFrame, video }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const { dots, setDotsState } = useThreeDots();
+
+  useEffect(() => {
+    setDotsState(!imageLoaded);
+  }, [imageLoaded]);
+
+  useEffect(() => {
+    setImageLoaded(false);
+  }, [selectedFrame]);
+
   let imageSrc;
   if (selectedFrame) {
     imageSrc =
@@ -33,12 +47,22 @@ export default function CurrentFrame({ selectedFrame, video }) {
               !selectedFrame ? 'selected-frame__image--invisible' : ''
             }`}
           >
+            {imageLoaded && (
+              <div className="selected-frame__loading">
+                <div className="selected-frame__loading-dots">
+                  Loading{dots}
+                </div>
+              </div>
+            )}
             <Image
               alt={`${VideoData[video].title} frame ${
                 selectedFrame ? selectedFrame.frame : 1
               }`}
               height="100%"
               layout="responsive"
+              onLoadingComplete={() => {
+                setImageLoaded(true);
+              }}
               src={
                 imageSrc ||
                 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='
