@@ -7,7 +7,7 @@ import {
 import dbConnect from '@/lib/dbConnect';
 import { sendErrorWithMessage } from '@/lib/errorHandling';
 import stripe from '@/lib/stripe';
-import getWeb3 from '@/utils/web3';
+import getWeb3 from '@/lib/web3';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
 import {
