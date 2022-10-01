@@ -88,7 +88,10 @@ export function Web3Provider({ children }) {
 
       const tx = await contract.methods.mintNFTs(address, tokenIds).send({
         from: address,
-        value: web3.utils.toWei((tokenIds.length * NFT_PRICE_ETH).toString(), 'ether'),
+        value: web3.utils.toWei(
+          (tokenIds.length * NFT_PRICE_ETH).toString(),
+          'ether'
+        ),
       });
 
       console.log('Transaction: ', tx);

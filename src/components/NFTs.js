@@ -107,7 +107,7 @@ function Home(_, ref) {
               <a
                 className="nfts__btn btn btn--primary"
                 target="_blank"
-                href="https://ipfs.io/ipfs/QmT515cSE6HDE3pnwAv8aChkj64xDEKjnz8ZSPf5B7WrRB"
+                href="https://ipfs.io/ipfs/QmSPanAWoBXX4cZeVPi2yTrqfcydYLgNGGhaeMhj7xThdd"
                 rel="noopener noreferrer"
               >
                 View on IPFS

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import CountdownTimer from '@/components/CountdownTimer';
 import SignUp from '@/components/SignUp';
 import SocialMedia from '@/components/SocialMedia';
@@ -48,6 +50,12 @@ export default function Home() {
               </p>
             </div>
           </div>
+
+          <Link href="/api/send-pdf" passHref>
+            <a className="btn btn--primary" target="_blank">
+              Test Contract
+            </a>
+          </Link>
           <div className="home__community">
             <SignUp signUpText="Sign up for updates and information about Fairytales & Conspiracies." />
             <div className="home__community-separator" />
