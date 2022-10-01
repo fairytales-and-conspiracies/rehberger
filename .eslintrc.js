@@ -30,19 +30,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'import/extensions': 'off',
-    // TODO figure these out below
-    // 'react/no-unescaped-entities': 'warn',
-    // 'no-unused-vars': 'warn',
-    // 'no-multi-assign': 'warn',
-    // 'jsx-a11y/click-events-have-key-events': 'warn',
-    // 'react/jsx-props-no-spreading': 'warn',
-    // 'prefer-template': 'warn',
-    // 'jsx-a11y/no-noninteractive-element-interactions': 'warn',
-    // 'jsx-a11y/no-static-element-interactions': 'warn',
-    // 'no-prototype-builtins': 'warn',
-    // 'react/no-array-index-key': 'warn',
-    // 'no-undef': 'warn',
-    // eqeqeq: 'warn',
+    'jsx-a11y/media-has-caption': 'off',
     'jsx-a11y/anchor-is-valid': [
       'error',
       {

@@ -157,7 +157,6 @@ export default function FrameSelection({ onClose, video }) {
               autoPlay
               className="frame-selection__video"
               loop
-              muted
               onClick={onVideoClick}
             >
               <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />

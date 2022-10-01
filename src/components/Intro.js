@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import CountdownTimer from '@/components/CountdownTimer';
 import SignUp from '@/components/SignUp';
 import SocialMedia from '@/components/SocialMedia';
