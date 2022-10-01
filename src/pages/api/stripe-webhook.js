@@ -55,7 +55,6 @@ const updateOrder = async (confirmationKey) => {
   let order;
   let lockableFrames;
   let update;
-  let allFrames;
 
   const preLockSession = await mongoose.startSession();
   preLockSession.startTransaction();
@@ -63,8 +62,6 @@ const updateOrder = async (confirmationKey) => {
     order = await Order.findOne({ confirmationKey }).session(preLockSession);
 
     allFramesFilter = orderFramesMongoFilter(order.frames);
-
-    allFrames = await Frame.find(allFramesFilter);
 
     lockableFrames = await Frame.find({
       ...allFramesFilter,
@@ -75,20 +72,19 @@ const updateOrder = async (confirmationKey) => {
   } catch (e) {
     await preLockSession.abortTransaction();
     // TODO: sendMailForFailedToReadOrderData(order);
-    sendMailForPurchasedOrder(order, allFrames);
-    return;
+    return order;
   } finally {
     await preLockSession.endSession();
   }
 
   const { frames } = order;
 
-  const lockedFrames =
-    lockableFrames.length > 0 ? await lockFrames(lockableFrames) : [];
-
   const updateOrderSession = await mongoose.startSession();
   updateOrderSession.startTransaction();
   try {
+    const lockedFrames =
+      lockableFrames.length > 0 ? await lockFrames(lockableFrames) : [];
+
     const lastOrderNumber = await Order.countDocuments().session(
       updateOrderSession
     );
@@ -115,6 +111,8 @@ const updateOrder = async (confirmationKey) => {
       transactionStatus,
     };
 
+    Object.assign(order, update);
+
     await Order.updateOne({ confirmationKey }, update).session(
       updateOrderSession
     );
@@ -134,10 +132,7 @@ const updateOrder = async (confirmationKey) => {
     await updateOrderSession.endSession();
   }
 
-  const updatedFrames = await Frame.find(allFramesFilter);
-
-  Object.assign(order, update);
-  sendMailForPurchasedOrder(order, updatedFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+  return order;
 };
 
 export const config = {
@@ -182,7 +177,18 @@ const handler = async (req, res) => {
   // From this moment we consider that they successfully payed
 
   const confirmationKey = event.data.object.client_reference_id;
-  await updateOrder(confirmationKey);
+
+  const order = await updateOrder(confirmationKey);
+
+  const allFramesFilter = orderFramesMongoFilter(order.frames);
+  const allFrames = await Frame.find(allFramesFilter);
+
+  if (order && allFrames) {
+    sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+  } else {
+    // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case 
+  }
+
   res.status(201).json({ success: true });
 };
 
