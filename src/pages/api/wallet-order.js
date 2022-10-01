@@ -1,7 +1,7 @@
 import HDWalletProvider from '@truffle/hdwallet-provider';
 import Web3 from 'web3';
 
-import { address } from '@/contract/fairytalesAndConspiracies';
+import { address } from '@/contract/FairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendMail from '@/lib/sendMail';
 import Frame from '@/models/Frame';

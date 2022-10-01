@@ -1,8 +1,13 @@
 import { buffer } from 'micro';
 
+import {
+  address as contractAddress,
+  abi,
+} from '@/contract/FairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import { sendErrorWithMessage } from '@/lib/errorHandling';
 import stripe from '@/lib/stripe';
+import getWeb3 from '@/utils/web3';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
 import {
@@ -11,14 +16,38 @@ import {
 } from '@/pages/api/orders';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
+import { getTokenIdFromFrame } from '@/utils/contract';
 import { padZeroes } from '@/utils/string';
 import mongoose from 'mongoose';
 
-const { STRIPE_WEBHOOK_SECRET } = process.env;
+const { STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_ADDRESS_FROM: ADDRESS_FROM } =
+  process.env;
 
 const lockFrames = async (lockableFrames) => {
-  // TODO: Implement this method
-  return lockableFrames;
+  const web3 = getWeb3();
+  console.log(`1 - ${web3}`);
+  const contract = new web3.eth.Contract(abi, contractAddress);
+  console.log(`2 - ${contract}`);
+  const tokenIds = lockableFrames.map(getTokenIdFromFrame);
+  console.log(`3 - ${tokenIds}`);
+
+  const tx = await contract.methods.lockNFTs(tokenIds).send({
+    from: ADDRESS_FROM,
+  });
+  console.log(`4 - ${tx}`);
+  const tokensAsStrings = tx?.events?.returnTokens?.returnValues?.tokens?.[0];
+  console.log(`5 - ${tokensAsStrings}`);
+  const tokens = tokensAsStrings.map(parseInt);
+  console.log(`6 - ${tokens}`);
+
+  const lockedFrames =
+    tokens && tokens.length > 0
+      ? lockableFrames.filter((frame) =>
+          tokens.include(getTokenIdFromFrame(frame))
+        )
+      : [];
+  console.log(`7 - ${lockedFrames}`);
+  return lockedFrames;
 };
 
 const updateOrder = async (confirmationKey) => {

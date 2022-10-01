@@ -6,7 +6,7 @@ import IndividualPrice from '@/components/IndividualPrice';
 import IndividualPricePurple from '@/components/IndividualPricePurple';
 import NFTFactsheet from '@/components/NFTFactsheet';
 import videos from '@/static-data/videos';
-import { address } from '@/contract/fairytalesAndConspiracies';
+import { address } from '@/contract/FairytalesAndConspiracies';
 
 function Home(_, ref) {
   const [selectedVideo, setSelectedVideo] = useState(null);

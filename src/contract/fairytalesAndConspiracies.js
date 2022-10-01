@@ -1,4 +1,4 @@
-export const address = '0x4d951582856028215e3c9E584b1aE385CedD6240';
+export const address = '0xFDd1F05cdB3b76b0867a38Ad870369B2D434E07c';
 
 export const abi = [
   { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
@@ -100,6 +100,19 @@ export const abi = [
     type: 'event',
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint16[]',
+        name: 'tokens',
+        type: 'uint16[]',
+      },
+    ],
+    name: 'returnTokens',
+    type: 'event',
+  },
+  {
     inputs: [
       { internalType: 'address', name: 'account', type: 'address' },
       { internalType: 'uint256', name: 'id', type: 'uint256' },
@@ -138,7 +151,7 @@ export const abi = [
       { internalType: 'uint16[]', name: 'ids', type: 'uint16[]' },
     ],
     name: 'claimNFTs',
-    outputs: [],
+    outputs: [{ internalType: 'uint16[]', name: '', type: 'uint16[]' }],
     stateMutability: 'nonpayable',
     type: 'function',
   },
@@ -153,12 +166,19 @@ export const abi = [
     type: 'function',
   },
   {
+    inputs: [{ internalType: 'uint16[]', name: 'ids', type: 'uint16[]' }],
+    name: 'lockNFTs',
+    outputs: [{ internalType: 'uint16[]', name: '', type: 'uint16[]' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [
-      { internalType: 'address', name: 'buyer', type: 'address' },
+      { internalType: 'address payable', name: 'buyer', type: 'address' },
       { internalType: 'uint16[]', name: 'ids', type: 'uint16[]' },
     ],
     name: 'mintNFTs',
-    outputs: [],
+    outputs: [{ internalType: 'uint16[]', name: '', type: 'uint16[]' }],
     stateMutability: 'payable',
     type: 'function',
   },
@@ -248,7 +268,14 @@ export const abi = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'uint16', name: '', type: 'uint16' }],
+    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'tokensLocked',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     name: 'tokensMinted',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'view',

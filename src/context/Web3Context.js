@@ -7,9 +7,9 @@ import { createContext, useEffect, useMemo, useState } from 'react';
 import {
   address as contractAddress,
   abi,
-} from '@/contract/fairytalesAndConspiracies';
+} from '@/contract/FairytalesAndConspiracies';
 import wallets from '@/static-data/wallets';
-import { getTokenId } from '@/utils/contract';
+import { getTokenIdFromFrame } from '@/utils/contract';
 
 const Web3Context = createContext();
 
@@ -82,7 +82,9 @@ export function Web3Provider({ children }) {
 
   const sendTransaction = async (selectedFrames) => {
     try {
-      const tokenIds = selectedFrames.map((frame) => getTokenId(frame));
+      const tokenIds = selectedFrames.map((frame) =>
+        getTokenIdFromFrame(frame)
+      );
 
       console.log('Token Ids: ', tokenIds);
 
