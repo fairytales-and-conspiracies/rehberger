@@ -66,7 +66,7 @@ export default function CountdownTimer(props) {
           small ? 'countdown-timer__heading--small' : ''
         }`}
       >
-        NFT sale starting 28. Sep 2022, 19:00 CET
+        NFT sale starting 03. Oct 2022, 19:00 CET
       </h3>
       <div
         className={`countdown-timer__time ${
