@@ -35,7 +35,7 @@ const lockFrames = async (lockableFrames) => {
     from: ADDRESS_FROM,
   });
   console.log(`4 - ${tx}`);
-  const tokensAsStrings = tx?.events?.returnTokens?.returnValues?.tokens?.[0];
+  const tokensAsStrings = tx?.events?.returnTokens?.returnValues?.tokens;
   console.log(`5 - ${tokensAsStrings}`);
   const tokens = tokensAsStrings.map(parseInt);
   console.log(`6 - ${tokens}`);
