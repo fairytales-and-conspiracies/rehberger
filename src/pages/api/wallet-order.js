@@ -124,7 +124,7 @@ const createOrder = async (req) => {
       vat,
     };
 
-    await Order.create(body, { session });
+    await Order.create([body], { session });
 
     await Frame.updateMany(filter, { sold: true }, { session });
 

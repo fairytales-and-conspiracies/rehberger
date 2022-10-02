@@ -78,7 +78,7 @@ const createOrder = async (req) => {
       throw Error('Some of the selected frames for checkout are already sold');
     }
 
-    await Order.create(body, { session });
+    await Order.create([body], { session });
 
     await session.commitTransaction();
     return body;
