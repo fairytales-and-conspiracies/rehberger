@@ -34,16 +34,21 @@ const lockFrames = async (lockableFrames) => {
   const tx = await contract.methods.lockNFTs(tokenIds).send({
     from: ADDRESS_FROM,
   });
+
   console.log(`4 - ${tx}`);
   const tokensAsStrings = tx?.events?.returnTokens?.returnValues?.tokens;
   console.log(`5 - ${tokensAsStrings}`);
-  const tokens = tokensAsStrings.map(parseInt);
+  const tokens = tokensAsStrings.map((tokenStr) => {
+    console.log('Token String: ', tokenStr);
+    const token = parseInt(tokenStr, 10);
+    return token;
+  });
   console.log(`6 - ${tokens}`);
 
   const lockedFrames =
     tokens && tokens.length > 0
-      ? lockableFrames.filter((frame) =>
-          tokens.include(getTokenIdFromFrame(frame))
+      ? lockableFrames.filter(
+          (frame) => tokens.include(getTokenIdFromFrame(frame)) !== null
         )
       : [];
   console.log(`7 - ${lockedFrames}`);
