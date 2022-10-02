@@ -25,6 +25,7 @@ export default function FrameSelection({ onClose, video }) {
   const videoRef = useRef();
 
   const [loadingFrames, setLoadingFrames] = useState(true);
+  const [loadingVideo, setLoadingVideo] = useState(true);
   const [frames, setFrames] = useState(null);
   const [isSelectionPreviewVisible, setIsSelectionPreviewVisible] =
     useState(false);
@@ -42,6 +43,13 @@ export default function FrameSelection({ onClose, video }) {
       })
       .then(() => setLoadingFrames(false));
   }, []);
+
+  useEffect(() => {
+    if (videoRef && !loadingVideo) {
+      videoRef.current.autoPlay = true;
+      videoRef.current.play();
+    }
+  }, [loadingVideo]);
 
   const findClosestAvailableFrame = (currentTime) => {
     const timeDifferenceBetweenFrames = frames[1].time - frames[0].time;
@@ -109,7 +117,7 @@ export default function FrameSelection({ onClose, video }) {
   };
 
   const onVideoLoad = () => {
-    videoRef.current.muted = false;
+    setLoadingVideo(false);
   };
 
   const removeSelectedFrame = (frameToRemove) => {
@@ -139,7 +147,9 @@ export default function FrameSelection({ onClose, video }) {
         </span>
         <div
           className={`frame-selection__container ${
-            loadingFrames ? 'frame-selection__container--invisible' : ''
+            loadingFrames || loadingVideo
+              ? 'frame-selection__container--invisible'
+              : ''
           }`}
         >
           <div className="frame-selection__inner-container">
@@ -160,12 +170,10 @@ export default function FrameSelection({ onClose, video }) {
             )}
 
             <video
-              autoPlay
               className="frame-selection__video"
               loop
-              muted
               onClick={onVideoClick}
-              onPlay={onVideoLoad}
+              onCanPlay={onVideoLoad}
               ref={videoRef}
             >
               <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />
