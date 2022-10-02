@@ -163,7 +163,11 @@ const handler = async (req, res) => {
 
   try {
     const order = await createOrder(req);
-    sendMailForPurchasedOrder(order);
+
+    const allFramesFilter = orderFramesMongoFilter(order.frames);
+    const allFrames = await Frame.find(allFramesFilter);
+
+    sendMailForPurchasedOrder(order, allFrames);
     res.status(200).json({ success: true, data: order });
   } catch (err) {
     res.status(400).json({ success: false, error: err });
