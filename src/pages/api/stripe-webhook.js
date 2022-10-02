@@ -25,25 +25,18 @@ const { STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_ADDRESS_FROM: ADDRESS_FROM } =
 
 const lockFrames = async (lockableFrames) => {
   const web3 = getWeb3();
-  console.log(`1 - ${web3}`);
   const contract = new web3.eth.Contract(abi, contractAddress);
-  console.log(`2 - ${contract}`);
   const tokenIds = lockableFrames.map(getTokenIdFromFrame);
-  console.log(`3 - ${tokenIds}`);
 
   const tx = await contract.methods.lockNFTs(tokenIds).send({
     from: ADDRESS_FROM,
   });
 
-  console.log(`4 - ${tx}`);
   const tokensAsStrings = tx?.events?.returnTokens?.returnValues?.tokens;
-  console.log(`5 - ${tokensAsStrings}`);
   const tokens = tokensAsStrings.map((tokenStr) => {
-    console.log('Token String: ', tokenStr);
     const token = parseInt(tokenStr, 10);
     return token;
   });
-  console.log(`6 - ${tokens}`);
 
   const lockedFrames =
     tokens && tokens.length > 0
@@ -51,7 +44,7 @@ const lockFrames = async (lockableFrames) => {
           (frame) => tokens.include(getTokenIdFromFrame(frame)) !== null
         )
       : [];
-  console.log(`7 - ${lockedFrames}`);
+      
   return lockedFrames;
 };
 
