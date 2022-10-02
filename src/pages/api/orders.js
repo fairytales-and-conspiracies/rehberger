@@ -53,7 +53,7 @@ export const sendMailForPurchasedOrder = async (order, frames) => {
   const invoice = niceInvoice(order, frames);
   const attachments = [
     { filename: 'Invoice.pdf', content: invoice },
-    { filename: 'Terms.pdf', path: `${SERVER_URL}/public/doc/terms.pdf` },
+    { filename: 'Terms.pdf', path: `${SERVER_URL}/doc/terms.pdf` },
   ];
   const result = await sendMail(
     emailTypes.NFTsPurchased,
