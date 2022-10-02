@@ -45,11 +45,11 @@ export default function FrameSelection({ onClose, video }) {
   }, []);
 
   useEffect(() => {
-    if (videoRef && !loadingVideo) {
+    if (videoRef && !loadingFrames && !loadingVideo) {
       videoRef.current.autoPlay = true;
       videoRef.current.play();
     }
-  }, [loadingVideo]);
+  }, [loadingFrames, loadingVideo]);
 
   const findClosestAvailableFrame = (currentTime) => {
     const timeDifferenceBetweenFrames = frames[1].time - frames[0].time;
