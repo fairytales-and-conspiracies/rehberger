@@ -8,10 +8,6 @@
   }
   z-index: 100;
 
-  @include m('invisible') {
-    visibility: hidden;
-  }
-
   @include e('encapsulator') {
     justify-content: center;
     min-height: 100vh;
@@ -33,6 +29,10 @@
 
     @include align-items(center);
     @include flex;
+
+    @include m('invisible') {
+      visibility: hidden;
+    }
   }
 
   @include e('inner-container') {

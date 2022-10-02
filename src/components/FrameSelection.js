@@ -24,7 +24,7 @@ export default function FrameSelection({ onClose, video }) {
 
   const videoRef = useRef();
 
-  const [loading, setLoading] = useState(true);
+  const [loadingFrames, setLoadingFrames] = useState(true);
   const [frames, setFrames] = useState(null);
   const [isSelectionPreviewVisible, setIsSelectionPreviewVisible] =
     useState(false);
@@ -40,7 +40,7 @@ export default function FrameSelection({ onClose, video }) {
         const responseFrames = response.data.data.sort(sortFrames);
         setFrames(responseFrames);
       })
-      .then(() => setLoading(false));
+      .then(() => setLoadingFrames(false));
   }, []);
 
   const findClosestAvailableFrame = (currentTime) => {
@@ -126,11 +126,7 @@ export default function FrameSelection({ onClose, video }) {
   };
 
   return (
-    <div
-      className={`frame-selection ${
-        loading ? 'frame-selection--invisible' : ''
-      }`}
-    >
+    <div className="frame-selection">
       <div className="frame-selection__encapsulator">
         <span className="frame-selection__close">
           <Image
@@ -141,7 +137,11 @@ export default function FrameSelection({ onClose, video }) {
             width="25"
           />
         </span>
-        <div className="frame-selection__container">
+        <div
+          className={`frame-selection__container ${
+            loadingFrames ? 'frame-selection__container--invisible' : ''
+          }`}
+        >
           <div className="frame-selection__inner-container">
             <CurrentFrame selectedFrame={currentSelectedFrame} video={video} />
 
