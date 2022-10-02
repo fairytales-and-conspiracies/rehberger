@@ -44,7 +44,7 @@ const lockFrames = async (lockableFrames) => {
           (frame) => tokens.include(getTokenIdFromFrame(frame)) !== null
         )
       : [];
-      
+
   return lockedFrames;
 };
 
