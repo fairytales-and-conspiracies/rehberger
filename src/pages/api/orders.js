@@ -1,8 +1,5 @@
-import HDWalletProvider from '@truffle/hdwallet-provider';
 import crypto from 'crypto';
-import Web3 from 'web3';
 
-import { address } from '@/contract/FairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
@@ -18,14 +15,9 @@ import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 import uniCryptConvert from '@/lib/unicrypt';
 
-const {
-  MNEMONIC,
-  CURRENCY,
-  SERVER_URL,
-  STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
-} = process.env;
+const { CURRENCY, SERVER_URL, STRIPE_SESSION_EXPIRATION_TIME_SECONDS } =
+  process.env;
 
-const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
 export const orderFramesMongoFilter = (frames) => {
@@ -59,14 +51,6 @@ export const sendMailForPurchasedOrder = (order, frames) => {
     console.error
   );
 };
-
-const getWeb3 = () => {
-  const provider = new HDWalletProvider(MNEMONIC, INFURA_URL);
-  const web3 = new Web3(provider);
-  return web3;
-};
-
-let web3 = getWeb3();
 
 const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const orderCreatedTimestamp = Date.now();
@@ -177,7 +161,7 @@ const handler = async (req, res) => {
     case 'POST':
       try {
         let order;
-        const { frames, paymentMethod, transactionHash } = req.body;
+        const { frames, paymentMethod } = req.body;
 
         // For wallet payments, we have to make sure that a valid
         // transaction has taken place. For Stripe payments, this
@@ -199,6 +183,7 @@ const handler = async (req, res) => {
           return;
         }
 
+        /*
         if (transactionHash) {
           if (!web3) {
             web3 = getWeb3();
@@ -220,6 +205,7 @@ const handler = async (req, res) => {
             }
           }
         }
+        */
 
         if (order) {
           res.status(201).json({ success: true, data: order });
