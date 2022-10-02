@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Image from 'next/image';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import CurrentFrame from '@/components/CurrentFrame';
 import NFTPrice from '@/components/NFTPrice';
@@ -21,6 +21,8 @@ const sortFrames = (frameA, frameB) => {
 export default function FrameSelection({ onClose, video }) {
   const { selectedFrames: selectedFramesInShoppingCart } =
     useContext(ShoppingCartContext);
+
+  const videoRef = useRef();
 
   const [loading, setLoading] = useState(true);
   const [frames, setFrames] = useState(null);
@@ -106,6 +108,10 @@ export default function FrameSelection({ onClose, video }) {
     }
   };
 
+  const onVideoLoad = () => {
+    videoRef.current.muted = false;
+  };
+
   const removeSelectedFrame = (frameToRemove) => {
     const newSelectedFrames = selectedFrames.filter(
       (frame) => frame.frame !== frameToRemove.frame
@@ -157,7 +163,10 @@ export default function FrameSelection({ onClose, video }) {
               autoPlay
               className="frame-selection__video"
               loop
+              muted
               onClick={onVideoClick}
+              onPlay={onVideoLoad}
+              ref={videoRef}
             >
               <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />
             </video>
