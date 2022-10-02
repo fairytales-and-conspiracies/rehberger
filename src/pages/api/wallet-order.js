@@ -149,13 +149,10 @@ const handler = async (req, res) => {
 
   try {
     const order = await createOrder(req);
-
-    const allFramesFilter = orderFramesMongoFilter(order.frames);
-    const allFrames = await Frame.find(allFramesFilter);
-
-    sendMailForPurchasedOrder(order, allFrames);
-    res.status(200).json({ success: true, data: order });
+    sendMailForPurchasedOrder(order, order.frames);
+    res.status(200).json({ success: true, data: { order } });
   } catch (err) {
+    // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
     res.status(400).json({ success: false, error: err });
   }
 };
