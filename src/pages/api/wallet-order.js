@@ -3,18 +3,16 @@ import Web3 from 'web3';
 
 import { address } from '@/contract/FairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
-import sendMail from '@/lib/sendMail';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
-import emailTypes from '@/static-data/email-types';
 import TransactionStatus from '@/static-data/transaction-status';
-import niceInvoice from '@/templates/niceInvoice';
 import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 import mongoose from 'mongoose';
 import { ErrorTypes } from '@/static-data/errors';
 import uniCryptConvert from '@/lib/unicrypt';
+import { sendMailForPurchasedOrder } from './orders';
 
 const { MNEMONIC } = process.env;
 
@@ -136,18 +134,6 @@ const createOrder = async (req) => {
   } finally {
     await session.endSession();
   }
-};
-
-export const sendMailForPurchasedOrder = (order) => {
-  const { frames } = order;
-  const invoice = niceInvoice(order, frames);
-  const attachments = [
-    { filename: 'Invoice.pdf', content: invoice },
-    { filename: 'Terms.pdf', path: './public/doc/terms.pdf' },
-  ];
-  sendMail(emailTypes.NFTsPurchased, { order, frames }, attachments).catch(
-    console.error
-  );
 };
 
 const handler = async (req, res) => {
