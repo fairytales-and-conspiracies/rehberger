@@ -36,6 +36,8 @@ const BILLING_INFO_INITIAL_VALUES = {
 };
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 
+export const USER_EMAIL_SESSION_STORAGE_KEY = 'user_email';
+
 export const PaymentProvider = ({ children }) => {
   const { removeAllFromCart, removeManyFromCart, selectedFrames } =
     useContext(ShoppingCartContext);
@@ -96,6 +98,10 @@ export const PaymentProvider = ({ children }) => {
     onSubmit: (values) => {
       const { country, vatNo } = values;
       const tax = calculateVat(country, vatNo);
+      sessionStorage.setItem(
+        USER_EMAIL_SESSION_STORAGE_KEY,
+        JSON.stringify(values.email)
+      );
       setVat(tax);
       setShippingInfoFormSubmitted(true);
     },
@@ -140,20 +146,21 @@ export const PaymentProvider = ({ children }) => {
   };
 
   const haveSomeFramesHaveBeenSold = async () => {
-    const requestBody = selectedFrames.reduce((acc, frame) => {
-      if (!acc[frame.video]) {
-        acc[frame.video] = [];
-      }
-      acc[frame.video].push(frame.frame);
-      return acc;
-    }, {});
-
-    const {
-      data: { data: soldFrames },
-    } = await axios.post('/api/frames', requestBody);
-    setAlreadySoldFrames(soldFrames);
-    removeManyFromCart(soldFrames);
-    return soldFrames.length > 0;
+    const email = sessionStorage.getItem(USER_EMAIL_SESSION_STORAGE_KEY);
+    try {
+      const {
+        data: { reservations: successfullReservations },
+      } = await axios.post('/api/reservations/set', { frames: selectedFrames, email });
+      const unavailableFrames = selectedFrames.filter((frame) => !successfullReservations.find((successfullyReserved) => successfullyReserved._id === frame._id))
+      setAlreadySoldFrames(unavailableFrames);
+      removeManyFromCart(unavailableFrames);
+      return unavailableFrames.length > 0;
+    } catch (e) {
+      console.log('Error: Set reservation api call failed', e);
+      setAlreadySoldFrames(selectedFrames);
+      removeManyFromCart(selectedFrames);
+      return true;
+    }
   };
 
   const payWithWallet = async () => {

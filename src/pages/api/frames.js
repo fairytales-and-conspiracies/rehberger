@@ -2,6 +2,7 @@ import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import Frame from '@/models/Frame';
 import { ErrorTypes } from '@/static-data/errors';
+import cleanupReservations from './reservations/cleanup';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -11,50 +12,23 @@ const handler = async (req, res) => {
   switch (method) {
     case 'GET':
       try {
+        await cleanupReservations();
+
         const { query } = req;
         const frames = await Frame.find(query);
-        res.status(200).json({ success: true, data: frames });
+        const data = frames.map((frame) => ({
+          // eslint-disable-next-line no-underscore-dangle
+          _id: frame._id,
+          video: frame.video,
+          frame: frame.frame,
+          time: frame.time,
+          sold: frame.sold,
+          reserved: !!frame.reservedBy,
+          reservedBy: null,
+        }));
+        res.status(200).json({ success: true, data });
       } catch (error) {
         res.status(400).json({ success: false });
-      }
-      break;
-    case 'POST':
-      try {
-        // TODO: Add check to make sure no random people can call
-        // this and set frames to sold
-        const { body } = req;
-        const videoNames = Object.keys(body);
-        if (videoNames.length === 0) {
-          res.status(200).json({ success: true, data: [] });
-          return;
-        }
-        const query = {
-          $or: [],
-        };
-        videoNames.forEach((videoName) => {
-          const frames = body[videoName];
-          if (frames.length === 0) {
-            return;
-          }
-
-          query.$or.push({
-            video: videoName,
-            frame: {
-              $in: [],
-            },
-            sold: true,
-          });
-
-          const index = query.$or.length - 1;
-          frames.forEach((frame) => {
-            query.$or[index].frame.$in.push(frame);
-          });
-        });
-
-        const frames = await Frame.find(query);
-        res.status(200).json({ success: true, data: frames });
-      } catch (error) {
-        sendError(res, ErrorTypes.GENERIC_ERROR);
       }
       break;
     default:

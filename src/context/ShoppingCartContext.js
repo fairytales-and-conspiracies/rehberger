@@ -1,6 +1,8 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 
 import videos from '@/static-data/videos';
+import axios from 'axios';
+import { USER_EMAIL_SESSION_STORAGE_KEY } from './PaymentContext';
 
 const SELECTED_FRAMES_SESSION_STORAGE_KEY = 'rehberger_selected_frames';
 
@@ -44,34 +46,56 @@ export function ShoppingCartProvider({ children }) {
     storeInSessionStorage(newSelectedFrames);
   };
 
-  const removeFromCart = (frame) => {
-    const newSelectedFrames = selectedFrames.filter(
-      (frameInCart) =>
-        frameInCart.frame !== frame.frame || frameInCart.video !== frame.video
-    );
-    setSelectedFrames(newSelectedFrames);
-    storeInSessionStorage(newSelectedFrames);
+  const clearFramesReservations = async (frames) => {
+    const email = sessionStorage.getItem(USER_EMAIL_SESSION_STORAGE_KEY);
+    if (email) {
+      await axios.post('/api/reservations/clear', { frames, email });
+    }
   };
 
-  const removeManyFromCart = (frames) => {
-    const newSelectedFrames = selectedFrames.reduce((acc, frameInCart) => {
-      const isFrameToRemove = frames.find(
-        (frame) =>
-          frame.frame === frameInCart.frame && frame.video === frameInCart.video
+  const removeFromCart = async (frame) => {
+    try {
+      await clearFramesReservations([frame]);
+      const newSelectedFrames = selectedFrames.filter(
+        (frameInCart) =>
+          frameInCart.frame !== frame.frame || frameInCart.video !== frame.video
       );
-
-      if (!isFrameToRemove) {
-        acc.push(frameInCart);
-      }
-      return acc;
-    }, []);
-    setSelectedFrames(newSelectedFrames);
-    storeInSessionStorage(newSelectedFrames);
+      setSelectedFrames(newSelectedFrames);
+      storeInSessionStorage(newSelectedFrames);
+    } catch (e) {
+      console.log('Remove cart - Error: Clear reservation api call failed', e);
+    }
   };
 
-  const removeAllFromCart = () => {
-    setSelectedFrames([]);
-    storeInSessionStorage([]);
+  const removeManyFromCart = async (frames) => {
+    try {
+      await clearFramesReservations(frames);
+      const newSelectedFrames = selectedFrames.reduce((acc, frameInCart) => {
+        const isFrameToRemove = frames.find(
+          (frame) =>
+            frame.frame === frameInCart.frame && frame.video === frameInCart.video
+        );
+
+        if (!isFrameToRemove) {
+          acc.push(frameInCart);
+        }
+        return acc;
+      }, []);
+      setSelectedFrames(newSelectedFrames);
+      storeInSessionStorage(newSelectedFrames);
+    } catch (e) {
+      console.log('Remove many - Error: Clear reservation api call failed', e);
+    }
+  };
+
+  const removeAllFromCart = async () => {
+    try {
+      await clearFramesReservations(selectedFrames);
+      setSelectedFrames([]);
+      storeInSessionStorage([]);
+    } catch (e) {
+      console.log('Remove all - Error: Clear reservation api call failed', e);
+    }
   };
 
   const memoizedValue = useMemo(
