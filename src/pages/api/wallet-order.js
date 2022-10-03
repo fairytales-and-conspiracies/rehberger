@@ -62,7 +62,7 @@ const createOrder = async (req) => {
   );
 
   if (!transactionReceipt) {
-    throw Error('No transaction receipt for given hash!');
+    throw Error('No transaction receipt for given hash');
   }
 
   if (transactionReceipt.to.toLowerCase() !== address.toLowerCase()) {
