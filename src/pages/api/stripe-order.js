@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import mongoose from 'mongoose';
 
 import dbConnect from '@/lib/dbConnect';
 import Order from '@/models/Order';
@@ -7,10 +8,10 @@ import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
 import stripe from '@/lib/stripe';
-import mongoose from 'mongoose';
+import uniCryptConvert from '@/lib/unicrypt';
 import Frame from '@/models/Frame';
 import { ErrorTypes } from '@/static-data/errors';
-import uniCryptConvert from '@/lib/unicrypt';
+import videos from '@/static-data/videos';
 
 const { CURRENCY, SERVER_URL, STRIPE_SESSION_EXPIRATION_TIME_SECONDS } =
   process.env;
@@ -90,6 +91,21 @@ const createOrder = async (req) => {
   }
 };
 
+const getItemNameForStripe = (item) => {
+  const padding = videos[item.video].frames > 999 ? 4 : 3;
+  switch (item.video) {
+    case 'ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR':
+      return `ANYTHINGTHATINDICATES
+      YOUHAVEASENSEOFHUMOR #${padZeroes(item.frame, padding)}`;
+    case 'HAVEYOUEVERTHOUGHTOFEMIGRATING':
+    case 'IMAGINEYOURSELFWITHOUTAHOME':
+    case 'HAVEYOUEVERSTOLENANIDEA':
+    case 'AREYOUAFRAIDOFTHEPOOR':
+    default:
+      return `${item.video} #${padZeroes(item.frame, 4)}`;
+  }
+};
+
 const stripeCheckout = async (order) => {
   const session = await stripe.checkout.sessions.create({
     cancel_url: `${SERVER_URL}/shopping-cart`,
@@ -98,7 +114,7 @@ const stripeCheckout = async (order) => {
       price_data: {
         currency: CURRENCY,
         product_data: {
-          name: `${item.video}_${padZeroes(item.frame, 4)}`,
+          name: getItemNameForStripe(item),
         },
         unit_amount: Math.round(order.framePriceEUR * 100),
       },
