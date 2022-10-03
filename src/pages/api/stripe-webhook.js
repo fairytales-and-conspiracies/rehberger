@@ -40,8 +40,8 @@ const lockFrames = async (lockableFrames) => {
 
   const lockedFrames =
     tokens && tokens.length > 0
-      ? lockableFrames.filter(
-          (frame) => tokens.include(getTokenIdFromFrame(frame)) !== null
+      ? lockableFrames.filter((frame) =>
+          tokens.include(getTokenIdFromFrame(frame))
         )
       : [];
 
@@ -90,18 +90,18 @@ const updateOrder = async (confirmationKey) => {
 
     const lockedFramesFilter = orderFramesMongoFilter(lockedFrames);
 
-    const alreadySoldFrames = await Frame.find({
+    const claimableFrames = await Frame.find({
       ...lockedFramesFilter,
-      sold: true,
+      sold: false,
     }).session(updateOrderSession);
 
     const transactionStatus =
       // eslint-disable-next-line no-nested-ternary
-      alreadySoldFrames.length === 0
-        ? TransactionStatus.SUCCESSFUL
-        : alreadySoldFrames.length !== frames.length
+      claimableFrames.length === 0
+        ? TransactionStatus.FAILED
+        : claimableFrames.length !== frames.length
         ? TransactionStatus.PARTIALLY_SUCCESSFUL
-        : TransactionStatus.FAILED;
+        : TransactionStatus.SUCCESSFUL;
 
     update = {
       invoiceNumber: `NFT${padZeroes(orderNumber, 6)}`,
