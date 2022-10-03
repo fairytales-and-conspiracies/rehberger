@@ -35,6 +35,24 @@ export default function FrameSelection({ onClose, video }) {
   const [currentSelectedFrame, setCurrentSelectedFrame] = useState(null);
   const [noMoreAvailable, setNoMoreAvailable] = useState(false);
 
+  const [nbSufixDots, setNbSufixDots] = useState(3);
+  useEffect(() => {
+    let handle;
+    if (loadingFrames || !firstImageLoaded) {
+      handle = setInterval(() => {
+        setNbSufixDots((nbDots) => (nbDots % 3) + 1);
+      }, 500);
+    } else {
+      clearInterval(handle);
+      setNbSufixDots(3);
+    }
+
+    return () => {
+      clearInterval(handle);
+      setNbSufixDots(3);
+    };
+  }, [loadingFrames, firstImageLoaded]);
+
   useEffect(() => {
     axios
       .get(`/api/frames?video=${video}`)
@@ -135,6 +153,9 @@ export default function FrameSelection({ onClose, video }) {
     setNoMoreAvailable(false);
   };
 
+  const textSuffix =
+    nbSufixDots > 0 ? `${new Array(nbSufixDots + 1).join('.')}` : '';
+
   return (
     <div className="frame-selection">
       <div className="frame-selection__encapsulator">
@@ -147,6 +168,12 @@ export default function FrameSelection({ onClose, video }) {
             width="25"
           />
         </span>
+        <div className="frame-selection__loading">
+          Condensing your liquid poster
+          <span className="frame-selection__loading--three-dots">
+            {textSuffix}
+          </span>
+        </div>
         <div
           className={`frame-selection__container ${
             loadingFrames || !firstImageLoaded
