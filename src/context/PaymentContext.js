@@ -11,28 +11,28 @@ import calculateVat from '@/utils/vat';
 const PaymentContext = createContext();
 
 const BILLING_INFO_INITIAL_VALUES = {
-  // company: '',
-  // vatNo: '',
-  // firstName: '',
-  // lastName: '',
-  // email: '',
-  // addressLine1: '',
-  // addressLine2: '',
-  // country: '',
-  // region: '',
-  // city: '',
-  // postalCode: '',
   company: '',
   vatNo: '',
-  firstName: 'First',
-  lastName: 'Last',
-  email: 'bulatovicnikola1990@gmail.com',
-  addressLine1: 'Address 123',
+  firstName: '',
+  lastName: '',
+  email: '',
+  addressLine1: '',
   addressLine2: '',
-  country: 'United States',
-  region: 'Alabama',
-  city: 'Huntsville',
-  postalCode: '11111',
+  country: '',
+  region: '',
+  city: '',
+  postalCode: '',
+  // company: '',
+  // vatNo: '',
+  // firstName: 'First',
+  // lastName: 'Last',
+  // email: 'bulatovicnikola1990@gmail.com',
+  // addressLine1: 'Address 123',
+  // addressLine2: '',
+  // country: 'United States',
+  // region: 'Alabama',
+  // city: 'Huntsville',
+  // postalCode: '11111',
 };
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 
@@ -167,10 +167,10 @@ export const PaymentProvider = ({ children }) => {
     if (tx?.transactionHash) {
       const order = await createOrder();
       order.transactionHash = tx.transactionHash;
-      
+
       try {
         const result = await axios.post('/api/wallet-order', order);
-        console.log('Succ', result)
+        console.log('Succ', result);
       } catch (err) {
         console.log('Error:', err);
       }
