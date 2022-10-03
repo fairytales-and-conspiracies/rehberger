@@ -83,9 +83,14 @@ const updateOrder = async (confirmationKey) => {
     const lockedFrames =
       lockableFrames.length > 0 ? await lockFrames(lockableFrames) : [];
 
-    const lastOrderNumber = await Order.countDocuments().session(
-      updateOrderSession
-    );
+    const lastOrderNumber = await Order.countDocuments({
+      transactionStatus: {
+        $in: [
+          TransactionStatus.SUCCESSFUL,
+          TransactionStatus.PARTIALLY_SUCCESSFUL,
+        ],
+      },
+    }).session(updateOrderSession);
     const orderNumber = lastOrderNumber + 1;
 
     const lockedFramesFilter = orderFramesMongoFilter(lockedFrames);

@@ -84,7 +84,14 @@ const createOrder = async (req) => {
       throw Error('Order already created');
     }
 
-    const lastOrderNumber = await Order.countDocuments().session(session);
+    const lastOrderNumber = await Order.countDocuments({
+      transactionStatus: {
+        $in: [
+          TransactionStatus.SUCCESSFUL,
+          TransactionStatus.PARTIALLY_SUCCESSFUL,
+        ],
+      },
+    }).session(session);
     const orderNumber = lastOrderNumber + 1;
 
     const alreadySoldFrames = await Frame.find({
