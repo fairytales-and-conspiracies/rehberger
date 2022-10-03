@@ -150,7 +150,7 @@ export default function SelectionPreview({
                   Checkout
                 </button>
               </Link>
-              <Link href="/nfts" passHref>
+              <Link href="/#nfts" passHref>
                 <button className="btn btn--secondary" type="button">
                   More NFTs
                 </button>
