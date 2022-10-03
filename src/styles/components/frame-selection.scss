@@ -8,10 +8,6 @@
   }
   z-index: 100;
 
-  @include m('invisible') {
-    visibility: hidden;
-  }
-
   @include e('encapsulator') {
     justify-content: center;
     min-height: 100vh;
@@ -27,12 +23,26 @@
     top: 0;
   }
 
+  @include e('loading') {
+    font-size: 2.4rem;
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    width: 100%;
+  }
+
   @include e('container') {
     justify-content: center;
     position: relative;
 
     @include align-items(center);
     @include flex;
+
+    @include m('invisible') {
+      visibility: hidden;
+    }
   }
 
   @include e('inner-container') {

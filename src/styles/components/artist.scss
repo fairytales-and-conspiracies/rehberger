@@ -63,7 +63,8 @@
     @include align-items(center);
 
     @include e('heading') {
-      font-size: 20rem;
+      font-size: 18rem;
+      line-height: 0.9;
     }
 
     @include e('content') {

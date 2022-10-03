@@ -89,7 +89,7 @@
   @include e('artist-info-wrapper') {
     justify-content: space-evenly;
     margin: 0 auto;
-    max-width: 120rem;
+    max-width: 115rem;
 
     @include align-items(center);
     @include flex;

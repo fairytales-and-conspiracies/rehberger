@@ -1,14 +1,10 @@
 .confirm-payment-method {
-  margin-top: 3rem;
+  margin-top: 2rem;
 
   @include e('heading') {
     color: $color-text-purple;
     font-family: $font-secondary;
     font-size: 1.8rem;
-
-    @include m('wallet') {
-      margin-top: 10rem;
-    }
   }
 
   @include e('info') {

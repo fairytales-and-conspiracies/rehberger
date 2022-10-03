@@ -1,8 +1,5 @@
-import HDWalletProvider from '@truffle/hdwallet-provider';
 import crypto from 'crypto';
-import Web3 from 'web3';
 
-import { address } from '@/contract/fairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
@@ -16,15 +13,11 @@ import niceInvoice from '@/templates/niceInvoice';
 import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
+import uniCryptConvert from '@/lib/unicrypt';
 
-const {
-  MNEMONIC,
-  CURRENCY,
-  SERVER_URL,
-  STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
-} = process.env;
+const { CURRENCY, SERVER_URL, STRIPE_SESSION_EXPIRATION_TIME_SECONDS } =
+  process.env;
 
-const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
 export const orderFramesMongoFilter = (frames) => {
@@ -48,24 +41,18 @@ export const getNextOrderNumber = async () => {
   return order.orderNumber + 1;
 };
 
-export const sendMailForPurchasedOrder = (order, frames) => {
+export const sendMailForPurchasedOrder = async (order, frames) => {
   const invoice = niceInvoice(order, frames);
   const attachments = [
     { filename: 'Invoice.pdf', content: invoice },
-    { filename: 'Terms.pdf', path: './public/doc/terms.pdf' },
+    { filename: 'Terms.pdf', path: `${SERVER_URL}/doc/terms.pdf` },
   ];
-  sendMail(emailTypes.NFTsPurchased, { order, frames }, attachments).catch(
-    console.error
-  );
+  return sendMail(
+    emailTypes.NFTsPurchased,
+    { order, frames },
+    attachments
+  ).catch(console.error);
 };
-
-const getWeb3 = () => {
-  const provider = new HDWalletProvider(MNEMONIC, INFURA_URL);
-  const web3 = new Web3(provider);
-  return web3;
-};
-
-let web3 = getWeb3();
 
 const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const orderCreatedTimestamp = Date.now();
@@ -84,7 +71,7 @@ const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
   const { country, vatNo } = customer;
   const vat = calculateVat(country, vatNo);
 
-  const netPriceETH = parseFloat((totalPriceETH / (1.0 + vat)).toFixed(2));
+  const netPriceETH = totalPriceETH / (1.0 + vat);
   const netPriceEUR = parseFloat((totalPriceEUR / (1.0 + vat)).toFixed(2));
   return {
     orderCreatedTimestamp,
@@ -100,7 +87,12 @@ const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
 };
 
 const createOrder = async (req) => {
-  const { customer, frames, paymentMethod, ethToEurRate } = req.body;
+  const { customer, frames, paymentMethod } = req.body;
+
+  const ethToEurRate = await uniCryptConvert({
+    source_currency: 'ETH',
+    destination_currency: 'EUR',
+  });
 
   const isWalletPayment = paymentMethod === 'WALLET';
   const restOfOrderData = fillOutRestOfOrderData(
@@ -171,7 +163,7 @@ const handler = async (req, res) => {
     case 'POST':
       try {
         let order;
-        const { frames, paymentMethod, transactionHash } = req.body;
+        const { frames, paymentMethod } = req.body;
 
         // For wallet payments, we have to make sure that a valid
         // transaction has taken place. For Stripe payments, this
@@ -193,6 +185,7 @@ const handler = async (req, res) => {
           return;
         }
 
+        /*
         if (transactionHash) {
           if (!web3) {
             web3 = getWeb3();
@@ -203,7 +196,7 @@ const handler = async (req, res) => {
 
           if (
             transactionReceipt &&
-            transactionReceipt.to === address.toLowerCase()
+            transactionReceipt.to.toLowerCase() === address.toLowerCase()
           ) {
             const ordersWithTransaction = await Order.find({ transactionHash });
             if (!ordersWithTransaction || ordersWithTransaction.length === 0) {
@@ -214,6 +207,7 @@ const handler = async (req, res) => {
             }
           }
         }
+        */
 
         if (order) {
           res.status(201).json({ success: true, data: order });

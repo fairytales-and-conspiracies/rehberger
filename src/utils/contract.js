@@ -1,6 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import videos from '@/static-data/videos';
 
-export const getTokenId = (frame) => {
+export const getTokenIdFromFrame = (frame) => {
+  if (!frame) {
+    return null;
+  }
   return videos[frame.video].previousVideoTokenEndingPoint + frame.frame;
 };

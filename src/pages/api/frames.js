@@ -20,6 +20,8 @@ const handler = async (req, res) => {
       break;
     case 'POST':
       try {
+        // TODO: Add check to make sure no random people can call
+        // this and set frames to sold
         const { body } = req;
         const videoNames = Object.keys(body);
         if (videoNames.length === 0) {

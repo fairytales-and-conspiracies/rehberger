@@ -11,21 +11,39 @@ export default function ChoosePaymentMethod() {
   return (
     <>
       <h2 className="payment-form__heading">Choose payment method</h2>
-      <p className="payment-form__text">
-        Choose your preferred payment method below.
-      </p>
       <div className="choose-payment-method">
         <p className="choose-payment-method__paragraph">
-          If you already have a wallet, make sure to choose the option to
-          purchase NFTs using your wallet.
+          If you already have an Ethereum wallet, make sure to choose the option
+          to purchase NFTs using your wallet.
         </p>
         <p className="choose-payment-method__paragraph">
-          Don’t have a wallet at the moment? No worries! By choosing Stripe, you
-          will be able to buy NFTs using your debit/credit card.
+          Don’t have a wallet at the moment? No worries! By choosing “Pay with
+          card”, you will be able to buy NFTs using your debit/credit card.
         </p>
         <p className="choose-payment-method__paragraph">
           Please agree to the terms below to proceed.
         </p>
+        <div className="choose-payment-method__input">
+          <label
+            className="choose-payment-method__label"
+            htmlFor="agreeToTerms"
+          >
+            <input
+              className="choose-payment-method__checkbox"
+              id="agreeToTerms"
+              name="agreeToTerms"
+              onChange={(event) => setAgree(event.target.checked)}
+              type="checkbox"
+              value={agree}
+            />{' '}
+            I hereby agree to these legal{' '}
+            <Link href="/doc/terms.pdf">
+              <a className="link" target="_blank">
+                terms
+              </a>
+            </Link>
+          </label>
+        </div>
         <button
           className="btn btn--primary"
           disabled={!agree}
@@ -46,26 +64,6 @@ export default function ChoosePaymentMethod() {
         >
           Pay with card
         </button>
-        <div className="choose-payment-method__input">
-          <label
-            className="choose-payment-method__label"
-            htmlFor="agreeToTerms"
-          >
-            <input
-              id="agreeToTerms"
-              name="agreeToTerms"
-              onChange={(event) => setAgree(event.target.checked)}
-              type="checkbox"
-              value={agree}
-            />{' '}
-            I hereby agree to these legal{' '}
-            <Link href="/doc/terms.pdf">
-              <a className="link" target="_blank">
-                terms
-              </a>
-            </Link>
-          </label>
-        </div>
       </div>
     </>
   );

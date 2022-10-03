@@ -9,9 +9,6 @@ export default function ConfirmPaymentMethod() {
   return (
     <>
       <h2 className="payment-form__heading">Confirm payment method</h2>
-      <p className="payment-form__text">
-        Confirm your chosen payment method below.
-      </p>
       {paymentMethod === 'WALLET' && (
         <div className="confirm-payment-method">
           <p className="confirm-payment-method__heading confirm-payment-method__heading--wallet">
@@ -49,7 +46,7 @@ export default function ConfirmPaymentMethod() {
             <li className="confirm-payment-method__point">
               If you already have an Ethereum wallet but still prefer to pay for
               your NFTs using MasterCard or VISA, you absolutely can! Just send
-              us your wallet address via link sent in the email after your
+              us your wallet address via link sent in the email after you
               complete the payment.
             </li>
           </ul>

@@ -23,7 +23,7 @@ export default function Work() {
           <p className="work__paragraph">
             When offered the possibility to publish these collages as NFTs,
             Rehberger developed a unique concept for them, unprecedented in the
-            art world: By animating the collages he created “liquid posters” in
+            art world: By animating the collages he created “Liquid Posters” in
             which the compositions of the collages are constantly in motion as
             elements float, turn, grow, shrink and travel across the image pane
             in loops ranging from 18 to 36 seconds.
@@ -41,7 +41,7 @@ export default function Work() {
             questions it by handing over the final decision about the artistic
             composition to the buyer, letting them decide which configuration of
             the collaged elements should be their “original Rehberger”. Owning
-            such a solidified “liquid poster” as an NFT - including a digital
+            such a solidified “Liquid Poster” as an NFT - including a digital
             image of the frame as well as a paper-printed poster with autograph
             signature - touches on the question of what is an authentic and
             original artwork.

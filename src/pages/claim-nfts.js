@@ -37,10 +37,10 @@ export default function ClaimNFTs() {
 
   formik = useFormik({
     initialValues: {
-      firstName: 'First',
-      lastName: 'Last',
+      firstName: '',
+      lastName: '',
       confirmationKey: '',
-      walletAddress: 'j;aldjksf;adjksf',
+      walletAddress: '',
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
