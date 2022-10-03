@@ -121,7 +121,7 @@ export default function NFTFactsheet() {
           </span>
         </p>
         <p className="factsheet__content-group">
-          <span className="bold">NFT Drop: Sep 28th, 2022 - 19:00 CET</span>
+          <span className="bold">NFT Drop: Oct 3rd, 2022 - 19:00 CET</span>
         </p>
       </div>
     </div>

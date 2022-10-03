@@ -205,10 +205,10 @@ function Home(_, ref) {
               <div className="nfts__how-it-works">
                 <h2 className="nfts__how-it-works-title">How it works</h2>
                 <p className="nfts__how-it-works-step">
-                  Select the liquid poster.
+                  Select the Liquid Poster.
                 </p>
                 <p className="nfts__how-it-works-step">
-                  Click the liquid poster on the frames you like the most.
+                  Click the Liquid Poster on the frames you like the most.
                 </p>
                 <p className="nfts__how-it-works-step">
                   If the frame you selected has been sold, the algorithm will

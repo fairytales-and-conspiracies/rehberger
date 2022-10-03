@@ -3,11 +3,13 @@ import { useContext } from 'react';
 
 import FrameImageWithRemoveButton from '@/components/FrameImageWithRemoveButton';
 import NFTPrice from '@/components/NFTPrice';
+import PaymentContext from '@/context/PaymentContext';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
 import { getFrameName } from '@/utils/frames';
 
 export default function ShoppingCartViewer({ isCheckout }) {
+  const { transactionPassed } = useContext(PaymentContext);
   const { removeFromCart, selectedFrames } = useContext(ShoppingCartContext);
 
   const selectedFramesByVideoMap = selectedFrames.reduce(
@@ -30,7 +32,7 @@ export default function ShoppingCartViewer({ isCheckout }) {
     <div
       className={`cart-viewer${
         isCheckout ? ' cart-viewer--hidden-small-devices' : ''
-      }`}
+      }${transactionPassed ? ' cart-viewer--invisible' : ''}`}
     >
       <div className="cart-viewer__selected">
         {!!videos.length &&
@@ -73,7 +75,7 @@ export default function ShoppingCartViewer({ isCheckout }) {
             <Link href="/#nfts">
               <a className="link">NFT page</a>
             </Link>
-            , choose a liquid poster, select your frames and then come back!
+            , choose a Liquid Poster, select your frames and then come back!
           </div>
         )}
       </div>

@@ -8,7 +8,7 @@ import PaymentContext from '@/context/PaymentContext';
 import UniCryptContext from '@/context/UniCryptContext';
 
 export default function ShoppingCart() {
-  const { setInitialState } = useContext(PaymentContext);
+  const { setInitialState, transactionPassed } = useContext(PaymentContext);
   const { requestfetchRatePeriodically } = useContext(UniCryptContext);
 
   const [isCheckout, setIsCheckout] = useState();
@@ -31,7 +31,13 @@ export default function ShoppingCart() {
       <Header />
       <main className="shopping-cart__main">
         <div className="cart-viewer__top-section">
-          <h1 className="cart-viewer__heading">Shopping cart</h1>
+          <h1
+            className={`cart-viewer__heading${
+              transactionPassed ? ' cart-viewer__heading--invisible' : ''
+            }`}
+          >
+            Shopping cart
+          </h1>
           <div className="cart-viewer__total-and-proceed-wrapper">
             <div className="cart-viewer__total">
               <NFTPrice isTotalPrice />

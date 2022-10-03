@@ -24,11 +24,12 @@ export default function FrameSelection({ onClose, video }) {
 
   const videoRef = useRef();
 
-  const [loadingFrames, setLoadingFrames] = useState(true);
-  const [loadingVideo, setLoadingVideo] = useState(true);
+  const [firstImageLoaded, setFirstImageLoaded] = useState(false);
   const [frames, setFrames] = useState(null);
+  const [imageLoadingToggle, setImageLoadingToggle] = useState(false);
   const [isSelectionPreviewVisible, setIsSelectionPreviewVisible] =
     useState(false);
+  const [loadingFrames, setLoadingFrames] = useState(true);
   const [selectedFrames, setSelectedFrames] = useState([]);
 
   const [currentSelectedFrame, setCurrentSelectedFrame] = useState(null);
@@ -45,11 +46,11 @@ export default function FrameSelection({ onClose, video }) {
   }, []);
 
   useEffect(() => {
-    if (videoRef && !loadingFrames && !loadingVideo) {
+    if (videoRef && !loadingFrames) {
       videoRef.current.autoPlay = true;
       videoRef.current.play();
     }
-  }, [loadingFrames, loadingVideo]);
+  }, [loadingFrames]);
 
   const findClosestAvailableFrame = (currentTime) => {
     const timeDifferenceBetweenFrames = frames[1].time - frames[0].time;
@@ -96,6 +97,7 @@ export default function FrameSelection({ onClose, video }) {
 
   const onVideoClick = (event) => {
     setIsSelectionPreviewVisible(true);
+    setImageLoadingToggle(!imageLoadingToggle);
 
     const { currentTime } = event.target;
 
@@ -117,7 +119,7 @@ export default function FrameSelection({ onClose, video }) {
   };
 
   const onVideoLoad = () => {
-    setLoadingVideo(false);
+    // setLoadingVideo(false);
   };
 
   const removeSelectedFrame = (frameToRemove) => {
@@ -147,13 +149,19 @@ export default function FrameSelection({ onClose, video }) {
         </span>
         <div
           className={`frame-selection__container ${
-            loadingFrames || loadingVideo
+            loadingFrames || !firstImageLoaded
               ? 'frame-selection__container--invisible'
               : ''
           }`}
         >
           <div className="frame-selection__inner-container">
-            <CurrentFrame selectedFrame={currentSelectedFrame} video={video} />
+            <CurrentFrame
+              firstImageLoaded={firstImageLoaded}
+              imageLoadingToggle={imageLoadingToggle}
+              selectedFrame={currentSelectedFrame}
+              setFirstImageLoaded={setFirstImageLoaded}
+              video={video}
+            />
 
             {video && (
               <div className="frame-selection__frame-info">
@@ -198,7 +206,7 @@ export default function FrameSelection({ onClose, video }) {
                   />
                 </div>
                 <p className="frame-selection__instructions">
-                  Click on the liquid poster to select the frame you like. Keep
+                  Click on the Liquid Poster to select the frame you like. Keep
                   clicking on desired frames to select multiple.
                 </p>
               </div>

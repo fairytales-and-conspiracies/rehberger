@@ -33,6 +33,10 @@
   @include max-screen-md {
     min-height: unset;
     padding: 3rem 2rem;
+
+    @include e('heading') {
+      font-size: 17rem;
+    }
   }
 
   @include max-screen-sm {

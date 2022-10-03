@@ -146,6 +146,13 @@ export const abi = [
     type: 'function',
   },
   {
+    inputs: [{ internalType: 'uint16[]', name: 'ids', type: 'uint16[]' }],
+    name: 'checkAvailability',
+    outputs: [{ internalType: 'uint16[]', name: '', type: 'uint16[]' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       { internalType: 'address', name: 'claimer', type: 'address' },
       { internalType: 'uint16[]', name: 'ids', type: 'uint16[]' },
