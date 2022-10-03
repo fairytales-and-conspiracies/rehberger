@@ -1,4 +1,4 @@
-export const address = '0xFDd1F05cdB3b76b0867a38Ad870369B2D434E07c';
+export const address = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
 export const abi = [
   { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
@@ -133,19 +133,6 @@ export const abi = [
     type: 'function',
   },
   {
-    inputs: [
-      { internalType: 'address payable', name: 'from', type: 'address' },
-      { internalType: 'address', name: 'to', type: 'address' },
-      { internalType: 'uint256[]', name: 'ids', type: 'uint256[]' },
-      { internalType: 'uint256[]', name: 'amounts', type: 'uint256[]' },
-      { internalType: 'bytes', name: 'data', type: 'bytes' },
-    ],
-    name: 'buyNFTs',
-    outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
     inputs: [{ internalType: 'uint16[]', name: 'ids', type: 'uint16[]' }],
     name: 'checkAvailability',
     outputs: [{ internalType: 'uint16[]', name: '', type: 'uint16[]' }],
@@ -249,6 +236,15 @@ export const abi = [
       { internalType: 'bool', name: 'approved', type: 'bool' },
     ],
     name: 'setApprovalForAll',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'uint256', name: 'priceInFinney', type: 'uint256' },
+    ],
+    name: 'setNFTPriceInFinney',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
