@@ -38,6 +38,12 @@
     }
   }
 
+  @include max-screen-xl {
+    @include e('content') {
+      position: unset;
+    }
+  }
+
   @include max-screen-md {
     @include e('heading') {
       padding-left: 2rem;
