@@ -217,6 +217,7 @@ export default function FrameSelection({ onClose, video }) {
               loop
               onClick={onVideoClick}
               onCanPlay={onVideoLoad}
+              playsInline
               ref={videoRef}
             >
               <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />
