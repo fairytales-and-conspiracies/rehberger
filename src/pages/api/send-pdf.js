@@ -10,7 +10,6 @@ import sendMail from '@/lib/sendMail';
 import emailTypes from '@/static-data/email-types';
 import invoice from '@/templates/niceInvoice';
 import dbConnect from '@/lib/dbConnect';
-import { getNextOrderNumber } from '@/pages/api/orders';
 
 const order = {
   customer: {

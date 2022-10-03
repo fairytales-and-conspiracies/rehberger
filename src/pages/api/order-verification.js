@@ -5,9 +5,9 @@ import sendError from '@/lib/errorHandling';
 import sendMail from '@/lib/sendMail';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
-import { orderFramesMongoFilter } from '@/pages/api/orders';
 import emailTypes from '@/static-data/email-types';
 import { ErrorTypes } from '@/static-data/errors';
+import { orderFramesMongoFilter } from '@/utils/orders';
 
 const updateOrderForClaimedNFTs = async (orderNumber) => {
   const order = await Order.findByIdAndUpdate(

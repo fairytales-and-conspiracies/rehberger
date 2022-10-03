@@ -10,15 +10,15 @@ import stripe from '@/lib/stripe';
 import getWeb3 from '@/lib/web3';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
-import {
-  orderFramesMongoFilter,
-  sendMailForPurchasedOrder,
-} from '@/pages/api/orders';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import { getTokenIdFromFrame } from '@/utils/contract';
 import { padZeroes } from '@/utils/string';
 import mongoose from 'mongoose';
+import {
+  orderFramesMongoFilter,
+  sendMailForPurchasedOrder,
+} from '@/utils/orders';
 
 const { STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_ADDRESS_FROM: ADDRESS_FROM } =
   process.env;
