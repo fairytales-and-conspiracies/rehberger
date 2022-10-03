@@ -11,7 +11,6 @@ export function UniCryptProvider({ children }) {
     const { data } = await axios.post('/api/unicrypt-rates', {
       source_currency: 'ETH',
       destination_currency: 'EUR',
-      source_amount: 1,
     });
 
     const { success, amount } = data;
@@ -26,10 +25,10 @@ export function UniCryptProvider({ children }) {
     let handle;
     if (fetchRatePeriodically) {
       fetchEthToEurRate();
-      
+
       handle = setInterval(() => {
         fetchEthToEurRate();
-      }, 10000);
+      }, 1000000);
     }
 
     return () => clearInterval(handle);
@@ -38,7 +37,6 @@ export function UniCryptProvider({ children }) {
   return (
     <UniCryptContext.Provider
       value={{
-        fetchEthToEurRate,
         ethToEurRate,
         requestfetchRatePeriodically,
       }}

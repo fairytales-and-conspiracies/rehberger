@@ -7,33 +7,32 @@ import ShoppingCartContext from '@/context/ShoppingCartContext';
 import Web3Context from '@/context/Web3Context';
 import CountriesWithProvinces from '@/static-data/countries-with-provinces';
 import calculateVat from '@/utils/vat';
-import UniCryptContext from './UniCryptContext';
 
 const PaymentContext = createContext();
 
 const BILLING_INFO_INITIAL_VALUES = {
-  // company: '',
-  // vatNo: '',
-  // firstName: '',
-  // lastName: '',
-  // email: '',
-  // addressLine1: '',
-  // addressLine2: '',
-  // country: '',
-  // region: '',
-  // city: '',
-  // postalCode: '',
   company: '',
   vatNo: '',
-  firstName: 'First',
-  lastName: 'Last',
-  email: 'bulatovicnikola1990@gmail.com',
-  addressLine1: 'Address 123',
+  firstName: '',
+  lastName: '',
+  email: '',
+  addressLine1: '',
   addressLine2: '',
-  country: 'United States',
-  region: 'Alabama',
-  city: 'Huntsville',
-  postalCode: '11111',
+  country: '',
+  region: '',
+  city: '',
+  postalCode: '',
+  // company: '',
+  // vatNo: '',
+  // firstName: 'First',
+  // lastName: 'Last',
+  // email: 'bulatovicnikola1990@gmail.com',
+  // addressLine1: 'Address 123',
+  // addressLine2: '',
+  // country: 'United States',
+  // region: 'Alabama',
+  // city: 'Huntsville',
+  // postalCode: '11111',
 };
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 
@@ -126,16 +125,11 @@ export const PaymentProvider = ({ children }) => {
     },
   });
 
-  const { fetchEthToEurRate } = useContext(UniCryptContext);
-
   const createOrder = async () => {
-    const ethToEurRate = await fetchEthToEurRate();
-    
     const order = {
       customer: { ...infoFormik.values },
       frames: selectedFrames,
       paymentMethod,
-      ethToEurRate,
     };
 
     if (paymentMethod === 'CARD') {
@@ -170,10 +164,17 @@ export const PaymentProvider = ({ children }) => {
     setIsPaymentBeingProcessed(true);
     const tx = await sendTransaction(selectedFrames);
 
-    if (tx) {
+    if (tx?.transactionHash) {
       const order = await createOrder();
       order.transactionHash = tx.transactionHash;
-      await axios.post('/api/orders', order);
+
+      try {
+        const result = await axios.post('/api/wallet-order', order);
+        console.log('Succ', result);
+      } catch (err) {
+        console.log('Error:', err);
+      }
+
       setIsPaymentBeingProcessed(false);
       setTransactionPassed(true);
       removeAllFromCart();

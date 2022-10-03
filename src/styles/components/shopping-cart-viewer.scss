@@ -2,6 +2,10 @@
   flex-basis: 60%;
   margin-top: 3rem;
 
+  @include m('invisible') {
+    visibility: hidden;
+  }
+
   @include e('top-section') {
     justify-content: space-between;
     margin-top: 4rem;
@@ -14,6 +18,10 @@
     color: $color-text-grey;
     font-size: 5rem;
     font-weight: 400;
+
+    @include m('invisible') {
+      visibility: hidden;
+    }
   }
 
   @include e('total-and-proceed-wrapper') {

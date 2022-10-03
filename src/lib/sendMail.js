@@ -37,14 +37,18 @@ async function main(emailType, data, attachments) {
       order: { customer },
     } = data;
 
-    info = await transporter.sendMail(
-      createMailObject(
-        customer.email,
-        'NFTs purchased!',
-        nftsPurchasedTemplate(data),
-        attachments
-      )
-    );
+    try {
+      info = await transporter.sendMail(
+        createMailObject(
+          customer.email,
+          'NFTs purchased!',
+          nftsPurchasedTemplate(data),
+          attachments
+        )
+      );
+    } catch (e) {
+      return e;
+    }
   } else if (emailType === emailTypes.NFTsClaimed) {
     const {
       order: { customer },
@@ -89,6 +93,8 @@ async function main(emailType, data, attachments) {
   // Preview only available when sending through an Ethereal account
   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+  return 'SUCCESS';
 }
 
 export default main;

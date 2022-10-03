@@ -1,4 +1,11 @@
 /* eslint-disable no-unused-vars */
+import HDWalletProvider from '@truffle/hdwallet-provider';
+import Web3 from 'web3';
+
+import {
+  address as contractAddress,
+  abi,
+} from '@/contract/FairytalesAndConspiracies';
 import sendMail from '@/lib/sendMail';
 import emailTypes from '@/static-data/email-types';
 import invoice from '@/templates/niceInvoice';
@@ -55,11 +62,49 @@ const frames = [
   },
 ];
 
+const {
+  MNEMONIC,
+  CURRENCY,
+  INFURA_URL,
+  SERVER_URL,
+  STRIPE_SESSION_EXPIRATION_TIME_SECONDS,
+} = process.env;
+const ADDRESS_FROM = process.env.NEXT_PUBLIC_ADDRESS_FROM;
+const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
+
+const getWeb3 = () => {
+  const provider = new HDWalletProvider(MNEMONIC, INFURA_URL);
+  const web3 = new Web3(provider);
+  return web3;
+};
+
 const handler = async (req, res) => {
   // await dbConnect();
 
+  const web3 = getWeb3();
+  const contract = new web3.eth.Contract(abi, contractAddress);
+  const tokenIds = [91, 1425, 40];
+
   try {
-    sendMail(emailTypes.Test);
+    // const tx = await contract.methods.mintNFTs(ADDRESS_FROM, tokenIds).send({
+    //   from: ADDRESS_FROM,
+    //   value: web3.utils.toWei(
+    //     (tokenIds.length * NFT_PRICE_ETH).toString(),
+    //     'ether'
+    //   ),
+    // });
+    // const tx = await contract.methods.claimNFTs(ADDRESS_FROM, tokenIds).send({
+    //   from: ADDRESS_FROM,
+    // });
+    const tx = await contract.methods.lockNFTs(tokenIds).send({
+      from: ADDRESS_FROM,
+    });
+
+    const transactionReceipt = await web3.eth.getTransactionReceipt(
+      tx.transactionHash
+    );
+    console.log('This is the transaction: ', tx);
+    console.log('This is the transaction receipt: ', transactionReceipt);
   } catch (err) {
     console.log('ERRO: ', err);
   }

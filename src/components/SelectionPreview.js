@@ -112,7 +112,7 @@ export default function SelectionPreview({
                   </span>
                 )}
                 {!haveFramesJustBeenAddedToShoppingCart &&
-                  `No frames have been selected. Click on the liquid poster to
+                  `No frames have been selected. Click on the Liquid Poster to
                 select the frame you like.`}
               </>
             )}
@@ -144,11 +144,18 @@ export default function SelectionPreview({
             </>
           )}
           {!selectedFrames.length && haveFramesJustBeenAddedToShoppingCart && (
-            <Link href="/shopping-cart" passHref>
-              <button className="btn btn--primary" type="button">
-                Checkout
-              </button>
-            </Link>
+            <>
+              <Link href="/shopping-cart" passHref>
+                <button className="btn btn--primary" type="button">
+                  Checkout
+                </button>
+              </Link>
+              <Link href="/#nfts" passHref>
+                <button className="btn btn--secondary" type="button">
+                  More NFTs
+                </button>
+              </Link>
+            </>
           )}
         </div>
       </div>

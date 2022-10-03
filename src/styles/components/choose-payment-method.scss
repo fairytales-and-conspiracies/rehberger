@@ -1,5 +1,5 @@
 .choose-payment-method {
-  margin-top: 5rem;
+  margin-top: 2rem;
 
   @include e('paragraph') {
     font-family: $font-secondary;
@@ -22,7 +22,11 @@
     font-size: 1.6rem;
     margin: {
       left: 3rem;
-      top: 1.5rem;
     }
+  }
+
+  @include e('checkbox') {
+    position: relative;
+    top: 0.1rem;
   }
 }

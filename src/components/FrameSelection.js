@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Image from 'next/image';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import CurrentFrame from '@/components/CurrentFrame';
 import NFTPrice from '@/components/NFTPrice';
@@ -22,14 +22,36 @@ export default function FrameSelection({ onClose, video }) {
   const { selectedFrames: selectedFramesInShoppingCart } =
     useContext(ShoppingCartContext);
 
-  const [loading, setLoading] = useState(true);
+  const videoRef = useRef();
+
+  const [firstImageLoaded, setFirstImageLoaded] = useState(false);
   const [frames, setFrames] = useState(null);
+  const [imageLoadingToggle, setImageLoadingToggle] = useState(false);
   const [isSelectionPreviewVisible, setIsSelectionPreviewVisible] =
     useState(false);
+  const [loadingFrames, setLoadingFrames] = useState(true);
   const [selectedFrames, setSelectedFrames] = useState([]);
 
   const [currentSelectedFrame, setCurrentSelectedFrame] = useState(null);
   const [noMoreAvailable, setNoMoreAvailable] = useState(false);
+
+  const [nbSufixDots, setNbSufixDots] = useState(3);
+  useEffect(() => {
+    let handle;
+    if (loadingFrames || !firstImageLoaded) {
+      handle = setInterval(() => {
+        setNbSufixDots((nbDots) => (nbDots % 3) + 1);
+      }, 500);
+    } else {
+      clearInterval(handle);
+      setNbSufixDots(3);
+    }
+
+    return () => {
+      clearInterval(handle);
+      setNbSufixDots(3);
+    };
+  }, [loadingFrames, firstImageLoaded]);
 
   useEffect(() => {
     axios
@@ -38,8 +60,15 @@ export default function FrameSelection({ onClose, video }) {
         const responseFrames = response.data.data.sort(sortFrames);
         setFrames(responseFrames);
       })
-      .then(() => setLoading(false));
+      .then(() => setLoadingFrames(false));
   }, []);
+
+  useEffect(() => {
+    if (videoRef && !loadingFrames) {
+      videoRef.current.autoPlay = true;
+      videoRef.current.play();
+    }
+  }, [loadingFrames]);
 
   const findClosestAvailableFrame = (currentTime) => {
     const timeDifferenceBetweenFrames = frames[1].time - frames[0].time;
@@ -86,6 +115,7 @@ export default function FrameSelection({ onClose, video }) {
 
   const onVideoClick = (event) => {
     setIsSelectionPreviewVisible(true);
+    setImageLoadingToggle(!imageLoadingToggle);
 
     const { currentTime } = event.target;
 
@@ -106,6 +136,10 @@ export default function FrameSelection({ onClose, video }) {
     }
   };
 
+  const onVideoLoad = () => {
+    // setLoadingVideo(false);
+  };
+
   const removeSelectedFrame = (frameToRemove) => {
     const newSelectedFrames = selectedFrames.filter(
       (frame) => frame.frame !== frameToRemove.frame
@@ -119,12 +153,11 @@ export default function FrameSelection({ onClose, video }) {
     setNoMoreAvailable(false);
   };
 
+  const textSuffix =
+    nbSufixDots > 0 ? `${new Array(nbSufixDots + 1).join('.')}` : '';
+
   return (
-    <div
-      className={`frame-selection ${
-        loading ? 'frame-selection--invisible' : ''
-      }`}
-    >
+    <div className="frame-selection">
       <div className="frame-selection__encapsulator">
         <span className="frame-selection__close">
           <Image
@@ -135,9 +168,27 @@ export default function FrameSelection({ onClose, video }) {
             width="25"
           />
         </span>
-        <div className="frame-selection__container">
+        <div className="frame-selection__loading">
+          Condensing your liquid poster
+          <span className="frame-selection__loading--three-dots">
+            {textSuffix}
+          </span>
+        </div>
+        <div
+          className={`frame-selection__container ${
+            loadingFrames || !firstImageLoaded
+              ? 'frame-selection__container--invisible'
+              : ''
+          }`}
+        >
           <div className="frame-selection__inner-container">
-            <CurrentFrame selectedFrame={currentSelectedFrame} video={video} />
+            <CurrentFrame
+              firstImageLoaded={firstImageLoaded}
+              imageLoadingToggle={imageLoadingToggle}
+              selectedFrame={currentSelectedFrame}
+              setFirstImageLoaded={setFirstImageLoaded}
+              video={video}
+            />
 
             {video && (
               <div className="frame-selection__frame-info">
@@ -154,11 +205,11 @@ export default function FrameSelection({ onClose, video }) {
             )}
 
             <video
-              autoPlay
               className="frame-selection__video"
               loop
-              muted
               onClick={onVideoClick}
+              onCanPlay={onVideoLoad}
+              ref={videoRef}
             >
               <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />
             </video>
@@ -182,7 +233,7 @@ export default function FrameSelection({ onClose, video }) {
                   />
                 </div>
                 <p className="frame-selection__instructions">
-                  Click on the liquid poster to select the frame you like. Keep
+                  Click on the Liquid Poster to select the frame you like. Keep
                   clicking on desired frames to select multiple.
                 </p>
               </div>

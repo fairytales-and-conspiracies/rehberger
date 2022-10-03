@@ -6,6 +6,7 @@ import IndividualPrice from '@/components/IndividualPrice';
 import IndividualPricePurple from '@/components/IndividualPricePurple';
 import NFTFactsheet from '@/components/NFTFactsheet';
 import videos from '@/static-data/videos';
+import { address } from '@/contract/FairytalesAndConspiracies';
 
 function Home(_, ref) {
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -97,14 +98,16 @@ function Home(_, ref) {
             <div className="nfts__upper-half-right-section">
               <a
                 className="nfts__btn btn btn--primary"
-                href="https://etherscan.io"
+                target="_blank"
+                href={`https://etherscan.io/address/${address}`}
+                rel="noopener noreferrer"
               >
                 View on Etherscan
               </a>
               <a
                 className="nfts__btn btn btn--primary"
                 target="_blank"
-                href="https://ipfs.io/ipfs/QmT515cSE6HDE3pnwAv8aChkj64xDEKjnz8ZSPf5B7WrRB"
+                href="https://ipfs.io/ipfs/QmSPanAWoBXX4cZeVPi2yTrqfcydYLgNGGhaeMhj7xThdd"
                 rel="noopener noreferrer"
               >
                 View on IPFS
@@ -202,10 +205,10 @@ function Home(_, ref) {
               <div className="nfts__how-it-works">
                 <h2 className="nfts__how-it-works-title">How it works</h2>
                 <p className="nfts__how-it-works-step">
-                  Select the liquid poster.
+                  Select the Liquid Poster.
                 </p>
                 <p className="nfts__how-it-works-step">
-                  Click the liquid poster on the frames you like the most.
+                  Click the Liquid Poster on the frames you like the most.
                 </p>
                 <p className="nfts__how-it-works-step">
                   If the frame you selected has been sold, the algorithm will
