@@ -7,6 +7,7 @@ import ShoppingCartContext from '@/context/ShoppingCartContext';
 import Web3Context from '@/context/Web3Context';
 import CountriesWithProvinces from '@/static-data/countries-with-provinces';
 import calculateVat from '@/utils/vat';
+import { Errors, ErrorTypes } from '@/static-data/errors';
 
 const PaymentContext = createContext();
 
@@ -200,6 +201,11 @@ export const PaymentProvider = ({ children }) => {
       } = await axios.post('/api/stripe-order', order);
       window.location = url;
     } catch (err) {
+      if (err.message === Errors[ErrorTypes.STRIPE_ORDER_SOME_ALREADY_SOLD]) {
+        const { notAvailableFrames } = err;
+        setAlreadySoldFrames(notAvailableFrames);
+        removeManyFromCart(notAvailableFrames);
+      }
       console.error('Error: ', err);
     }
   };

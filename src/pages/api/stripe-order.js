@@ -9,13 +9,43 @@ import calculateVat from '@/utils/vat';
 import stripe from '@/lib/stripe';
 import mongoose from 'mongoose';
 import Frame from '@/models/Frame';
-import { ErrorTypes } from '@/static-data/errors';
+import { Errors, ErrorTypes } from '@/static-data/errors';
 import uniCryptConvert from '@/lib/unicrypt';
+import getWeb3 from '@/lib/web3';
+import {
+  abi,
+  address as contractAddress,
+} from '@/contract/FairytalesAndConspiracies';
+import { getTokenIdFromFrame } from '@/utils/contract';
 
 const { CURRENCY, SERVER_URL, STRIPE_SESSION_EXPIRATION_TIME_SECONDS } =
   process.env;
 
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
+
+const filterNotLockedNotMintedFrames = async (inputFrames) => {
+  const web3 = getWeb3();
+  const contract = new web3.eth.Contract(abi, contractAddress);
+  const tokenIds = inputFrames.map(getTokenIdFromFrame);
+
+  const notLockedNotMintedTokensAsStrings = await contract.methods
+    .checkAvailability(tokenIds)
+    .call();
+
+  const tokens = notLockedNotMintedTokensAsStrings.map((tokenStr) => {
+    const token = parseInt(tokenStr, 10);
+    return token;
+  });
+
+  const notLockedNotMintedFrames =
+    tokens && tokens.length > 0
+      ? inputFrames.filter((inputFrame) =>
+          tokens.include(getTokenIdFromFrame(inputFrame))
+        )
+      : [];
+
+  return notLockedNotMintedFrames;
+};
 
 export const orderFramesMongoFilter = (frames) => {
   const filter = { _id: { $in: [] } };
@@ -28,6 +58,11 @@ export const orderFramesMongoFilter = (frames) => {
   return filter;
 };
 
+function NotAvailableFramesException(notAvailableFrames) {
+  this.message = Errors[ErrorTypes.STRIPE_ORDER_SOME_ALREADY_SOLD].message;
+  this.notAvailableFrames = notAvailableFrames;
+}
+
 const createOrder = async (req) => {
   const { customer, frames } = req.body;
   const { country, vatNo } = customer;
@@ -38,7 +73,6 @@ const createOrder = async (req) => {
   });
 
   const quantity = frames.length;
-  const filter = orderFramesMongoFilter(frames);
   const framePriceETH = NFT_PRICE_ETH;
   const framePriceEUR = ethToEur(NFT_PRICE_ETH, ethToEurRate);
   const totalPriceETH = framePriceETH * quantity;
@@ -66,16 +100,29 @@ const createOrder = async (req) => {
     vat,
   };
 
+  const notLockedNotMintedFrames = filterNotLockedNotMintedFrames(frames);
+  const notLockedNotMintedFramesFilter = orderFramesMongoFilter(
+    notLockedNotMintedFrames
+  );
+
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const nbAlreadySoldFrames = await Frame.find({
-      ...filter,
-      sold: true,
+    const availableFrames = await Frame.find({
+      ...notLockedNotMintedFramesFilter,
+      sold: false,
     }).session(session);
 
-    if (nbAlreadySoldFrames > 0) {
-      throw Error('Some of the selected frames for checkout are already sold');
+    const notAvailableFrames = frames.filter(
+      (frame) =>
+        !availableFrames.find(
+          // eslint-disable-next-line no-underscore-dangle
+          (availableFrame) => availableFrame._id === frame._id
+        )
+    );
+
+    if (notAvailableFrames.length > 0) {
+      throw NotAvailableFramesException(notAvailableFrames);
     }
 
     await Order.create([body], { session });

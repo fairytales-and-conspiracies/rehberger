@@ -5,6 +5,7 @@ export const ErrorTypes = {
   NO_ORDER_FOUND: 3,
   TRANSACTION_CREATION_UNSUCCESSFUL: 4,
   METHOD_NOT_ALLOWED: 5,
+  STRIPE_ORDER_SOME_ALREADY_SOLD: 6,
 };
 
 export const Errors = {
@@ -31,5 +32,9 @@ export const Errors = {
   [ErrorTypes.METHOD_NOT_ALLOWED]: {
     type: 'MethodNotAllowed,',
     message: 'Method not allowed.',
+  },
+  [ErrorTypes.STRIPE_ORDER_SOME_ALREADY_SOLD]: {
+    type: 'StripeOrderSomeAlreadySold,',
+    message: 'Some of the selected frames for checkout are already sold',
   },
 };
