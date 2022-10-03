@@ -186,7 +186,6 @@ export const PaymentProvider = ({ children }) => {
       setTransactionPassed(true);
       removeAllFromCart();
     } else {
-      // TODO: LOG
       setIsPaymentBeingProcessed(false);
       setTransactionPassed(false);
     }
@@ -194,7 +193,6 @@ export const PaymentProvider = ({ children }) => {
 
   const payWithStripe = async () => {
     const order = await createOrder();
-    // TODO: LOG
 
     try {
       const {

@@ -19,7 +19,6 @@ const SignUp = ({ className, isJoinCommunity, signUpText }) => {
         await axios.post('/api/sign-up', { email });
         setSignupSuccessful(true);
       } catch (err) {
-        // TODO: LOG
         setSignupError(true);
       }
     },

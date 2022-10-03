@@ -23,7 +23,6 @@ export const downloadExternal = (url, filename, extension) => {
       URL.revokeObjectURL(tempUrl);
     })
     .catch(() => {
-      // TODO: LOG
       console.error('Failed to download file!');
     });
 };

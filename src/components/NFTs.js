@@ -27,8 +27,6 @@ function Home(_, ref) {
     }
   }, [selectedVideo]);
 
-  // TODO: Etherscan and IPFS links
-
   return (
     <>
       <div className="bg-primary">
