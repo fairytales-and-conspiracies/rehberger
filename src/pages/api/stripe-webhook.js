@@ -104,6 +104,13 @@ const updateOrder = async (confirmationKey) => {
         : TransactionStatus.SUCCESSFUL;
 
     update = {
+      failedFrames: order.frames.filter(
+        (frame) =>
+          !claimableFrames.find(
+            // eslint-disable-next-line no-underscore-dangle
+            (claimableFrame) => claimableFrame._id === frame._id
+          )
+      ),
       invoiceNumber: `NFT${padZeroes(orderNumber, 6)}`,
       orderNumber,
       transactionStatus,
