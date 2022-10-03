@@ -149,8 +149,8 @@ const handler = async (req, res) => {
 
   try {
     const order = await createOrder(req);
-    sendMailForPurchasedOrder(order, order.frames);
-    res.status(200).json({ success: true, data: { order } });
+    const mailSent = await sendMailForPurchasedOrder(order, order.frames);
+    res.status(200).json({ success: true, data: { order, mailSent } });
   } catch (err) {
     // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
     res.status(400).json({ success: false, error: err });

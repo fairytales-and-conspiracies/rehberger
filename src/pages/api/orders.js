@@ -41,15 +41,17 @@ export const getNextOrderNumber = async () => {
   return order.orderNumber + 1;
 };
 
-export const sendMailForPurchasedOrder = (order, frames) => {
+export const sendMailForPurchasedOrder = async (order, frames) => {
   const invoice = niceInvoice(order, frames);
   const attachments = [
     { filename: 'Invoice.pdf', content: invoice },
     { filename: 'Terms.pdf', path: `${SERVER_URL}/doc/terms.pdf` },
   ];
-  sendMail(emailTypes.NFTsPurchased, { order, frames }, attachments).catch(
-    console.error
-  );
+  return sendMail(
+    emailTypes.NFTsPurchased,
+    { order, frames },
+    attachments
+  ).catch(console.error);
 };
 
 const fillOutRestOfOrderData = (customer, frames, ethToEurRate) => {
