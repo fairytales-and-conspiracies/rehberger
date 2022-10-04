@@ -7,6 +7,9 @@ import NFTPrice from '@/components/NFTPrice';
 import SelectionPreview from '@/components/SelectionPreview';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
+import iOS from '@/utils/ios';
+
+const MD_BREAKPOINT = 1024;
 
 const isFrameInCart = (frame, framesInCart) =>
   framesInCart.find(
@@ -19,6 +22,8 @@ const sortFrames = (frameA, frameB) => {
 };
 
 export default function FrameSelection({ onClose, video }) {
+  const isIOS = iOS();
+
   const { selectedFrames: selectedFramesInShoppingCart } =
     useContext(ShoppingCartContext);
 
@@ -64,11 +69,11 @@ export default function FrameSelection({ onClose, video }) {
   }, []);
 
   useEffect(() => {
-    if (videoRef && !loadingFrames) {
+    if (videoRef && firstImageLoaded && !loadingFrames) {
       videoRef.current.autoPlay = true;
       videoRef.current.play();
     }
-  }, [loadingFrames]);
+  }, [firstImageLoaded, loadingFrames]);
 
   const findClosestAvailableFrame = (currentTime) => {
     const timeDifferenceBetweenFrames = frames[1].time - frames[0].time;
@@ -114,6 +119,10 @@ export default function FrameSelection({ onClose, video }) {
   };
 
   const onVideoClick = (event) => {
+    if (isIOS) {
+      event.preventDefault();
+    }
+
     setIsSelectionPreviewVisible(true);
     setImageLoadingToggle(!imageLoadingToggle);
 
@@ -156,6 +165,12 @@ export default function FrameSelection({ onClose, video }) {
   const textSuffix =
     nbSufixDots > 0 ? `${new Array(nbSufixDots + 1).join('.')}` : '';
 
+  let componentShown = false;
+  if (window) {
+    componentShown =
+      !loadingFrames && (firstImageLoaded || window.innerWidth < MD_BREAKPOINT);
+  }
+
   return (
     <div className="frame-selection">
       <div className="frame-selection__encapsulator">
@@ -168,17 +183,17 @@ export default function FrameSelection({ onClose, video }) {
             width="25"
           />
         </span>
-        <div className="frame-selection__loading">
-          Condensing your liquid poster
-          <span className="frame-selection__loading--three-dots">
-            {textSuffix}
-          </span>
-        </div>
+        {!componentShown && (
+          <div className="frame-selection__loading">
+            Condensing your liquid poster
+            <span className="frame-selection__loading--three-dots">
+              {textSuffix}
+            </span>
+          </div>
+        )}
         <div
           className={`frame-selection__container ${
-            loadingFrames || !firstImageLoaded
-              ? 'frame-selection__container--invisible'
-              : ''
+            !componentShown ? 'frame-selection__container--invisible' : ''
           }`}
         >
           <div className="frame-selection__inner-container">
@@ -206,9 +221,11 @@ export default function FrameSelection({ onClose, video }) {
 
             <video
               className="frame-selection__video"
+              controls={isIOS}
               loop
               onClick={onVideoClick}
               onCanPlay={onVideoLoad}
+              playsInline
               ref={videoRef}
             >
               <source src={`/vid/${VideoData[video].cleanTitle}.mp4`} />
@@ -272,6 +289,7 @@ export default function FrameSelection({ onClose, video }) {
         </div>
         <SelectionPreview
           isSelectionPreviewVisible={isSelectionPreviewVisible}
+          onClose={onClose}
           removeAllFrames={removeAllFrames}
           removeSelectedFrame={removeSelectedFrame}
           selectedFrames={selectedFrames}
