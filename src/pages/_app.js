@@ -23,21 +23,24 @@ function getLibrary(provider) {
 }
 
 function MyApp({ Component, pageProps }) {
-  const { asPath, events, pathname } = useRouter();
+  const router = useRouter();
+  const { asPath, pathname } = router;
 
   useEffect(() => {
-    if (ENVIRONMENT !== environments.LOCAL) {
+    if (ENVIRONMENT === environments.LOCAL) {
       const handleRouteChange = (url) => {
         gtag.pageview(url);
       };
 
-      events.on('routeChangeComplete', handleRouteChange);
+      router.events.on('routeChangeComplete', handleRouteChange);
+      router.events.on('hashChangeComplete', handleRouteChange);
 
       return () => {
-        events.off('routeChangeComplete', handleRouteChange);
+        router.events.off('routeChangeComplete', handleRouteChange);
+        router.events.off('hashChangeComplete', handleRouteChange);
       };
     }
-  }, [events]);
+  }, [router.events]);
 
   useEffect(() => {
     // When page is changed, the auto scroll to top happens slowly and we need instant scroll to happen
@@ -58,7 +61,7 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Fairytales & Conspiracies</title>
       </Head>
-      {ENVIRONMENT !== environments.LOCAL && (
+      {ENVIRONMENT === environments.LOCAL && (
         <>
           <Script
             strategy="afterInteractive"
