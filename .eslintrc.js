@@ -24,6 +24,7 @@ module.exports = {
   },
   plugins: ['react', 'prettier', 'import', 'jsx-a11y'],
   rules: {
+    'consistent-return': 'off',
     'prettier/prettier': 'error',
     'react/function-component-definition': 'off',
     'react/jsx-filename-extension': 'off',
