@@ -7,7 +7,7 @@
 .music {
   margin: 0 auto;
   max-width: 120rem;
-  min-height: calc(100vh - $header-height);
+  min-height: calc(100vh - 2rem);
   position: relative;
 
   @include e('heading') {
