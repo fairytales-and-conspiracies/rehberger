@@ -8,6 +8,7 @@ import ShoppingCartContext from '@/context/ShoppingCartContext';
 
 export default function SelectionPreview({
   isSelectionPreviewVisible,
+  onClose,
   removeAllFrames,
   removeSelectedFrame,
   selectedFrames,
@@ -42,6 +43,10 @@ export default function SelectionPreview({
   const onClearAllClick = () => {
     removeAllFrames();
     setHaveFramesJustBeenAddedToShoppingCart(false);
+  };
+
+  const onMoreNFTsClick = () => {
+    onClose();
   };
 
   return (
@@ -151,7 +156,11 @@ export default function SelectionPreview({
                 </button>
               </Link>
               <Link href="/#nfts" passHref>
-                <button className="btn btn--secondary" type="button">
+                <button
+                  className="btn btn--secondary"
+                  onClick={onMoreNFTsClick}
+                  type="button"
+                >
                   More NFTs
                 </button>
               </Link>

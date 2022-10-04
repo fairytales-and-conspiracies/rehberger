@@ -67,7 +67,7 @@ export default function NFTFactsheet() {
           <span className="factsheet__title-for-size">
             Total edition size “Fairytales & Conspiracies”:
           </span>{' '}
-          <span className="factsheet__number-of-frames bold">3.750</span>
+          <span className="factsheet__number-of-frames bold">3.780</span>
         </p>
         <div className="factsheet__content-group">
           <span className="factsheet__content-heading-with-bottom-margin bold">

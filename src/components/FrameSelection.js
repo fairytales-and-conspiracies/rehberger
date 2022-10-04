@@ -281,6 +281,7 @@ export default function FrameSelection({ onClose, video }) {
         </div>
         <SelectionPreview
           isSelectionPreviewVisible={isSelectionPreviewVisible}
+          onClose={onClose}
           removeAllFrames={removeAllFrames}
           removeSelectedFrame={removeSelectedFrame}
           selectedFrames={selectedFrames}
