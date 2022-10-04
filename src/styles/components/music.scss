@@ -38,9 +38,10 @@
     }
   }
 
-  @include max-screen-xl {
+  @include max-screen-xs {
     @include e('content') {
       position: unset;
+      margin-top: 20rem;
     }
   }
 
@@ -62,6 +63,7 @@
   @include max-screen-xs {
     @include e('heading') {
       font-size: 7rem;
+      padding-top: unset;
     }
   }
 }
