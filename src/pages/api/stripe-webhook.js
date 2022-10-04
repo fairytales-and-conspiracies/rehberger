@@ -41,7 +41,7 @@ const lockFrames = async (lockableFrames) => {
   const lockedFrames =
     tokens && tokens.length > 0
       ? lockableFrames.filter((frame) =>
-          tokens.include(getTokenIdFromFrame(frame))
+          tokens.includes(getTokenIdFromFrame(frame))
         )
       : [];
 
