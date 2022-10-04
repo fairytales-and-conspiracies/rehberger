@@ -11,7 +11,7 @@ export default function ArtistPagesHeader(props) {
             active === 'current-exhibition' ? 'artist-header__link--active' : ''
           }`}
         >
-          Current exhibition
+          Current exhibitions
         </a>
       </Link>
       <Link href="/media-coverage">
