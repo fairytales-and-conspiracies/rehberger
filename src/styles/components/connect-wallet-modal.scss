@@ -1,5 +1,9 @@
 $connect-wallet-modal-height: 48rem;
 $connect-wallet-modal-width: 68rem;
+$connect-wallet-modal-height-sm: 42rem;
+$connect-wallet-modal-width-sm: 50rem;
+$connect-wallet-modal-height-xs: 38rem;
+$connect-wallet-modal-width-xs: 96%;
 
 .connect-wallet-modal {
   display: none;
@@ -69,5 +73,26 @@ $connect-wallet-modal-width: 68rem;
     top: 0;
     width: 3rem;
     white-space: nowrap;
+  }
+
+  @include max-screen-sm {
+    @include e('main') {
+      height: $connect-wallet-modal-height-sm;
+      margin-left: -25rem;
+      margin-top: unset;
+      padding: 4rem;
+      width: $connect-wallet-modal-width-sm;
+      top: 25%;
+    }
+  }
+
+  @include max-screen-xs {
+    @include e('main') {
+      height: $connect-wallet-modal-height-xs;
+      left: 2%;
+      margin-left: unset;
+      padding: 2rem;
+      width: $connect-wallet-modal-width-xs;
+    }
   }
 }
