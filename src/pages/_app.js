@@ -1,6 +1,9 @@
 import { Web3ReactProvider } from '@web3-react/core';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { SessionProvider } from 'next-auth/react';
+import { useEffect } from 'react';
 import Web3 from 'web3';
 
 import { ConnectWalletProvider } from '@/context/ConnectWalletContext';
@@ -8,16 +11,33 @@ import { PaymentProvider } from '@/context/PaymentContext';
 import { ShoppingCartProvider } from '@/context/ShoppingCartContext';
 import { UniCryptProvider } from '@/context/UniCryptContext';
 import { Web3Provider } from '@/context/Web3Context';
+import * as gtag from '@/lib/gtag';
+import environments from '@/static-data/environments';
 import '@/styles/globals.scss';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 function getLibrary(provider) {
   return new Web3(provider);
 }
 
 function MyApp({ Component, pageProps }) {
-  const { pathname, asPath } = useRouter();
+  const { asPath, events, pathname } = useRouter();
+
+  useEffect(() => {
+    if (ENVIRONMENT !== environments.LOCAL) {
+      const handleRouteChange = (url) => {
+        gtag.pageview(url);
+      };
+
+      events.on('routeChangeComplete', handleRouteChange);
+
+      return () => {
+        events.off('routeChangeComplete', handleRouteChange);
+      };
+    }
+  }, [events]);
 
   useEffect(() => {
     // When page is changed, the auto scroll to top happens slowly and we need instant scroll to happen
@@ -38,6 +58,29 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Fairytales & Conspiracies</title>
       </Head>
+      {ENVIRONMENT !== environments.LOCAL && (
+        <>
+          <Script
+            strategy="afterInteractive"
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          />
+          <Script
+            id="google-analytics"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_MEASUREMENT_ID}', {
+            page_path: window.location.pathname,
+          });
+        `,
+            }}
+          />
+        </>
+      )}
+
       <SessionProvider session={pageProps.session}>
         <Web3ReactProvider getLibrary={getLibrary}>
           <Web3Provider>
