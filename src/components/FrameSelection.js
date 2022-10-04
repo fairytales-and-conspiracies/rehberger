@@ -67,11 +67,11 @@ export default function FrameSelection({ onClose, video }) {
   }, []);
 
   useEffect(() => {
-    if (videoRef && !loadingFrames) {
+    if (videoRef && firstImageLoaded && !loadingFrames) {
       videoRef.current.autoPlay = true;
       videoRef.current.play();
     }
-  }, [loadingFrames]);
+  }, [firstImageLoaded, loadingFrames]);
 
   const findClosestAvailableFrame = (currentTime) => {
     const timeDifferenceBetweenFrames = frames[1].time - frames[0].time;
@@ -175,12 +175,14 @@ export default function FrameSelection({ onClose, video }) {
             width="25"
           />
         </span>
-        <div className="frame-selection__loading">
-          Condensing your liquid poster
-          <span className="frame-selection__loading--three-dots">
-            {textSuffix}
-          </span>
-        </div>
+        {(loadingFrames || !firstImageLoaded) && (
+          <div className="frame-selection__loading">
+            Condensing your liquid poster
+            <span className="frame-selection__loading--three-dots">
+              {textSuffix}
+            </span>
+          </div>
+        )}
         <div
           className={`frame-selection__container ${
             loadingFrames || !firstImageLoaded
