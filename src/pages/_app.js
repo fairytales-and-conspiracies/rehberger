@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }) {
   const { asPath, pathname } = router;
 
   useEffect(() => {
-    if (ENVIRONMENT === environments.LOCAL) {
+    if (ENVIRONMENT !== environments.LOCAL) {
       const handleRouteChange = (url) => {
         gtag.pageview(url);
       };
@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Fairytales & Conspiracies</title>
       </Head>
-      {ENVIRONMENT === environments.LOCAL && (
+      {ENVIRONMENT !== environments.LOCAL && (
         <>
           <Script
             strategy="afterInteractive"
