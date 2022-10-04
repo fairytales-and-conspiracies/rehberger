@@ -9,6 +9,8 @@ import ShoppingCartContext from '@/context/ShoppingCartContext';
 import VideoData from '@/static-data/videos';
 import iOS from '@/utils/ios';
 
+const MD_BREAKPOINT = 1024;
+
 const isFrameInCart = (frame, framesInCart) =>
   framesInCart.find(
     (frameInCart) =>
@@ -163,6 +165,12 @@ export default function FrameSelection({ onClose, video }) {
   const textSuffix =
     nbSufixDots > 0 ? `${new Array(nbSufixDots + 1).join('.')}` : '';
 
+  let componentShown = false;
+  if (window) {
+    componentShown =
+      !loadingFrames && (firstImageLoaded || window.innerWidth < MD_BREAKPOINT);
+  }
+
   return (
     <div className="frame-selection">
       <div className="frame-selection__encapsulator">
@@ -175,7 +183,7 @@ export default function FrameSelection({ onClose, video }) {
             width="25"
           />
         </span>
-        {(loadingFrames || !firstImageLoaded) && (
+        {!componentShown && (
           <div className="frame-selection__loading">
             Condensing your liquid poster
             <span className="frame-selection__loading--three-dots">
@@ -185,9 +193,7 @@ export default function FrameSelection({ onClose, video }) {
         )}
         <div
           className={`frame-selection__container ${
-            loadingFrames || !firstImageLoaded
-              ? 'frame-selection__container--invisible'
-              : ''
+            !componentShown ? 'frame-selection__container--invisible' : ''
           }`}
         >
           <div className="frame-selection__inner-container">
