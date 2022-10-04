@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps }) {
   const { pathname, asPath } = useRouter();
 
   useEffect(() => {
+    // When page is changed, the auto scroll to top happens slowly and we need instant scroll to happen
     const sectionId = asPath.split(`${pathname}#`)[1];
 
     // some browsers (like safari) may require a timeout to delay calling this function after a page has loaded; otherwise, it may not update the position
