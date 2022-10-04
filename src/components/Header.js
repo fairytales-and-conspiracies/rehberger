@@ -11,8 +11,7 @@ const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 export default function Header({ logoOnly, modalOpen }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const onMenuClick = () => {
-    const newIsMenuOpen = !isMenuOpen;
+  const onMenuClick = (newIsMenuOpen) => {
     setIsMenuOpen(newIsMenuOpen);
 
     if (newIsMenuOpen) {
@@ -23,7 +22,7 @@ export default function Header({ logoOnly, modalOpen }) {
   };
 
   const onLinkClick = () => {
-    setIsMenuOpen(false);
+    onMenuClick(false);
   };
 
   let menuButtonImage;
@@ -165,7 +164,7 @@ export default function Header({ logoOnly, modalOpen }) {
             className={`header__menu-button btn min-screen-sm-hidden ${
               isMenuOpen ? 'header__menu-button--menu-open' : ''
             } ${INTERIM ? 'header__menu-button--interim' : ''}`}
-            onClick={!INTERIM ? onMenuClick : () => {}}
+            onClick={!INTERIM ? () => onMenuClick(!isMenuOpen) : () => {}}
             type="button"
           >
             <Image
