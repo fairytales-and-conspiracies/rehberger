@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import ArtistPagesHeader from '@/components/ArtistPagesHeader';
 
 export default function CurrentExhibition() {
@@ -8,62 +6,69 @@ export default function CurrentExhibition() {
       <ArtistPagesHeader active="current-exhibition" />
       <div className="current-exhibition__main">
         <h1 className="current-exhibition__heading">Current exhibition</h1>
-        <div className="current-exhibition__cover">
-          <Image
-            alt={`Tobias Rehberger current exhibition - "I do if I don't"`}
-            layout="responsive"
-            width="1300"
-            src="/img/current-exhibition-cover.png"
-            height="600"
-          />
-        </div>
-        <div className="current-exhibition__cover--vertical">
-          <Image
-            alt={`Tobias Rehberger current exhibition - "I do if I don't"`}
-            layout="responsive"
-            width="364"
-            src="/img/current-exhibition-cover-vertical.png"
-            height="676"
-          />
-        </div>
         <div className="current-exhibition__content">
           <p className="current-exhibition__text">
-            <span>
-              The Kunstmuseum Stuttgart is currently presenting a comprehensive
-              exhibition devoted to the work of Tobias Rehberger.
-            </span>
+            <b>Current exhibitions by Tobias Rehberger</b>
             <br />
             <br />
-            For his sculptures, wall pictures, and installations, the artist, a
-            native of Esslingen now active worldwide, makes use of various
-            concepts and ideas from architecture, design or even music.
+            <b>Solo Shows:</b>
             <br />
             <br />
-            Rehberger sets everyday objects and spatial structures into
-            unexpected combinations, thus giving them a new interpretation.
+            “I am me (except when I pretend I am her)”
+            <br />
+            Galleria Continua Beijing
+            <br />
+            Until January 20, 2023
             <br />
             <br />
-            The widely acclaimed exhibition features the artist’s central work
-            groups from the last three decades.
+            “Tobias Rehberger”
+            <br />
+            Yuelai Art Musuem, Chongqing, China
+            <br />
+            Opening October 28, 2022
+            <br />
+            <br />
+            <b>Group Shows:</b>
+            <br />
+            <br />
+            “Sven Väth - It’s easy to tell what saved us from hell”
+            <br />
+            Momem, Museum of Modern Electronic Music, Frankfurt / Main, Germany
+            <br />
+            Spatial Remix by Tobias Rehberger
+            <br />
+            Until October 30, 2022
+            <br />
+            <br />
+            “CRAZY”
+            <br />
+            Chiostro del Bramante, Rome, Italy
+            <br />
+            Until January 8, 2023
+            <br />
+            <br />
+            “The Ability to Dream”
+            <br />
+            Galleria Continua, San Gimignano, Italy
+            <br />
+            Opening September 24, 2022
+            <br />
+            <br />
+            “Monochrome Multitudes”
+            <br />
+            Smart Museum of Art, Chicago, USA
+            <br />
+            September 22, 2022 – January 8, 2023
+            <br />
+            <br />
+            “The Voice of Things”
+            <br />
+            Highlights of the Centre Pompidou Collection Vol. II
+            <br />
+            Westbund Museum Project, Shanghai
+            <br />
+            Until February 5, 2023
           </p>
-          <div className="current-exhibition__image">
-            <Image
-              alt="Rehberger - Facade"
-              height="800"
-              layout="responsive"
-              src="/img/current-exhibition-1.png"
-              width="1024"
-            />
-          </div>
-          <div className="current-exhibition__image">
-            <Image
-              alt="Rehberger - Sex"
-              height="680"
-              layout="responsive"
-              src="/img/current-exhibition-2.png"
-              width="1024"
-            />
-          </div>
         </div>
       </div>
     </div>
