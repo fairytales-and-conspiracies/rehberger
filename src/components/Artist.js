@@ -10,7 +10,7 @@ export default function Artist() {
           <div className="artist__button-links">
             <Link href="/current-exhibition">
               <a className="artist__button-link btn btn--primary">
-                Current exhibition
+                Current exhibitions
               </a>
             </Link>
             <Link href="/media-coverage">
