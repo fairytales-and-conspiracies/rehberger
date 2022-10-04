@@ -185,7 +185,7 @@ export default function FrameSelection({ onClose, video }) {
         </span>
         {!componentShown && (
           <div className="frame-selection__loading">
-            Condensing your liquid poster
+            Condensing your Liquid Poster
             <span className="frame-selection__loading--three-dots">
               {textSuffix}
             </span>
