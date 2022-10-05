@@ -24,6 +24,7 @@ module.exports = {
   },
   plugins: ['react', 'prettier', 'import', 'jsx-a11y'],
   rules: {
+    '@next/next/no-img-element': 'off',
     'consistent-return': 'off',
     'prettier/prettier': 'error',
     'react/function-component-definition': 'off',
