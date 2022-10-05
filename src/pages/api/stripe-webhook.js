@@ -14,7 +14,7 @@ import {
   orderFramesMongoFilter,
   sendMailForPurchasedOrder,
 } from '@/pages/api/orders';
-import { ErrorTypes } from '@/static-data/errors';
+import { Errors, ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import { getTokenIdFromFrame } from '@/utils/contract';
 import { padZeroes } from '@/utils/string';
@@ -57,7 +57,7 @@ const updateOrder = async (confirmationKey) => {
     order = await Order.findOne({ confirmationKey }).session(session);
 
     if (order.transactionStatus !== TransactionStatus.PENDING) {
-      throw Error('Stripe order already updated!');
+      throw Error(Errors[ErrorTypes.STRIPE_DOUBLE_UPDATE].message);
     }
 
     const allFramesFilter = orderFramesMongoFilter(order.frames);
@@ -121,6 +121,9 @@ const updateOrder = async (confirmationKey) => {
     await session.abortTransaction();
     // TODO: sendMailForFailedToUpdateOrder(order); - For us
     // TODO: sendMailForPurchasedOrderNoClarity(order); - For user
+    if (e.message === Errors[ErrorTypes.STRIPE_DOUBLE_UPDATE].message) {
+      throw e;
+    }
   } finally {
     await session.endSession();
   }
@@ -171,15 +174,20 @@ const handler = async (req, res) => {
 
   const confirmationKey = event.data.object.client_reference_id;
 
-  const order = await updateOrder(confirmationKey);
+  try {
+    const order = await updateOrder(confirmationKey);
 
-  const allFramesFilter = orderFramesMongoFilter(order.frames);
-  const allFrames = await Frame.find(allFramesFilter);
+    const allFramesFilter = orderFramesMongoFilter(order.frames);
+    const allFrames = await Frame.find(allFramesFilter);
 
-  if (order && allFrames) {
-    sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
-  } else {
-    // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
+    if (order && allFrames) {
+      sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+    } else {
+      // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
+    }
+  } catch (error) {
+    res.status(403).json({ success: false, error });
+    return;
   }
 
   res.status(201).json({ success: true });
