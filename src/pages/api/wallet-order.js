@@ -14,9 +14,8 @@ import { ErrorTypes } from '@/static-data/errors';
 import uniCryptConvert from '@/lib/unicrypt';
 import { sendMailForPurchasedOrder } from './orders';
 
+const { INFURA_URL } = process.env;
 const { MNEMONIC } = process.env;
-
-const INFURA_URL = process.env.NEXT_PUBLIC_INFURA_URL;
 const NFT_PRICE_ETH = parseFloat(process.env.NEXT_PUBLIC_NFT_PRICE_ETH);
 
 export const orderFramesMongoFilter = (frames) => {
