@@ -49,37 +49,22 @@ const lockFrames = async (lockableFrames) => {
 };
 
 const updateOrder = async (confirmationKey) => {
-  let allFramesFilter;
   let order;
-  let lockableFrames;
-  let update;
 
-  const preLockSession = await mongoose.startSession();
-  preLockSession.startTransaction();
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
-    order = await Order.findOne({ confirmationKey }).session(preLockSession);
+    order = await Order.findOne({ confirmationKey }).session(session);
 
-    allFramesFilter = orderFramesMongoFilter(order.frames);
+    const allFramesFilter = orderFramesMongoFilter(order.frames);
 
-    lockableFrames = await Frame.find({
+    const lockableFrames = await Frame.find({
       ...allFramesFilter,
       sold: false,
-    }).session(preLockSession);
+    }).session(session);
 
-    await preLockSession.commitTransaction();
-  } catch (e) {
-    await preLockSession.abortTransaction();
-    // TODO: sendMailForFailedToReadOrderData(order);
-    return order;
-  } finally {
-    await preLockSession.endSession();
-  }
+    const { frames } = order;
 
-  const { frames } = order;
-
-  const updateOrderSession = await mongoose.startSession();
-  updateOrderSession.startTransaction();
-  try {
     const lockedFrames =
       lockableFrames.length > 0 ? await lockFrames(lockableFrames) : [];
 
@@ -90,7 +75,7 @@ const updateOrder = async (confirmationKey) => {
           TransactionStatus.PARTIALLY_SUCCESSFUL,
         ],
       },
-    }).session(updateOrderSession);
+    }).session(session);
     const orderNumber = lastOrderNumber + 1;
 
     const lockedFramesFilter = orderFramesMongoFilter(lockedFrames);
@@ -98,7 +83,7 @@ const updateOrder = async (confirmationKey) => {
     const claimableFrames = await Frame.find({
       ...lockedFramesFilter,
       sold: false,
-    }).session(updateOrderSession);
+    }).session(session);
 
     const transactionStatus =
       // eslint-disable-next-line no-nested-ternary
@@ -108,7 +93,7 @@ const updateOrder = async (confirmationKey) => {
         ? TransactionStatus.PARTIALLY_SUCCESSFUL
         : TransactionStatus.SUCCESSFUL;
 
-    update = {
+    const update = {
       failedFrames: order.frames.filter(
         (frame) =>
           !claimableFrames.find(
@@ -123,23 +108,17 @@ const updateOrder = async (confirmationKey) => {
 
     Object.assign(order, update);
 
-    await Order.updateOne({ confirmationKey }, update).session(
-      updateOrderSession
-    );
+    await Order.updateOne({ confirmationKey }, update).session(session);
 
-    await Frame.updateMany(
-      lockedFramesFilter,
-      { sold: true },
-      { updateOrderSession }
-    );
+    await Frame.updateMany(lockedFramesFilter, { sold: true }, { session });
 
-    await updateOrderSession.commitTransaction();
+    await session.commitTransaction();
   } catch (e) {
-    await updateOrderSession.abortTransaction();
+    await session.abortTransaction();
     // TODO: sendMailForFailedToUpdateOrder(order); - For us
     // TODO: sendMailForPurchasedOrderNoClarity(order); - For user
   } finally {
-    await updateOrderSession.endSession();
+    await session.endSession();
   }
 
   return order;
