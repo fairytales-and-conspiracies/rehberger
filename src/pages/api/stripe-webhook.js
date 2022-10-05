@@ -102,7 +102,7 @@ const updateOrder = async (confirmationKey) => {
         (frame) =>
           !claimableFrames.find(
             // eslint-disable-next-line no-underscore-dangle
-            (claimableFrame) => claimableFrame._id === frame._id
+            (claimableFrame) => claimableFrame._id.equals(frame._id)
           )
       ),
       invoiceNumber: `NFT${padZeroes(orderNumber, 6)}`,
