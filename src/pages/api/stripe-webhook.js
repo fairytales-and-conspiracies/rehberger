@@ -56,6 +56,10 @@ const updateOrder = async (confirmationKey) => {
   try {
     order = await Order.findOne({ confirmationKey }).session(session);
 
+    if (order.transactionStatus !== TransactionStatus.PENDING) {
+      throw Error('Stripe order already updated!');
+    }
+
     const allFramesFilter = orderFramesMongoFilter(order.frames);
 
     const lockableFrames = await Frame.find({
