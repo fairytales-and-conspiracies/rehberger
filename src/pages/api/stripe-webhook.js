@@ -174,8 +174,9 @@ const handler = async (req, res) => {
 
   const confirmationKey = event.data.object.client_reference_id;
 
+  let order;
   try {
-    const order = await updateOrder(confirmationKey);
+    order = await updateOrder(confirmationKey);
 
     const allFramesFilter = orderFramesMongoFilter(order.frames);
     const allFrames = await Frame.find(allFramesFilter);
@@ -190,7 +191,7 @@ const handler = async (req, res) => {
     return;
   }
 
-  res.status(201).json({ success: true });
+  res.status(201).json({ success: true, data: order });
 };
 
 export default handler;
