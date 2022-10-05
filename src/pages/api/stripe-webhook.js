@@ -174,24 +174,17 @@ const handler = async (req, res) => {
 
   const confirmationKey = event.data.object.client_reference_id;
 
-  let order;
-  try {
-    order = await updateOrder(confirmationKey);
-
+  updateOrder(confirmationKey).then(async (order) => {
     const allFramesFilter = orderFramesMongoFilter(order.frames);
     const allFrames = await Frame.find(allFramesFilter);
-
     if (order && allFrames) {
       sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
     } else {
       // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
     }
-  } catch (error) {
-    res.status(403).json({ success: false, error });
-    return;
-  }
+  });
 
-  res.status(201).json({ success: true, data: order });
+  res.status(201).json({ success: true });
 };
 
 export default handler;
