@@ -45,7 +45,7 @@ const FAQ_CONTENT = [
           first time.
         </p>
 
-        <p className="faq__answer-paragraph faq__answer-paragraph--no-margin-b0ttom">
+        <p className="faq__answer-paragraph faq__answer-paragraph--no-margin-bottom">
           Each of Tobias Rehberger’s “Fairytales & Conspiracies” NFTs references
           a digital image as well as a physical fine art print on paper – thus
           exploring all capabilities of NFT technology.
@@ -69,7 +69,7 @@ const FAQ_CONTENT = [
           purchase ETH with a credit card in the wallet itself or at a crypto
           exchange and transfer it from there to your wallet.
         </p>
-        <p className="faq__answer-paragraph faq__answer-paragraph--no-margin-b0ttom">
+        <p className="faq__answer-paragraph faq__answer-paragraph--no-margin-bottom">
           b) You can also conveniently pay for the NFTs you selected directly on
           our site with a credit card. In this case, your NFTs will be stored
           safely with us until further notice. In the confirmation email for
@@ -187,6 +187,116 @@ const FAQ_CONTENT = [
         its decentralized nature files stored on IPFS are more resilient against
         actions of a single actor.
       </p>
+    ),
+  },
+  {
+    question:
+      'I cannot see my NFT in my MetaMask wallet. What do I need to do?',
+    answer: (
+      <>
+        <ol className="faq__answer-ordered-list">
+          <li>
+            Click on “Import tokens” located at the bottom of the “Assets” tab
+            on your wallet homepage.
+          </li>
+
+          <li>
+            Switch to the “Custom token” tab at the top, and then enter the
+            “Fairytales & Conspiracies” token address
+            0x1D41518a2c8229b04dAd2dD24D262Af7A8b01cAD in the first field.
+          </li>
+
+          <li>The “Token Symbol” should autofill.</li>
+
+          <li>For “Token Decimal” enter “0”.</li>
+
+          <li>Click “Add Custom Token”</li>
+
+          <li>
+            You will now see a page asking you to confirm that you want to add
+            the token. When you click “Import Tokens”, the token type will be
+            added to your wallet.
+          </li>
+        </ol>
+
+        <p className="faq__answer-paragraph faq__answer-paragraph--small-margin-bottom">
+          For further information, please follow the links below:
+        </p>
+
+        <ul className="faq__answer-list">
+          <li>
+            <a
+              className="faq__answer-link"
+              href="https://metamask.zendesk.com/hc/en-us/articles/360015489031-How-to-display-tokens-in-MetaMask#h_01FWH492CHY60HWPC28RW0872H"
+            >
+              https://metamask.zendesk.com/hc/en-us/articles/360015489031-How-to-display-tokens-in-MetaMask#h_01FWH492CHY60HWPC28RW0872H
+            </a>
+          </li>
+          <li>
+            <a
+              className="faq__answer-link"
+              href="https://www.youtube.com/watch?v=lWbiYBeS7lM"
+            >
+              https://www.youtube.com/watch?v=lWbiYBeS7lM
+            </a>
+          </li>
+        </ul>
+
+        <p className="faq__answer-paragraph">
+          Please note, that MetaMask currently does support receiving and
+          holding ERC-1155 NFTs (the technical standard used by “Fairytales and
+          Conspiracies”), however does not display these tokens flawlessly in
+          the wallet UI.
+        </p>
+        <p className="faq__answer-paragraph">
+          To make sure, your Ethereum address holds your “Fairytales &
+          Conspiracies” NFT we recommend looking up your public Ethereum address
+          on Etherscan and checking your balance under “Erc1155 token
+          transactions”. Your correct token balance will be displayed there.
+        </p>
+      </>
+    ),
+  },
+  {
+    question:
+      'How do I transfer my „Fairytales & Conspiracies“ NFT to another address?',
+    answer: (
+      <>
+        <p className="faq__answer-paragraph">
+          “Fairytales & Conspiracies” is an NFT edition on the Ethereum
+          blockchain using the latest and most advanced technical standard for
+          NFTs ERC-1155.
+        </p>
+
+        <p className="faq__answer-paragraph">
+          At the moment several wallets such as MetaMask allow for ERC-1155
+          tokens to be received and held, but don’t support sending these NFTs
+          to other Ethereum addresses yet.
+        </p>
+
+        <p className="faq__answer-paragraph">
+          To send “Fairytales & Conspiracies” NFTs to another Ethereum address,
+          the easiest option is to connect your MetaMask or Coinbase Wallet
+          browser extension to the NFT marketplace OpenSea (
+          <a className="faq__answer-link" href="https://www.opensea.io">
+            www.opensea.io
+          </a>
+          ) and use its functionality OpenSea transfer.
+        </p>
+
+        <p className="faq__answer-paragraph faq__answer-paragraph--small-margin-bottom">
+          To transfer an NFT using OpenSea transfer function please follow the
+          steps described in the link below:
+        </p>
+
+        <ul className="faq__answer-list">
+          <li>
+            <a className="faq__answer-link">
+              https://cryptochronicle.io/how-to-transfer-your-nfts-on-opensea/
+            </a>
+          </li>
+        </ul>
+      </>
     ),
   },
 ];
