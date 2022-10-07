@@ -1,6 +1,10 @@
 .frame-image {
   display: inherit;
 
+  @include m('in-shopping-cart') {
+    flex-shrink: 0;
+  }
+
   @include e('main') {
     display: inline-block;
     overflow: hidden;
@@ -8,7 +12,6 @@
 
     @include m('in-shopping-cart') {
       flex-grow: 0;
-      flex-shrink: 0;
     }
 
     &:hover {

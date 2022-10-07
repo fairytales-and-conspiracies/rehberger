@@ -23,7 +23,11 @@ export default function FrameImageWithRemoveButton({
   }
 
   return (
-    <span className="frame-image">
+    <span
+      className={`frame-image ${
+        isInShoppingCart ? 'frame-image--in-shopping-cart' : ''
+      }`}
+    >
       <span
         className={`frame-image__main ${
           isInShoppingCart ? 'frame-image__main--in-shopping-cart' : ''
