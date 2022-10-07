@@ -5,7 +5,7 @@ export default function CurrentExhibition() {
     <div className="current-exhibition bg-primary">
       <ArtistPagesHeader active="current-exhibition" />
       <div className="current-exhibition__main">
-        <h1 className="current-exhibition__heading">Current exhibitions</h1>
+        <h1 className="current-exhibition__heading">Current exhibition</h1>
         <div className="current-exhibition__content">
           <p className="current-exhibition__text">
             <b>Current exhibitions by Tobias Rehberger</b>
