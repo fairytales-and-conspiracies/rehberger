@@ -48,8 +48,12 @@
   @include e('answer-paragraph') {
     margin: 1.5rem 0;
 
-    @include m('no-margin-b0ttom') {
+    @include m('no-margin-bottom') {
       margin-bottom: 0;
+    }
+
+    @include m('small-margin-bottom') {
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -65,6 +69,14 @@
   @include e('answer-list') {
     list-style-type: disc;
     padding-left: 3rem;
+  }
+
+  @include e('answer-ordered-list') {
+    padding-left: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @include e('element') {
   }
 
   @include max-screen-md {
