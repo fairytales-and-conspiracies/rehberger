@@ -174,17 +174,29 @@ const handler = async (req, res) => {
 
   const confirmationKey = event.data.object.client_reference_id;
 
-  updateOrder(confirmationKey).then(async (order) => {
-    const allFramesFilter = orderFramesMongoFilter(order.frames);
-    const allFrames = await Frame.find(allFramesFilter);
-    if (order && allFrames) {
-      sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
-    } else {
-      // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
-    }
-  });
-
-  res.status(201).json({ success: true });
+  updateOrder(confirmationKey)
+    .then(async (order) => {
+      const allFramesFilter = orderFramesMongoFilter(order.frames);
+      const allFrames = await Frame.find(allFramesFilter);
+      if (order && allFrames) {
+        sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+        res.status(201).json({ success: true });
+      } else {
+        // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
+        res.status(400).json({
+          success: false,
+          error: 'Do not have proper order and frames info',
+        });
+      }
+    })
+    .catch((err) => {
+      if (err.message === Errors[ErrorTypes.STRIPE_DOUBLE_UPDATE].message) {
+        res.status(201).json({
+          success: true,
+          data: { message: 'Response to resent webhook' },
+        });
+      }
+    });
 };
 
 export default handler;
