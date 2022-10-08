@@ -101,7 +101,9 @@ const handler = async (req, res) => {
 
   // After submitting the order verificatio form,
   // before submitting the security question and answer form
-  else if (order.noSecurityQuestion) {
+  // Check for undefined because in that case we do not want to
+  // ask for a question / answer we did not store
+  else if (order.noSecurityQuestion || order.noSecurityQuestion === undefined) {
     forOrderVerificationNoSecurityQuestion(req, res, order);
   }
 

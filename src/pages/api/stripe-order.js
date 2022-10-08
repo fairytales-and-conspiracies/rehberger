@@ -30,7 +30,7 @@ export const orderFramesMongoFilter = (frames) => {
 };
 
 const createOrder = async (req) => {
-  const { customer, frames } = req.body;
+  const { answer, customer, frames, noSecurityQuestion, question } = req.body;
   const { country, vatNo } = customer;
 
   const ethToEurRate = await uniCryptConvert({
@@ -49,6 +49,7 @@ const createOrder = async (req) => {
   const netPriceEUR = parseFloat((totalPriceEUR / (1.0 + vat)).toFixed(2));
 
   const body = {
+    answer,
     confirmationKey: crypto.randomBytes(16).toString('hex'),
     customer,
     claimed: false,
@@ -58,8 +59,10 @@ const createOrder = async (req) => {
     quantity,
     netPriceETH,
     netPriceEUR,
+    noSecurityQuestion,
     orderCreatedTimestamp: Date.now(),
     paymentMethod: 'CARD',
+    question,
     toBeClaimed: true,
     totalPriceETH,
     totalPriceEUR,
