@@ -33,12 +33,12 @@ const forSecurityVerification = async (req, res, order) => {
     );
     const filter = orderFramesMongoFilter(orderFrameRefs);
     const frames = await Frame.find(filter);
-    sendMail(emailTypes.NFTsClaimed, {
+    const mailSent = await sendMail(emailTypes.NFTsClaimed, {
       frames,
       order: updatedOrder,
       walletAddress,
     }).catch(console.error);
-    res.status(201).json({ success: true, data: order });
+    res.status(201).json({ success: true, data: { order, mailSent } });
   } else {
     sendError(res, ErrorTypes.INCORRECT_SECURITY_QUESTION_ANSWER);
   }
@@ -50,12 +50,12 @@ const forOrderVerificationNoSecurityQuestion = async (req, res, order) => {
   const updatedOrder = await updateOrderForClaimedNFTs(orderBuffer.toString());
   const filter = orderFramesMongoFilter(orderFrameRefs);
   const frames = await Frame.find(filter);
-  sendMail(emailTypes.NFTsClaimed, {
+  const mailSent = await sendMail(emailTypes.NFTsClaimed, {
     frames,
     order: updatedOrder,
     walletAddress,
   }).catch(console.error);
-  res.status(201).json({ success: true, data: order });
+  res.status(201).json({ success: true, data: { order, mailSent } });
 };
 
 const forOrderVerificationSecurityQuestion = (res, order) => {
@@ -63,8 +63,10 @@ const forOrderVerificationSecurityQuestion = (res, order) => {
   res.status(201).json({
     success: true,
     data: {
-      noSecurityQuestion,
-      question: orderQuestion,
+      order: {
+        noSecurityQuestion,
+        question: orderQuestion,
+      },
     },
   });
 };

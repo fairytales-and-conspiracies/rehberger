@@ -59,7 +59,9 @@ export default function ClaimNFTs() {
         setAddress(walletAddress);
         const {
           data: {
-            data: { noSecurityQuestion, question },
+            data: {
+              order: { noSecurityQuestion, question },
+            },
           },
         } = await axios.post('/api/order-verification', {
           confirmationKey,
