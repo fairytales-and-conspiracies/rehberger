@@ -1,18 +1,29 @@
 .frame-image {
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
+  display: inherit;
 
   @include m('in-shopping-cart') {
-    flex-grow: 0;
     flex-shrink: 0;
   }
 
-  &:hover {
-    .frame-image__remove-container {
-      bottom: 0;
-      transition: 0.3s ease-in;
+  @include e('main') {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+
+    @include m('in-shopping-cart') {
+      flex-grow: 0;
     }
+
+    &:hover {
+      .frame-image__remove-container {
+        bottom: 0;
+        transition: 0.3s ease-in;
+      }
+    }
+  }
+
+  @include e('img') {
+    width: 100%;
   }
 
   @include e('remove-container') {
@@ -20,6 +31,7 @@
     bottom: -$selection-preview-frame-remove-wrapper-height;
     display: inline-block;
     height: $selection-preview-frame-remove-wrapper-height;
+    left: 0;
     padding: 0.8rem;
     position: absolute;
     text-align: right;
@@ -40,6 +52,22 @@
 
   @include e('remove-icon') {
     cursor: pointer;
+  }
+
+  @include e('info') {
+    color: $color-text-dark;
+    font-size: 2.4rem;
+    margin-top: 0.2rem;
+    text-align: center;
+
+    @include m('invisible') {
+      visibility: hidden;
+    }
+  }
+
+  @include e('title') {
+    display: block;
+    font-size: 1.8rem;
   }
 
   @include max-screen-lg {

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react';
 
 import NFTPrice from '@/components/NFTPrice';
@@ -91,8 +90,7 @@ export default function CurrentFrame({
                 !imageLoaded ? 'selected-frame__image-img--invisible' : ''
               }`}
               height="100%"
-              layout="responsive"
-              loading="lazy"
+              loading="eager"
               onLoad={onImageLoad}
               src={
                 imageSrc ||

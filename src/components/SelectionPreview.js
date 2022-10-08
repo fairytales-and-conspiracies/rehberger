@@ -122,10 +122,10 @@ export default function SelectionPreview({
               </>
             )}
             {!!selectedFrames.length &&
-              selectedFrames.map((frame, index) => (
+              selectedFrames.map((frame) => (
                 <FrameImageWithRemoveButton
                   frame={frame}
-                  key={index}
+                  key={frame.frame}
                   onRemoveClick={onSelectedFrameRemoveClick}
                 />
               ))}

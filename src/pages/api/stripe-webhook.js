@@ -49,37 +49,31 @@ const lockFrames = async (lockableFrames) => {
 };
 
 const updateOrder = async (confirmationKey) => {
-  let allFramesFilter;
   let order;
-  let lockableFrames;
-  let update;
 
-  const preLockSession = await mongoose.startSession();
-  preLockSession.startTransaction();
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    order = await Order.findOne({ confirmationKey }).session(preLockSession);
+    order = await Order.findOne({ confirmationKey }).session(session);
 
-    allFramesFilter = orderFramesMongoFilter(order.frames);
+    if (order.transactionStatus !== TransactionStatus.PENDING) {
+      // Workaround because error sending not working as expected.
+      await session.abortTransaction();
+      return {
+        alreadyUpdated: true,
+      };
+    }
 
-    lockableFrames = await Frame.find({
+    const allFramesFilter = orderFramesMongoFilter(order.frames);
+
+    const lockableFrames = await Frame.find({
       ...allFramesFilter,
       sold: false,
-    }).session(preLockSession);
+    }).session(session);
 
-    await preLockSession.commitTransaction();
-  } catch (e) {
-    await preLockSession.abortTransaction();
-    // TODO: sendMailForFailedToReadOrderData(order);
-    return order;
-  } finally {
-    await preLockSession.endSession();
-  }
+    const { frames } = order;
 
-  const { frames } = order;
-
-  const updateOrderSession = await mongoose.startSession();
-  updateOrderSession.startTransaction();
-  try {
     const lockedFrames =
       lockableFrames.length > 0 ? await lockFrames(lockableFrames) : [];
 
@@ -90,7 +84,7 @@ const updateOrder = async (confirmationKey) => {
           TransactionStatus.PARTIALLY_SUCCESSFUL,
         ],
       },
-    }).session(updateOrderSession);
+    }).session(session);
     const orderNumber = lastOrderNumber + 1;
 
     const lockedFramesFilter = orderFramesMongoFilter(lockedFrames);
@@ -98,7 +92,7 @@ const updateOrder = async (confirmationKey) => {
     const claimableFrames = await Frame.find({
       ...lockedFramesFilter,
       sold: false,
-    }).session(updateOrderSession);
+    }).session(session);
 
     const transactionStatus =
       // eslint-disable-next-line no-nested-ternary
@@ -108,12 +102,12 @@ const updateOrder = async (confirmationKey) => {
         ? TransactionStatus.PARTIALLY_SUCCESSFUL
         : TransactionStatus.SUCCESSFUL;
 
-    update = {
+    const update = {
       failedFrames: order.frames.filter(
         (frame) =>
           !claimableFrames.find(
             // eslint-disable-next-line no-underscore-dangle
-            (claimableFrame) => claimableFrame._id === frame._id
+            (claimableFrame) => claimableFrame._id.equals(frame._id)
           )
       ),
       invoiceNumber: `NFT${padZeroes(orderNumber, 6)}`,
@@ -123,23 +117,18 @@ const updateOrder = async (confirmationKey) => {
 
     Object.assign(order, update);
 
-    await Order.updateOne({ confirmationKey }, update).session(
-      updateOrderSession
-    );
+    await Order.updateOne({ confirmationKey }, update).session(session);
 
-    await Frame.updateMany(
-      lockedFramesFilter,
-      { sold: true },
-      { updateOrderSession }
-    );
+    await Frame.updateMany(lockedFramesFilter, { sold: true }, { session });
 
-    await updateOrderSession.commitTransaction();
-  } catch (e) {
-    await updateOrderSession.abortTransaction();
+    await session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
     // TODO: sendMailForFailedToUpdateOrder(order); - For us
     // TODO: sendMailForPurchasedOrderNoClarity(order); - For user
+    throw err;
   } finally {
-    await updateOrderSession.endSession();
+    await session.endSession();
   }
 
   return order;
@@ -188,18 +177,38 @@ const handler = async (req, res) => {
 
   const confirmationKey = event.data.object.client_reference_id;
 
-  const order = await updateOrder(confirmationKey);
-
-  const allFramesFilter = orderFramesMongoFilter(order.frames);
-  const allFrames = await Frame.find(allFramesFilter);
-
-  if (order && allFrames) {
-    sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
-  } else {
-    // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
+  let order;
+  try {
+    order = await updateOrder(confirmationKey);
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.toString() });
   }
 
-  res.status(201).json({ success: true });
+  // Workaround because error sending not working as expected.
+  if (order && order.alreadyUpdated) {
+    res.status(201).json({
+      success: true,
+      data: { message: 'Response to resent webhook' },
+    });
+  } else {
+    try {
+      const allFramesFilter = orderFramesMongoFilter(order.frames);
+      const allFrames = await Frame.find(allFramesFilter);
+
+      if (order && allFrames) {
+        const mailSent = await sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+        res.status(201).json({ success: true, data: mailSent.toString() });
+      } else {
+        // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
+        res.status(400).json({
+          success: false,
+          error: 'Do not have proper order and frames info',
+        });
+      }
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.toString() });
+    }
+  }
 };
 
 export default handler;

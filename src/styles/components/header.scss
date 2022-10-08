@@ -138,7 +138,10 @@
 
           &:hover,
           &:active {
-            padding-bottom: 3.6rem;
+            padding: {
+              bottom: 3.5rem;
+              top: 3.8rem;
+            }
           }
         }
       }

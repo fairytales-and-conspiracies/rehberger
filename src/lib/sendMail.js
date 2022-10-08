@@ -10,6 +10,7 @@ const nodemailer = require('nodemailer');
 const createMailObject = (to, subject, template, attachments) => ({
   from: process.env.SEND_EMAIL_FROM,
   to,
+  bcc: process.env.SEND_EMAIL_BCC,
   subject,
   html: template,
   attachments,
