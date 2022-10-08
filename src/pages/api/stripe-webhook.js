@@ -14,7 +14,7 @@ import {
   orderFramesMongoFilter,
   sendMailForPurchasedOrder,
 } from '@/pages/api/orders';
-import { Errors, ErrorTypes } from '@/static-data/errors';
+import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import { getTokenIdFromFrame } from '@/utils/contract';
 import { padZeroes } from '@/utils/string';
@@ -53,11 +53,16 @@ const updateOrder = async (confirmationKey) => {
 
   const session = await mongoose.startSession();
   session.startTransaction();
+
   try {
     order = await Order.findOne({ confirmationKey }).session(session);
 
     if (order.transactionStatus !== TransactionStatus.PENDING) {
-      throw Error(Errors[ErrorTypes.STRIPE_DOUBLE_UPDATE].message);
+      // Workaround because error sending not working as expected.
+      await session.abortTransaction();
+      return {
+        alreadyUpdated: true,
+      };
     }
 
     const allFramesFilter = orderFramesMongoFilter(order.frames);
@@ -117,13 +122,11 @@ const updateOrder = async (confirmationKey) => {
     await Frame.updateMany(lockedFramesFilter, { sold: true }, { session });
 
     await session.commitTransaction();
-  } catch (e) {
+  } catch (err) {
     await session.abortTransaction();
     // TODO: sendMailForFailedToUpdateOrder(order); - For us
     // TODO: sendMailForPurchasedOrderNoClarity(order); - For user
-    if (e.message === Errors[ErrorTypes.STRIPE_DOUBLE_UPDATE].message) {
-      throw e;
-    }
+    throw err;
   } finally {
     await session.endSession();
   }
@@ -174,13 +177,27 @@ const handler = async (req, res) => {
 
   const confirmationKey = event.data.object.client_reference_id;
 
-  updateOrder(confirmationKey)
-    .then(async (order) => {
+  let order;
+  try {
+    order = await updateOrder(confirmationKey);
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.toString() });
+  }
+
+  // Workaround because error sending not working as expected.
+  if (order && order.alreadyUpdated) {
+    res.status(201).json({
+      success: true,
+      data: { message: 'Response to resent webhook' },
+    });
+  } else {
+    try {
       const allFramesFilter = orderFramesMongoFilter(order.frames);
       const allFrames = await Frame.find(allFramesFilter);
+
       if (order && allFrames) {
-        sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
-        res.status(201).json({ success: true });
+        const mailSent = await sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+        res.status(201).json({ success: true, data: mailSent.toString() });
       } else {
         // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
         res.status(400).json({
@@ -188,15 +205,10 @@ const handler = async (req, res) => {
           error: 'Do not have proper order and frames info',
         });
       }
-    })
-    .catch((err) => {
-      if (err.message === Errors[ErrorTypes.STRIPE_DOUBLE_UPDATE].message) {
-        res.status(201).json({
-          success: true,
-          data: { message: 'Response to resent webhook' },
-        });
-      }
-    });
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.toString() });
+    }
+  }
 };
 
 export default handler;
