@@ -53,7 +53,6 @@ export default function ClaimNFTs() {
       walletAddress: Yup.string().required('Required'),
     }),
     onSubmit: async (values) => {
-      console.log('Submit: ', values);
       try {
         const { confirmationKey, walletAddress } = values;
         setAddress(walletAddress);
@@ -68,8 +67,6 @@ export default function ClaimNFTs() {
           securityVerification: false,
           walletAddress,
         });
-
-        console.log(`PROPOS: ${noSecurityQuestion} --- ${question}`);
 
         if (!noSecurityQuestion) {
           securityFormik.setFieldValue('question', question);
@@ -86,7 +83,6 @@ export default function ClaimNFTs() {
           },
         },
       }) {
-        console.log('ERROR: ', message);
         setOrderVerificationSubmissionError(message);
       }
     },
@@ -102,7 +98,6 @@ export default function ClaimNFTs() {
       answer: Yup.string().required('Required'),
     }),
     onSubmit: async (values) => {
-      console.log('Submit: ', values);
       try {
         const { answer, question } = values;
         await axios.post('/api/order-verification', {
@@ -121,7 +116,6 @@ export default function ClaimNFTs() {
           },
         },
       }) {
-        console.log('ERROR: ', message);
         setSecurityVerificationSubmissionError(message);
       }
     },

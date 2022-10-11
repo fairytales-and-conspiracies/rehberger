@@ -1,18 +1,18 @@
 import HDWalletProvider from '@truffle/hdwallet-provider';
+import mongoose from 'mongoose';
 import Web3 from 'web3';
 
 import { address } from '@/contract/FairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
+import { finishOrder } from '@/lib/orders';
+import uniCryptConvert from '@/lib/unicrypt';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
+import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import { ethToEur } from '@/utils/conversion';
 import { padZeroes } from '@/utils/string';
 import calculateVat from '@/utils/vat';
-import mongoose from 'mongoose';
-import { ErrorTypes } from '@/static-data/errors';
-import uniCryptConvert from '@/lib/unicrypt';
-import { sendMailForPurchasedOrder } from './orders';
 
 const { INFURA_URL } = process.env;
 const { MNEMONIC } = process.env;
@@ -155,8 +155,8 @@ const handler = async (req, res) => {
 
   try {
     const order = await createOrder(req);
-    const mailSent = await sendMailForPurchasedOrder(order, order.frames);
-    res.status(200).json({ success: true, data: { order, mailSent } });
+    await finishOrder(order, order.frames);
+    res.status(200).json({ success: true, data: order });
   } catch (err) {
     // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
     res.status(400).json({ success: false, error: err });
