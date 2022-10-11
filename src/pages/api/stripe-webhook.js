@@ -1,4 +1,5 @@
 import { buffer } from 'micro';
+import mongoose from 'mongoose';
 
 import {
   address as contractAddress,
@@ -6,19 +7,15 @@ import {
 } from '@/contract/FairytalesAndConspiracies';
 import dbConnect from '@/lib/dbConnect';
 import { sendErrorWithMessage } from '@/lib/errorHandling';
+import { finishOrder, orderFramesMongoFilter } from '@/lib/orders';
 import stripe from '@/lib/stripe';
 import getWeb3 from '@/lib/web3';
 import Frame from '@/models/Frame';
 import Order from '@/models/Order';
-import {
-  orderFramesMongoFilter,
-  sendMailForPurchasedOrder,
-} from '@/pages/api/orders';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import { getTokenIdFromFrame } from '@/utils/contract';
 import { padZeroes } from '@/utils/string';
-import mongoose from 'mongoose';
 
 const { STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_ADDRESS_FROM: ADDRESS_FROM } =
   process.env;
@@ -196,8 +193,8 @@ const handler = async (req, res) => {
       const allFrames = await Frame.find(allFramesFilter);
 
       if (order && allFrames) {
-        const mailSent = await sendMailForPurchasedOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
-        res.status(201).json({ success: true, data: mailSent.toString() });
+        await finishOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+        res.status(201).json({ success: true, data: order });
       } else {
         // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
         res.status(400).json({

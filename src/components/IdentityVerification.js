@@ -40,7 +40,6 @@ export default function IdentityVerification({
       walletAddress: Yup.string().required('Required'),
     }),
     onSubmit: async (values) => {
-      console.log('Submit: ', values);
       const formData = new FormData();
       formData.append('files', values.files[0]);
       formData.append('files', values.files[1]);
@@ -115,7 +114,6 @@ export default function IdentityVerification({
                       name="files"
                       multiple
                       onChange={(e) => {
-                        console.log('FILES: ', e.currentTarget.files);
                         formik.setFieldTouched('files', true);
                         const files = Array.from(
                           formik.values.files || []
