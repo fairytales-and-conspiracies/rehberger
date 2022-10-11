@@ -27,7 +27,8 @@ export const getNextOrderNumber = async () => {
 
   return order.orderNumber + 1;
 };
-export const uploadInvoice = async (order, invoice, retryCount) => {
+export const uploadInvoice = async (order, frames, retryCount) => {
+  const invoice = niceInvoice(order, frames);
   const retryCountActual = retryCount || 0;
   try {
     const invoiceFilename = `Invoice_${
@@ -45,7 +46,8 @@ export const uploadInvoice = async (order, invoice, retryCount) => {
   }
 };
 
-export const sendMailForPurchasedOrder = async (order, frames, invoice) => {
+export const sendMailForPurchasedOrder = async (order, frames) => {
+  const invoice = niceInvoice(order, frames);
   const attachments = [
     { filename: 'Invoice.pdf', content: invoice },
     { filename: 'Terms.pdf', path: `${SERVER_URL}/doc/terms.pdf` },
@@ -58,7 +60,6 @@ export const sendMailForPurchasedOrder = async (order, frames, invoice) => {
 };
 
 export const finishOrder = async (order, frames) => {
-  const invoice = niceInvoice(order, frames);
-  await uploadInvoice(order, invoice);
-  await sendMailForPurchasedOrder(order, frames, invoice);
+  await uploadInvoice(order, frames);
+  await sendMailForPurchasedOrder(order, frames);
 };
