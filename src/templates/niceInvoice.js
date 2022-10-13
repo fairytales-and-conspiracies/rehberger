@@ -18,7 +18,8 @@ const generateHr = (doc, y, strokeColor) => {
 };
 
 const formatCurrency = (cents, symbol) => {
-  return symbol + cents.toFixed(2);
+  // eslint-disable-next-line prefer-template
+  return symbol + ' ' + cents.toFixed(2);
 };
 
 const header = (doc, invoice) => {
