@@ -50,7 +50,9 @@ export default function ClaimNFTs() {
         .max(25, 'Must be 25 characters or less')
         .required('Required'),
       confirmationKey: Yup.string().required('Required'),
-      walletAddress: Yup.string().required('Required'),
+      walletAddress: Yup.string()
+        .required('Required')
+        .matches(/^0x[a-fA-F0-9]{40}$/g, 'Not in correct format'),
     }),
     onSubmit: async (values) => {
       try {
