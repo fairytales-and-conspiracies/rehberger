@@ -170,7 +170,7 @@ export const PaymentProvider = ({ children }) => {
 
       try {
         const result = await axios.post('/api/wallet-order', order);
-        console.log('Succ', result);
+        console.log('Success: ', result);
       } catch (err) {
         console.log('Error:', err);
       }

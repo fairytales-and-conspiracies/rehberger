@@ -42,7 +42,10 @@ const lockFrames = async (lockableFrames) => {
         )
       : [];
 
-  return lockedFrames;
+  return {
+    lockedFrames,
+    transactionHash: tx?.transactionHash,
+  };
 };
 
 const updateOrder = async (confirmationKey) => {
@@ -71,7 +74,7 @@ const updateOrder = async (confirmationKey) => {
 
     const { frames } = order;
 
-    const lockedFrames =
+    const { lockedFrames, transactionHash } =
       lockableFrames.length > 0 ? await lockFrames(lockableFrames) : [];
 
     const lastOrderNumber = await Order.countDocuments({
@@ -109,7 +112,9 @@ const updateOrder = async (confirmationKey) => {
       ),
       invoiceNumber: `NFT${padZeroes(orderNumber, 6)}`,
       orderNumber,
+      transactionHash,
       transactionStatus,
+      transactionSuccessfulTimestamp: Date.now(),
     };
 
     Object.assign(order, update);
