@@ -124,7 +124,7 @@ const invoiceTable = (doc, invoice) => {
 
   for (i = 0; i < items.length; i += 1) {
     let position = invoiceTableTop + (i + 1 - pageBreakCounter) * 30;
-    if (position + 25 > 620) {
+    if (position + 25 > 570) {
       addPage(doc, invoice);
       invoiceTableTop = 90;
       position = 90;
@@ -176,7 +176,12 @@ const textBelowInvoice = (doc, invoice) => {
   doc
     .font('Helvetica')
     .fontSize(12)
-    .text('This invoice has already been paid', 50, invoiceTableEnd);
+    .text(`Transaction hash: ${invoice.transactionHash}`, 50, invoiceTableEnd);
+
+  doc
+    .font('Helvetica')
+    .fontSize(12)
+    .text('This invoice has already been paid', 50, invoiceTableEnd + 30);
 
   const { country, vatNo } = invoice.shipping;
 
@@ -186,12 +191,12 @@ const textBelowInvoice = (doc, invoice) => {
       .text(
         'This transaction may be subject to value-added tax and other forms of taxes and tariff rates in your country. It is your responsibilty to undertake all actions necessary to assure compliance with such obligations.',
         50,
-        invoiceTableEnd + 20
+        invoiceTableEnd + 50
       );
   } else if (country !== 'Germany' && vatNo) {
     doc
       .fontSize(10)
-      .text('Reverse charge transaction', 50, invoiceTableEnd + 20);
+      .text('Reverse charge transaction', 50, invoiceTableEnd + 50);
   }
 };
 
@@ -213,8 +218,8 @@ addPage = (doc, invoice) => {
 };
 
 const setNumberOfPages = (items) => {
-  const FIRST_PAGE_MAX_ITEMS = 11;
-  const MAX_PAGE_ITEMS = 17;
+  const FIRST_PAGE_MAX_ITEMS = 9;
+  const MAX_PAGE_ITEMS = 16;
 
   let numberOfItems = items.length;
   numberOfItems -= FIRST_PAGE_MAX_ITEMS;
@@ -226,7 +231,14 @@ const setNumberOfPages = (items) => {
 const invoice = (order, frames) => {
   const doc = new PDFDocument({ size: 'A4', margin: 40 });
 
-  const { customer, framePriceEUR, invoiceNumber, totalPriceEUR, vat } = order;
+  const {
+    customer,
+    framePriceEUR,
+    invoiceNumber,
+    totalPriceEUR,
+    transactionHash,
+    vat,
+  } = order;
 
   const {
     addressLine1,
@@ -271,6 +283,7 @@ const invoice = (order, frames) => {
     total: totalPriceEUR,
     currencySymbol: '€',
     vat,
+    transactionHash,
     invoiceNumber,
     invoiceDate,
     header: {
