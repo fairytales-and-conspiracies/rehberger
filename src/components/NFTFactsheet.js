@@ -112,15 +112,6 @@ export default function NFTFactsheet() {
           <span className="factsheet__number-of-frames bold">IPFS</span>
         </p>
         <p className="factsheet__content-group">
-          <span className="bold">
-            IPFS hosting costs for six months are included in the NFT sales
-            price. After six months responsibility for ensuring continued
-            hosting passes on to the purchaser. Free IPFS hosting for private
-            users up to 1 GB is available through services such as pinata.cloud
-            or nft.storage.
-          </span>
-        </p>
-        <p className="factsheet__content-group">
           <span className="bold">NFT Drop: Oct 3rd, 2022 - 19:00 CET</span>
         </p>
       </div>
