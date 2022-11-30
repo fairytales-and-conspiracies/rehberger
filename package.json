@@ -20,6 +20,7 @@
     "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "ethers": "^5.6.9",
+    "events": "^3.3.0",
     "formik": "^2.2.9",
     "micro": "^9.4.1",
     "mongoose": "^6.3.1",
