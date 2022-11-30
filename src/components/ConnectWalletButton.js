@@ -6,14 +6,14 @@ import Web3Context from '@/context/Web3Context';
 
 const INTERIM = process.env.NEXT_PUBLIC_INTERIM === 'true';
 
-export default function ConnectWalletButton({ isPayButton }) {
+export default function ConnectWalletButton({ className, isPayButton }) {
   const { setIsConnectWalletOpen } = useContext(ConnectWalletContext);
   const { pay } = useContext(PaymentContext);
   const { address, disconnectWallet } = useContext(Web3Context);
 
   return (
     <button
-      className="btn btn--primary"
+      className={`btn btn--primary ${className}`}
       disabled={INTERIM}
       type="button"
       onClick={() => {
@@ -29,9 +29,9 @@ export default function ConnectWalletButton({ isPayButton }) {
       {address &&
         (isPayButton
           ? 'Pay'
-          : `${address.slice(0, 5)}...${address.slice(
-              address.length - 5,
-              address.length - 1
+          : `${address.slice(0, 6)}...${address.slice(
+              address.length - 4,
+              address.length
             )}`)}
       {!address && '+ Connect wallet'}
     </button>
