@@ -15,6 +15,7 @@ import Order from '@/models/Order';
 import { ErrorTypes } from '@/static-data/errors';
 import TransactionStatus from '@/static-data/transaction-status';
 import { getTokenIdFromFrame } from '@/utils/contract';
+import { getSuccessfulFramesFromContractCallWithReturnTokensEvent } from '@/utils/orders';
 import { padZeroes } from '@/utils/string';
 
 const { STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_ADDRESS_FROM: ADDRESS_FROM } =
@@ -29,18 +30,10 @@ const lockFrames = async (lockableFrames) => {
     from: ADDRESS_FROM,
   });
 
-  const tokensAsStrings = tx?.events?.returnTokens?.returnValues?.tokens;
-  const tokens = tokensAsStrings.map((tokenStr) => {
-    const token = parseInt(tokenStr, 10);
-    return token;
-  });
-
-  const lockedFrames =
-    tokens && tokens.length > 0
-      ? lockableFrames.filter((frame) =>
-          tokens.includes(getTokenIdFromFrame(frame))
-        )
-      : [];
+  const lockedFrames = getSuccessfulFramesFromContractCallWithReturnTokensEvent(
+    tx,
+    lockableFrames
+  );
 
   return {
     lockedFrames,
@@ -95,7 +88,6 @@ const updateOrder = async (confirmationKey) => {
     }).session(session);
 
     const transactionStatus =
-      // eslint-disable-next-line no-nested-ternary
       claimableFrames.length === 0
         ? TransactionStatus.FAILED
         : claimableFrames.length !== frames.length
@@ -195,10 +187,21 @@ const handler = async (req, res) => {
   } else {
     try {
       const allFramesFilter = orderFramesMongoFilter(order.frames);
+      const failedFramesFilter = orderFramesMongoFilter(order.failedFrames);
       const allFrames = await Frame.find(allFramesFilter);
+      const failedFrames = await Frame.find(failedFramesFilter);
+
+      const successfulFrames = allFrames.filter(
+        (frame) =>
+          !failedFrames.find(
+            (failedFrame) =>
+              frame.video === failedFrame.video &&
+              frame.frame === failedFrame.frame
+          )
+      );
 
       if (order && allFrames) {
-        await finishOrder(order, allFrames); // TODO: Alter this email template to distinguish between failed and sold frames
+        await finishOrder(order, successfulFrames, failedFrames); // TODO: Alter this email template to distinguish between failed and sold frames
         res.status(201).json({ success: true, data: order });
       } else {
         // TODO: Send mail to us instead since we cant send the mail to user (with proper info) in this case
