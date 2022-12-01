@@ -6,8 +6,9 @@
 
   @include e('form') {
     margin: 3rem auto 0;
+    max-width: 39rem;
+    padding: 0 1.5rem;
     text-align: left;
-    width: 30rem;
 
     @include flex;
     @include flex-direction(column);
@@ -37,10 +38,6 @@
   }
 
   @include max-screen-xs {
-    @include e('form') {
-      width: 25rem;
-    }
-
     @include e('cannot-remember') {
       margin: 4rem auto 0;
       padding-bottom: 1rem;

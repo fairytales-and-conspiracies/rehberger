@@ -25,11 +25,13 @@
   @include e('thank-you') {
     font-family: $font-secondary;
     margin-top: 10rem;
+    padding: 0 1.5rem;
   }
 
   @include e('additional-info') {
     font-family: $font-secondary;
     margin-top: 3rem;
+    padding: 0 1.5rem;
   }
 
   @include e('link') {
@@ -40,15 +42,11 @@
 
   @include max-screen-sm {
     @include e('main') {
-      width: 40rem;
+      width: auto;
     }
   }
 
   @include max-screen-xs {
-    @include e('main') {
-      width: 25rem;
-    }
-
     @include e('heading') {
       font-size: 3.6rem;
     }

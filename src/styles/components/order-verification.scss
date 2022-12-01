@@ -2,15 +2,20 @@
   @include e('welcome-back') {
     font-family: $font-secondary;
     margin-top: 3rem;
+    padding: 0 1.5rem;
   }
 
   @include e('form') {
     margin: 3rem auto 0;
-    text-align: left;
-    width: 30rem;
+    max-width: 39rem;
+    padding: 0 1.5rem;
 
     @include flex;
     @include flex-direction(column);
+
+    .error {
+      text-align: left;
+    }
   }
 
   @include e('input') {
@@ -21,17 +26,24 @@
   }
 
   @include e('btn') {
-    margin-top: 5rem;
     padding: 1rem 0;
+
+    &:first-of-type {
+      margin-bottom: 2rem;
+    }
+
+    &:last-of-type {
+      margin-top: 2rem;
+    }
   }
 
   @include e('submit-error') {
     @extend %submit-error;
   }
 
-  @include max-screen-xs {
-    @include e('form') {
-      width: 25rem;
+  @include max-screen-sm {
+    @include e('welcome-back') {
+      text-align: left;
     }
   }
 }
