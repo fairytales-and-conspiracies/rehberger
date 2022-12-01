@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const padZeroes = (num, padding) => {
   let res = num.toString();
   const zeroes = padding || 4;
