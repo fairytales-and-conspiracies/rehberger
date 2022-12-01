@@ -33,6 +33,7 @@ const OrderSchema = new mongoose.Schema({
   confirmationKey: String,
   toBeClaimed: Boolean,
   claimed: Boolean,
+  claimedTransactionHash: String,
   orderCreatedTimestamp: Number,
   transactionSuccessfulTimestamp: Number,
   claimedTimestamp: Number,

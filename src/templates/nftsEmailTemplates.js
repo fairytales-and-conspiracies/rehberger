@@ -150,9 +150,10 @@ export const nftsPurchasedTemplate = (data) => {
     postalCode,
     region,
   } = customer;
-  const { frames } = data;
+  const { frames, failedFrames } = data;
 
   const isWalletPayment = paymentMethod === 'WALLET';
+
   const videosWithFrames = frames.reduce((acc, frame) => {
     if (!acc[frame.video]) {
       acc[frame.video] = [];
@@ -160,6 +161,17 @@ export const nftsPurchasedTemplate = (data) => {
     acc[frame.video].push(frame);
     return acc;
   }, {});
+
+  let videosWithFailedFrames;
+  if (failedFrames && failedFrames.length > 0) {
+    videosWithFailedFrames = failedFrames.reduce((acc, frame) => {
+      if (!acc[frame.video]) {
+        acc[frame.video] = [];
+      }
+      acc[frame.video].push(frame);
+      return acc;
+    }, {});
+  }
 
   const netFramePriceEUR = parseFloat((framePriceEUR / (1.0 + vat)).toFixed(2));
   const link = isWalletPayment
@@ -356,10 +368,30 @@ export const nftsPurchasedTemplate = (data) => {
                       <tr>
                         <td style="text-align: center">${country}</td>
                       </tr>
-                      <tr>
+                      ${
+                        frames && frames.length > 0
+                          ? `<tr>
                         <td style="height: 50px"></td>
                       </tr>
-                      ${nftsTemplate(videosWithFrames, netFramePriceEUR)}
+                      ${nftsTemplate(videosWithFrames, netFramePriceEUR)}`
+                          : ''
+                      }
+                      ${
+                        failedFrames && failedFrames.length > 0
+                          ? `<tr>
+                        <td style="height: 50px"></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          There has been an issue with the following frames and you will not be able to claim them. Please contact us at support@fairytalesandconspiracies.art to resolve the issue:
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="height: 35px"></td>
+                      </tr>
+                      ${nftsTemplate(videosWithFailedFrames, netFramePriceEUR)}`
+                          : ''
+                      }
                       <tr>
                         <td style="height: 65px"></td>
                       </tr>
@@ -493,8 +525,13 @@ export const nftsPurchasedTemplate = (data) => {
 
 export const nftsClaimedTemplate = (data) => {
   const { order, walletAddress } = data;
-  const { framePriceEUR, vat } = order;
-  const { frames } = data;
+  const { claimedTransactionHash, framePriceEUR, vat } = order;
+  const { frames, failedFrames } = data;
+
+  const link = `https://${
+    NETWORK !== 'mainnet' ? `${NETWORK}.` : ''
+  }etherscan.io/tx/${claimedTransactionHash}`;
+
   const videosWithFrames = frames.reduce((acc, frame) => {
     if (!acc[frame.video]) {
       acc[frame.video] = [];
@@ -502,6 +539,17 @@ export const nftsClaimedTemplate = (data) => {
     acc[frame.video].push(frame);
     return acc;
   }, {});
+
+  let videosWithFailedFrames;
+  if (failedFrames && failedFrames.length > 0) {
+    videosWithFailedFrames = failedFrames.reduce((acc, frame) => {
+      if (!acc[frame.video]) {
+        acc[frame.video] = [];
+      }
+      acc[frame.video].push(frame);
+      return acc;
+    }, {});
+  }
 
   const netFramePriceEUR = parseFloat((framePriceEUR / (1.0 + vat)).toFixed(2));
 
@@ -581,13 +629,59 @@ export const nftsClaimedTemplate = (data) => {
                       </tr>
                       <tr>
                         <td style="text-align: center">
-                          We will be transferring your NFTs to the following wallet soon:<br />${walletAddress}
+                          The NFTs have been transferred to the following address:<br />${walletAddress}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="height: 35px"></td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center">Your transaction link</td>
+                      </tr>
+                      <tr>
+                        <td style="height: 15px"></td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center">
+                          <a
+                            href="${link}"
+                            target="_blank"
+                            style="
+                              color: rgb(0, 104, 255);
+                              text-decoration: underline;
+                              word-break: break-word;
+                            "
+                            >${link}</a
+                          >
                         </td>
                       </tr>
                       <tr>
                         <td style="height: 50px"></td>
                       </tr>
-                      ${nftsTemplate(videosWithFrames, netFramePriceEUR)}
+                      ${
+                        frames && frames.length > 0
+                          ? `<tr>
+                        <td style="height: 50px"></td>
+                      </tr>
+                      ${nftsTemplate(videosWithFrames, netFramePriceEUR)}`
+                          : ''
+                      }
+                      ${
+                        failedFrames && failedFrames.length > 0
+                          ? `<tr>
+                        <td style="height: 50px"></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          There has been an issue with the following frames and they have not been claimed. Please contact us at support@fairytalesandconspiracies.art if you wish to resolve the issue:
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="height: 35px"></td>
+                      </tr>
+                      ${nftsTemplate(videosWithFailedFrames, netFramePriceEUR)}`
+                          : ''
+                      }
                       <tr>
                         <td style="height: 35px"></td>
                       </tr>
