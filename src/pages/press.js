@@ -17,15 +17,23 @@ const LIQUID_POSTER_1_YOUTUBE_LINK = 'https://youtu.be/3DvckB6LKNs';
 
 const LIQUID_POSTER_2 = 'IMAGINEYOURSELFWITHOUTAHOME';
 const LIQUID_POSTER_2_LINK = '/img/press/liquid-poster-2-unavailable.svg';
+const LIQUID_POSTER_2_YOUTUBE = 'https://www.youtube.com/embed/LCUERTBEOiA';
+const LIQUID_POSTER_2_YOUTUBE_LINK = 'https://youtu.be/LCUERTBEOiA';
 
 const LIQUID_POSTER_3 = 'HAVEYOUEVERSTOLENANIDEA?';
 const LIQUID_POSTER_3_LINK = '/img/press/liquid-poster-3-unavailable.svg';
+const LIQUID_POSTER_3_YOUTUBE = 'https://www.youtube.com/embed/fKTt_ZatcpI';
+const LIQUID_POSTER_3_YOUTUBE_LINK = 'https://youtu.be/fKTt_ZatcpI';
 
 const LIQUID_POSTER_4 = 'AREYOUAFRAIDOFTHEPOOR?';
 const LIQUID_POSTER_4_LINK = '/img/press/liquid-poster-4-unavailable.svg';
+const LIQUID_POSTER_4_YOUTUBE = 'https://www.youtube.com/embed/-1nPfIXXOmw';
+const LIQUID_POSTER_4_YOUTUBE_LINK = 'https://youtu.be/-1nPfIXXOmw';
 
 const LIQUID_POSTER_5 = 'ANYTHINGTHATINDICATESYOUHAVEASENSEOFHUMOR';
 const LIQUID_POSTER_5_LINK = '/img/press/liquid-poster-5-unavailable.svg';
+const LIQUID_POSTER_5_YOUTUBE = 'https://www.youtube.com/embed/WGq1Sh-bflE';
+const LIQUID_POSTER_5_YOUTUBE_LINK = 'https://youtu.be/WGq1Sh-bflE';
 
 const IMAGE_1_LINK =
   '/img/press/01_Tobias_Rehberger_Liquid_Poster_Detail_1.jpg';
@@ -535,36 +543,40 @@ const PressPage = () => {
               youtubeLink={LIQUID_POSTER_1_YOUTUBE_LINK}
             />
             <PressLiquidPoster
+              available
               link={LIQUID_POSTER_2_LINK}
               name={LIQUID_POSTER_2}
               posterNumber={2}
-              youtube=""
-              youtubeLink=""
+              youtube={LIQUID_POSTER_2_YOUTUBE}
+              youtubeLink={LIQUID_POSTER_2_YOUTUBE_LINK}
             />
           </div>
           <div className="press__liquid-posters-row">
             <PressLiquidPoster
+              available
               link={LIQUID_POSTER_3_LINK}
               name={LIQUID_POSTER_3}
               posterNumber={3}
-              youtube=""
-              youtubeLink=""
+              youtube={LIQUID_POSTER_3_YOUTUBE}
+              youtubeLink={LIQUID_POSTER_3_YOUTUBE_LINK}
             />
             <PressLiquidPoster
+              available
               link={LIQUID_POSTER_4_LINK}
               name={LIQUID_POSTER_4}
               posterNumber={4}
-              youtube=""
-              youtubeLink=""
+              youtube={LIQUID_POSTER_4_YOUTUBE}
+              youtubeLink={LIQUID_POSTER_4_YOUTUBE_LINK}
             />
           </div>
           <div className="press__liquid-posters-row">
             <PressLiquidPoster
+              available
               link={LIQUID_POSTER_5_LINK}
               name={LIQUID_POSTER_5}
               posterNumber={5}
-              youtube=""
-              youtubeLink=""
+              youtube={LIQUID_POSTER_5_YOUTUBE}
+              youtubeLink={LIQUID_POSTER_5_YOUTUBE_LINK}
             />
           </div>
         </div>
