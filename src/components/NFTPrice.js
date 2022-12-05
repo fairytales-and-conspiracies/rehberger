@@ -48,13 +48,16 @@ const NFTPrice = ({ inShoppingCart, isTotalPrice }) => {
       <span
         className={`nft-price__eur ${
           inShoppingCart || isTotalPrice ? 'nft-price__eur--next-line' : ''
-        } ${isTotalPrice ? 'nft-price__eur--total-price' : ''}`}
+        } ${isTotalPrice ? 'nft-price__eur--total-price' : ''} ${
+          !ethToEurRate && isTotalPrice ? 'nft-price__eur--invisible' : ''
+        }`}
       >
         {!isTotalPrice &&
           (inShoppingCart
             ? `${nftPriceInEurosString}`
             : `/ ${nftPriceInEurosString}`)}
-        {isTotalPrice && <>{totalPriceInEurosString(totalPrice)}</>}
+        {isTotalPrice &&
+          (ethToEurRate ? totalPriceInEurosString(totalPrice) : 0)}
       </span>
       <span
         className={`nft-price__tax-included ${
