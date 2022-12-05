@@ -28,7 +28,7 @@ export function UniCryptProvider({ children }) {
 
       handle = setInterval(() => {
         fetchEthToEurRate();
-      }, 1000000);
+      }, 120000);
     }
 
     return () => clearInterval(handle);
