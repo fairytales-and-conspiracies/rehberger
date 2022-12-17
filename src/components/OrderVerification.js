@@ -1,11 +1,31 @@
+import { useContext, useEffect } from 'react';
+
+import ConnectWalletButton from '@/components/ConnectWalletButton';
+import Web3Context from '@/context/Web3Context';
+
 export default function OrderVerification({ error, formik }) {
+  const { address } = useContext(Web3Context);
+
+  useEffect(() => {
+    formik.setFieldValue('walletAddress', address);
+  }, [address]);
+
   return (
     <>
       <p className="order-verification__welcome-back">
         Welcome back! Please enter the information below so we can transfer your
-        NFTs to your wallet address.
+        NFTs to your wallet address. Make sure your wallet address is correct,
+        as the NFTs will be transferred to that address directly, and then click
+        “Submit”.
+      </p>
+      <p className="order-verification__welcome-back">
+        You can connect your wallet using the “Connect Wallet” button and the
+        address will be entered automatically or you can enter your address
+        manually. If you need to disconnect your wallet for any reason, you can
+        click on the same button again.
       </p>
       <form className="order-verification__form" onSubmit={formik.handleSubmit}>
+        <ConnectWalletButton className="order-verification__btn" />
         <input
           className="order-verification__input input"
           id="firstName"
@@ -60,9 +80,10 @@ export default function OrderVerification({ error, formik }) {
         ) : null}
         <button
           className="order-verification__btn btn btn--primary"
+          disabled={formik.isSubmitting}
           type="submit"
         >
-          Continue
+          {formik.isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
         <p className="order-verification__submit-error">{error}</p>
       </form>

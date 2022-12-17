@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import ShoppingCartContext from '@/context/ShoppingCartContext';
 import Web3Context from '@/context/Web3Context';
 import CountriesWithProvinces from '@/static-data/countries-with-provinces';
+import { getSuccessfulFramesFromContractCallWithReturnTokensEvent } from '@/utils/orders';
 import calculateVat from '@/utils/vat';
 
 const PaymentContext = createContext();
@@ -22,17 +23,6 @@ const BILLING_INFO_INITIAL_VALUES = {
   region: '',
   city: '',
   postalCode: '',
-  // company: '',
-  // vatNo: '',
-  // firstName: 'First',
-  // lastName: 'Last',
-  // email: 'bulatovicnikola1990@gmail.com',
-  // addressLine1: 'Address 123',
-  // addressLine2: '',
-  // country: 'United States',
-  // region: 'Alabama',
-  // city: 'Huntsville',
-  // postalCode: '11111',
 };
 const NFT_PRICE_ETH = process.env.NEXT_PUBLIC_NFT_PRICE_ETH;
 
@@ -125,17 +115,28 @@ export const PaymentProvider = ({ children }) => {
     },
   });
 
-  const createOrder = async () => {
+  const createOrder = () => {
     const order = {
       customer: { ...infoFormik.values },
       frames: selectedFrames,
       paymentMethod,
     };
 
-    if (paymentMethod === 'CARD') {
-      Object.assign(order, { ...securityQuestionFormik.values });
-    }
+    return order;
+  };
 
+  const createStripeOrder = () => {
+    const order = createOrder();
+    Object.assign(order, { ...securityQuestionFormik.values });
+    return order;
+  };
+
+  const createWalletOrder = (transactionHash, succesfulFrames) => {
+    const order = createOrder();
+    if (succesfulFrames) {
+      order.frames = succesfulFrames;
+    }
+    order.transactionHash = transactionHash;
     return order;
   };
 
@@ -157,16 +158,16 @@ export const PaymentProvider = ({ children }) => {
   };
 
   const payWithWallet = async () => {
-    // const tx = {
-    //   transactionHash:
-    //     '0x103da2af32e9e7e129679fad4b927a965ff05a8bf90949d93af0eaa30e767d13',
-    // };
     setIsPaymentBeingProcessed(true);
     const tx = await sendTransaction(selectedFrames);
 
     if (tx?.transactionHash) {
-      const order = await createOrder();
-      order.transactionHash = tx.transactionHash;
+      const successfulFrames =
+        getSuccessfulFramesFromContractCallWithReturnTokensEvent(
+          tx,
+          selectedFrames
+        );
+      const order = createWalletOrder(tx.transactionHash, successfulFrames);
 
       try {
         const result = await axios.post('/api/wallet-order', order);
@@ -186,7 +187,7 @@ export const PaymentProvider = ({ children }) => {
   };
 
   const payWithStripe = async () => {
-    const order = await createOrder();
+    const order = createStripeOrder();
     // TODO: LOG
 
     try {

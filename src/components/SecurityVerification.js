@@ -52,9 +52,10 @@ export default function SecurityVerification({
         ) : null}
         <button
           className="security-verification__btn btn btn--primary"
+          disabled={formik.isSubmitting}
           type="submit"
         >
-          Submit
+          {formik.isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
       </form>
       <p className="security-verification__submit-error">{error}</p>

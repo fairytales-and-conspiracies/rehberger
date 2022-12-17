@@ -99,7 +99,6 @@ const createOrder = async (req) => {
     }).session(session);
 
     const transactionStatus =
-      // eslint-disable-next-line no-nested-ternary
       alreadySoldFrames.length === 0
         ? TransactionStatus.SUCCESSFUL
         : alreadySoldFrames.length !== frames.length

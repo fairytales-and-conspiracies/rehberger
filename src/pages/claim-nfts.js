@@ -130,7 +130,7 @@ export default function ClaimNFTs() {
         <h1 className="claim-nfts__heading">
           {securityVerification && !verificationAccepted
             ? 'Security verification'
-            : 'Order verification'}
+            : 'Claim your NFTs'}
         </h1>
         {!verificationAccepted && !securityVerification && (
           <OrderVerification

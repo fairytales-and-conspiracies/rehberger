@@ -26,12 +26,14 @@ module.exports = {
   rules: {
     '@next/next/no-img-element': 'off',
     'consistent-return': 'off',
+    'no-nested-ternary': 'off',
     'prettier/prettier': 'error',
     'react/function-component-definition': 'off',
     'react/jsx-filename-extension': 'off',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'import/extensions': 'off',
+    'import/prefer-default-export': 'off',
     'jsx-a11y/media-has-caption': 'off',
     'jsx-a11y/anchor-is-valid': [
       'error',

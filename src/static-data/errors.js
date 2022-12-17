@@ -6,6 +6,8 @@ export const ErrorTypes = {
   TRANSACTION_CREATION_UNSUCCESSFUL: 4,
   METHOD_NOT_ALLOWED: 5,
   STRIPE_DOUBLE_UPDATE: 6,
+  ALREADY_CLAIMED: 7,
+  ERROR_CLAIMING: 8,
 };
 
 export const Errors = {
@@ -36,5 +38,14 @@ export const Errors = {
   [ErrorTypes.STRIPE_DOUBLE_UPDATE]: {
     type: 'StripeDoubleUpdate,',
     message: 'Stripe order has already been updated.',
+  },
+  [ErrorTypes.ALREADY_CLAIMED]: {
+    type: 'AlreadyClaimed,',
+    message: 'NFT(s) already claimed.',
+  },
+  [ErrorTypes.ERROR_CLAIMING]: {
+    type: 'ErrorClaiming,',
+    message:
+      'There has been an error with claiming your NFTs. Please contact us at support@fairytalesandconspiracies.art if you wish to resolve the issue.',
   },
 };
